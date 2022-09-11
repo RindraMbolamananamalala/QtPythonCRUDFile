@@ -1,0 +1,62 @@
+# -*- coding: utf-8 -*-
+
+"""
+file_to_read.py: The python file dedicated to the "Model:FileToRead" part of the MVC pattern implemented within
+the "BUSINESS" layer of the Project, and at the same time one of the Project's DOs
+"""
+
+__author__ = "Rindra Mbolamananamalala"
+__email__ = "rindraibi@gmail.com"
+
+
+from BUSINESS.MODEL.DOMAIN_OBJECT.crud_file_do import CRUDFileDO
+
+
+class FileToRead(CRUDFileDO):
+    def set_uut(self, uut: str):
+        self.uut = uut
+
+    def get_uut(self) -> str:
+        return self.uut
+
+    def set_station(self, station: str):
+        self.station = station
+
+    def get_station(self) -> str:
+        return self.station
+
+    def set_operator(self, operator: str):
+        self.operator = operator
+
+    def get_operator(self) -> str:
+        return self.operator
+
+    def set_time(self, time: str):
+        self.time = time
+
+    def get_time(self) -> str:
+        return self.time
+
+    def set_date(self, date: str):
+        self.date = date
+
+    def get_date(self) -> str:
+        return self.date
+
+    def set_test_qty(self, test_qty: int):
+        self.test_qty = test_qty
+
+    def get_test_qty(self) -> int:
+        return self.test_qty
+
+    def set_failure_qty(self, failure_qty: int):
+        self.failure_qty = failure_qty
+
+    def get_failure_qty(self) -> int:
+        return self.failure_qty
+
+    def set_lines_to_read(self, lines_to_read: list):
+        self.lines_to_read = lines_to_read
+
+    def get_lines_to_read(self):
+        return self.lines_to_read
