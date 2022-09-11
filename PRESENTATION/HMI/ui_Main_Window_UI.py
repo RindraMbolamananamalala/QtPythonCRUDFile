@@ -22,16 +22,106 @@ from PySide2.QtWidgets import *
 class Ui_MainWindow(object):
 
     def set_main_window(self, main_window: QMainWindow):
+        """
+
+        :param main_window: The Qt Main Window to be used by the the current Main Window.
+        :return:
+        """
         self.main_window = main_window
 
     def get_main_window(self) -> QMainWindow:
+        """
+
+        :return: The Qt Main Window used by the the current Main Window.
+        """
         return self.main_window
+
+    def set_label_file_id(self, label_file_id: QLabel):
+        self.label_file_id = label_file_id
+
+    def get_label_file_id(self) -> QLabel:
+        return self.label_file_id
+
+    def label_for_the_specific_fixed_string(self, label_for_the_specific_fixed_string: QLabel):
+        self.label_for_the_specific_fixed_string = label_for_the_specific_fixed_string
+
+    def get_label_for_the_specific_fixed_string(self) -> QLabel:
+        return self.label_for_the_specific_fixed_string
+
+    def set_combo_box_F(self, combo_box_F: QComboBox):
+        self.combo_box_F = combo_box_F
+
+    def get_combo_box_F(self) -> QComboBox:
+        return self.combo_box_F
+
+    def set_list_open_connections_name(self, list_open_connections_name: QListWidget):
+        self.list_open_connections_name = list_open_connections_name
+
+    def get_list_open_connections_name(self) -> QListWidget:
+        return self.list_open_connections_name
+
+    def get_text_wire_name(self) -> QPlainTextEdit:
+        return self.text_wire_name
+
+    def get_text_cross_section(self) -> QPlainTextEdit:
+        return self.text_cross_section
+
+    def get_text_color(self) -> QPlainTextEdit:
+        return self.text_color
+
+    def get_text_position_1(self) -> QPlainTextEdit:
+        return self.text_position_1
+
+    def get_text_cavity_1(self):
+        return self.text_cavity_1
+
+    def get_text_position_2(self) -> QPlainTextEdit:
+        return self.text_position_2
+
+    def get_text_cavity_2(self):
+        return self.text_cavity_2
+
+    def set_combo_box_open_connections_W(self, combo_box_open_connections_W: QComboBox):
+        self.combo_box_open_connection_W = combo_box_open_connections_W
+
+    def get_combo_box_open_connections_W(self) -> QComboBox:
+        return self.combo_box_open_connection_W
+
+    def get_text_open_connections_comments(self) -> QPlainTextEdit:
+        return self.text_open_connections_comments
+
+    def get_button_open_connections_confirm(self) -> QPushButton:
+        return self.button_open_connections_confirm
+
+    def set_list_shorts_name(self, list_shorts_name: QListWidget):
+        self.list_shorts_name = list_shorts_name
+
+    def get_list_shorts_name(self) -> QListWidget:
+        return self.list_shorts_name
+
+    def set_combo_box_shorts_W(self, combo_box_shorts_W: QComboBox):
+        self.combo_box_shorts_W = combo_box_shorts_W
+
+    def get_combo_box_shorts_W(self) -> QComboBox:
+        return self.combo_box_shorts_W
+
+    def get_text_shorts_comments(self) -> QPlainTextEdit:
+        return self.text_shorts_comments
+
+    def get_button_shorts_confirm(self) -> QPushButton:
+        return self.button_shorts_confirm
+
+    def get_button_cancel(self) -> QPushButton:
+        return self.button_cancel
+
+    def get_button_add_additional_information(self) -> QPushButton:
+        return self.button_add_additional_information
 
     def __init__(self, main_window: QMainWindow):
         """
         Setting up the UI.
 
-        :param main_window: a blank main window to be associated to the set of settings
+        :param main_window: a blank main window to be associated to the set of settings.
         """
         if not main_window.objectName():
             main_window.setObjectName(u"MainWindow")
