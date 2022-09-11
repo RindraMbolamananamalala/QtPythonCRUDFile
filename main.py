@@ -9,6 +9,7 @@ if __name__ == '__main__':
 
     main_window = QMainWindow()
     window = Ui_MainWindow(main_window)
+
     window.get_main_window().show()
 
     sys.exit(application.exec_())
