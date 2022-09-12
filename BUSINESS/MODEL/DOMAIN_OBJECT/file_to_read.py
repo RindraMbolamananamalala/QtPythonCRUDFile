@@ -60,3 +60,13 @@ class FileToRead(CRUDFileDO):
 
     def get_lines_to_read(self):
         return self.lines_to_read
+
+    def __init__(self):
+        self.set_uut(None)
+        self.set_station(None)
+        self.set_operator(None)
+        self.set_time(None)
+        self.set_date(None)
+        self.set_test_qty(None)
+        self.set_failure_qty(None)
+        self.set_lines_to_read([])

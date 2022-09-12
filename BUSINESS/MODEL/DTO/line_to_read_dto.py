@@ -54,3 +54,14 @@ class LineToReadDTO(CRUDFileDTO):
 
     def get_result(self) -> str:
         return self.result
+
+    def __init__(self):
+        # All the properties initialized to a default value
+        self.set_item(None)
+        self.set_name(None)
+        self.set_from_pins(None)
+        self.set_to_pins(None)
+        self.set_measurement(None)
+        self.set_type(None)
+        self.set_result(None)
+

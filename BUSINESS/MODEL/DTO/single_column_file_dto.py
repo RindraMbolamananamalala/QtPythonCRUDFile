@@ -18,3 +18,7 @@ class SingleColumnFileDTO(CRUDFileDTO):
 
     def get_lines(self) -> list:
         return self.lines
+
+    def __init__(self):
+        # Initialize each property with a default value
+        self.set_lines([])

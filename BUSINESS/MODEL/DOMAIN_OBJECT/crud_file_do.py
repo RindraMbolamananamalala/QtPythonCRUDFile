@@ -13,6 +13,6 @@ class CRUDFileDO:
     def __str__(self) -> str:
         """
 
-        :return:  a structure in which all DO's attributes are presented besides their respective value(s)
+        :return:  a structure in which all DTO's attributes are presented besides their respective value(s)
         """
-        return str(vars(self))
+        return super.__str__(self) + " :" + str(vars(self))

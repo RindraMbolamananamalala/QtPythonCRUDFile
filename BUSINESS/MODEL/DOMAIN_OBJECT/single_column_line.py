@@ -8,6 +8,8 @@ within the "BUSINESS" layer of the Project, and at the same time one of the Proj
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+from CONFIGURATIONS.logger import LOGGER
+
 
 class SingleColumnLine(CRUDFileDO):
 
@@ -17,5 +19,16 @@ class SingleColumnLine(CRUDFileDO):
     def get_content(self) -> str:
         return self.content
 
-    def __init__(self, content: str):
-        self.set_content(content)
+    def __init__(self, *args):
+        if len(args) == 0:
+            # No argument was given, therefore, all the properties set to None at the start
+            self.set_content(None)
+        elif len(args) == 1:
+            # The content was provided
+            self.set_content(args[0])
+        else:
+            # Invalid numbers of arguments
+            msg_error = "Invalid numbers of arguments given for the instantiation of a SingleColumnLine"
+            LOGGER.error(msg_error)
+            exception = TypeError(msg_error)
+            raise exception

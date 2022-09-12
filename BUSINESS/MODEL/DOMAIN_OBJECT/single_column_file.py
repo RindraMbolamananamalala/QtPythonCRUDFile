@@ -18,3 +18,6 @@ class SingleColumnFile(CRUDFileDO):
 
     def get_lines(self) -> list:
         return self.lines
+
+    def __init__(self):
+        self.set_lines([])

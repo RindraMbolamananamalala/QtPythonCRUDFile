@@ -8,7 +8,6 @@ the "BUSINESS" layer of the Project, and at the same time one of the Project's D
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
-
 from BUSINESS.MODEL.DTO.crud_file_dto import CRUDFileDTO
 
 
@@ -104,4 +103,20 @@ class FileToReadDTO(CRUDFileDTO):
     def get_cavity_2(self) -> str:
         return self.cavity_2
 
+    def __init__(self):
+        self.set_uut(None)
+        self.set_station(None)
+        self.set_operator(None)
+        self.set_time(None)
+        self.set_date(None)
+        self.set_test_qty(None)
+        self.set_failure_qty(None)
+        self.set_lines_to_read([])
+        self.set_wire_name(None)
+        self.set_cross_section(None)
+        self.set_color(None)
+        self.set_position_1(None)
+        self.set_cavity_1(None)
+        self.set_position_2(None)
+        self.set_cavity_2(None)
 
