@@ -106,10 +106,4 @@ class CRUDFileController:
         # Starting the Folder Observer
         test_report_folder_observer.start()
         LOGGER.info("Test report folder observer has started")
-        try:
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            # Stopping the Folder Observer once the Application is closed
-            test_report_folder_path.stop()
-        test_report_folder_observer.join()
+
