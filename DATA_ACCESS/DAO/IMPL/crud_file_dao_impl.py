@@ -44,7 +44,7 @@ class CRUDFileDAOImpl(CRUDFileDAOIntf):
             # Getting the File's failure qty
             file_to_return.set_failure_qty(file_retrieved.loc[2][5])
 
-            # Getting the Lines with a Result "Fail"
+            # Getting ONLY the Lines with a Result "Fail"
             lines_to_return = []
             for i in range(4, file_retrieved.shape[0]):
                 if file_retrieved.loc[i][6].upper() == "FAIL":
