@@ -13,6 +13,7 @@ from BUSINESS.MODEL.DTO.crud_file_dto import CRUDFileDTO
 
 
 class FileToReadDTO(CRUDFileDTO):
+
     def set_uut(self, uut: str):
         self.uut = uut
 
@@ -60,3 +61,47 @@ class FileToReadDTO(CRUDFileDTO):
 
     def get_lines_to_read(self):
         return self.lines_to_read
+
+    def set_wire_name(self, wire_name: str):
+        self.wire_name = wire_name
+
+    def get_wire_name(self) -> str:
+        return self.wire_name
+
+    def set_cross_section(self, cross_section: str):
+        self.cross_section = cross_section
+
+    def get_cross_section(self) -> str:
+        return self.cross_section
+
+    def set_color(self, color: str):
+        self.color = color
+
+    def get_color(self) -> str:
+        return self.color
+
+    def set_position_1(self, position_1: str):
+        self.position_1 = position_1
+
+    def get_position_1(self) -> str:
+        return self.position_1
+
+    def set_cavity_1(self, cavity_1: str):
+        self.cavity_1 = cavity_1
+
+    def get_cavity_1(self) -> str:
+        return self.cavity_1
+
+    def set_position_2(self, position_2: str):
+        self.position_2 = position_2
+
+    def get_position_2(self) -> str:
+        return self.position_2
+
+    def set_cavity_2(self, cavity_2: str):
+        self.cavity_2 = cavity_2
+
+    def get_cavity_2(self) -> str:
+        return self.cavity_2
+
+
