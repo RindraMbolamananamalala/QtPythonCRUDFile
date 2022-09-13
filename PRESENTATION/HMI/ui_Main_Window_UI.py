@@ -307,19 +307,6 @@ class Ui_MainWindow(object):
 
         """Mocking Data (WILL BE MANAGED SERIOUSLY LATER)"""
         self.list_open_connections_name = QListWidget(self.main_frame)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
-        QListWidgetItem(self.list_open_connections_name)
         self.list_open_connections_name.setObjectName(u"list_open_connections_name")
         self.list_open_connections_name.setGeometry(QRect(40, 120, 291, 201))
         font9 = QFont()
@@ -439,32 +426,6 @@ class Ui_MainWindow(object):
 
         __sortingEnabled1 = self.list_open_connections_name.isSortingEnabled()
         self.list_open_connections_name.setSortingEnabled(False)
-        ___qlistwidgetitem13 = self.list_open_connections_name.item(0)
-        ___qlistwidgetitem13.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem14 = self.list_open_connections_name.item(1)
-        ___qlistwidgetitem14.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem15 = self.list_open_connections_name.item(2)
-        ___qlistwidgetitem15.setText(QCoreApplication.translate("MainWindow", u"3203/0.75`BN", None));
-        ___qlistwidgetitem16 = self.list_open_connections_name.item(3)
-        ___qlistwidgetitem16.setText(QCoreApplication.translate("MainWindow", u"11207/0.75`PK/WH", None));
-        ___qlistwidgetitem17 = self.list_open_connections_name.item(4)
-        ___qlistwidgetitem17.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem18 = self.list_open_connections_name.item(5)
-        ___qlistwidgetitem18.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem19 = self.list_open_connections_name.item(6)
-        ___qlistwidgetitem19.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem20 = self.list_open_connections_name.item(7)
-        ___qlistwidgetitem20.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem21 = self.list_open_connections_name.item(8)
-        ___qlistwidgetitem21.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem22 = self.list_open_connections_name.item(9)
-        ___qlistwidgetitem22.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem23 = self.list_open_connections_name.item(10)
-        ___qlistwidgetitem23.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
-        ___qlistwidgetitem24 = self.list_open_connections_name.item(11)
-        ___qlistwidgetitem24.setText(QCoreApplication.translate("MainWindow", u"11207/0.75`PK/WH", None));
-        ___qlistwidgetitem25 = self.list_open_connections_name.item(12)
-        ___qlistwidgetitem25.setText(QCoreApplication.translate("MainWindow", u"3202#3/0.75`RD", None));
         self.list_open_connections_name.setSortingEnabled(__sortingEnabled1)
 
         self.combo_box_F.setItemText(0, QCoreApplication.translate("MainWindow", u"FA Team 1", None))
@@ -474,4 +435,4 @@ class Ui_MainWindow(object):
 
         self.label_file_id.setText(QCoreApplication.translate("MainWindow", u"B0008713866", None))
         self.label_for_the_specific_fixed_string.setText(QCoreApplication.translate("MainWindow", u"ROB 11", None))
-    # retranslateUi
+D

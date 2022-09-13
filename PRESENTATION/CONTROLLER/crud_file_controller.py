@@ -17,6 +17,9 @@ from CONFIGURATIONS.logger import LOGGER
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
 from PRESENTATION.CONTROLLER.crud_file_event_handler import CRUDFileEventHandler
 
+from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
+from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
+
 
 class CRUDFileController:
 
@@ -75,6 +78,31 @@ class CRUDFileController:
 
             # Preparing the Observer and the File Event Handler related to the Test Report folder.
             self.prepare_test_report_folder_observer()
+
+            # TEMPORARY
+            file = FileToRead()
+            file.set_uut("B0008713583")
+
+            line_1 = LineToRead()
+            line_1.set_name("8759/0.13`YE/VT")
+            line_1.set_type("TestConnection")
+            line_1.set_from_pins("A2/183*C1-B_V1.S")
+            line_1.set_to_pins("A26/17*13-B_V1.S2")
+            line_2 = LineToRead()
+            line_2.set_name("3211/0.35`RD/WH")
+            line_2.set_type("TestBusConnectorGroupDetection")
+            line_2.set_from_pins("A2/182*C2-B_V1.S")
+            line_2.set_to_pins("A26/17*13-B_V1.S3")
+            line_3 = LineToRead()
+            line_3.set_type("IsolationTest")
+            line_2.set_from_pins("A2/182*C2-B_V1.S")
+            line_2.set_to_pins("A26/17*13-B_V1.S3")
+
+            file.get_lines_to_read().append(line_1)
+            file.get_lines_to_read().append(line_2)
+            file.get_lines_to_read().append(line_3)
+
+            self.get_crud_file_view().update_main_window(file)
         else:
             # An invalid number of arguments was provided
             msg_error = "Invalid number of arguments given for the instantiation of a Controller"
@@ -106,4 +134,3 @@ class CRUDFileController:
         # Starting the Folder Observer
         test_report_folder_observer.start()
         LOGGER.info("Test report folder observer has started")
-
