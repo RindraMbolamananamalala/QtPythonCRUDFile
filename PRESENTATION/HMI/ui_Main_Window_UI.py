@@ -435,4 +435,3 @@ class Ui_MainWindow(object):
 
         self.label_file_id.setText(QCoreApplication.translate("MainWindow", u"B0008713866", None))
         self.label_for_the_specific_fixed_string.setText(QCoreApplication.translate("MainWindow", u"ROB 11", None))
-D
