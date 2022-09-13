@@ -31,27 +31,12 @@ mapper.create_map(FileToRead
                   , {'lines_to_read': lambda file_to_read: file_to_read.lines_to_read}
                   )
 
-# LineToRead to LineToReadDTO
-mapper.create_map(
-    LineToRead
-    , LineToReadDTO
-    , {
-        # Mapping related to the WireName property
-        'wire_name': lambda line_to_read: line_to_read.name.split("/")[0]
-        # Mapping related to the CrossSection property
-        , 'cross_section': lambda line_to_read: line_to_read.name.split("`")[0].split("/")[1]
-        # Mapping related to the Color property
-        , 'color': lambda line_to_read: line_to_read.name.split("`")[1]
-        # Mapping related to the Position1 property
-        , 'position_1': lambda line_to_read: line_to_read.from_pins.split(".")[0]
-        # Mapping related to the Cavity1 property
-        , 'cavity_1': lambda line_to_read: line_to_read.from_pins.split(".")[1]
-        # Mapping related to the Position2 property
-        , 'position_2': lambda line_to_read: line_to_read.to_pins.split(".")[0]
-        # Mapping related to the Cavity2 property
-        , 'cavity_2': lambda line_to_read: line_to_read.to_pins.split(".")[1]
-    }
-)
+# FileToReadDTO to FileToRead
+mapper.create_map(FileToReadDTO
+                  , FileToRead
+                  # Mapping the LinesToRead property
+                  , {'lines_to_read': lambda file_to_read_dto: file_to_read_dto.lines_to_read}
+                  )
 
 
 def file_to_read_to_file_to_read_dto(file_to_read: FileToRead) -> FileToReadDTO:
@@ -63,6 +48,17 @@ def file_to_read_to_file_to_read_dto(file_to_read: FileToRead) -> FileToReadDTO:
     """
     file_to_read_dto_to_return = mapper.map(file_to_read, FileToReadDTO)
     return file_to_read_dto_to_return
+
+
+def file_to_read_dto_to_file_to_read(file_to_read_dto: FileToReadDTO) -> FileToRead:
+    """
+
+    :param file_to_read_dto: The FileToRead DTO from which all the values of the concerned properties (every properties
+    here) of the FileToRead Object will be retrieved.
+    :return: A FileToRead Object build from the properties of the given FileToRead DTO
+    """
+    file_to_read_to_return = mapper.map(file_to_read_dto, FileToRead)
+    return file_to_read_to_return
 
 
 def line_to_read_to_line_to_read_dto(line_to_read: LineToRead) -> LineToReadDTO:
@@ -82,3 +78,5 @@ def line_to_read_to_line_to_read_dto(line_to_read: LineToRead) -> LineToReadDTO:
             + ". Can't go further with the Mapping. "
         )
         return None
+
+

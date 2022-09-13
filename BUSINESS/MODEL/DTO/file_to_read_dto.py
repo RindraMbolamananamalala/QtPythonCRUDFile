@@ -8,55 +8,81 @@ the "BUSINESS" layer of the Project, and at the same time one of the Project's D
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+import pandas as pd
+
 from BUSINESS.MODEL.DTO.crud_file_dto import CRUDFileDTO
 
 
 class FileToReadDTO(CRUDFileDTO):
 
     def set_uut(self, uut: str):
-        self.uut = uut
+        if uut:
+            self.uut = uut
+        else:
+            self.uut = None
 
     def get_uut(self) -> str:
         return self.uut
 
     def set_station(self, station: str):
-        self.station = station
+        if not pd.isna(station):
+            self.station = station
+        else:
+            self.station = None
 
     def get_station(self) -> str:
         return self.station
 
     def set_operator(self, operator: str):
-        self.operator = operator
+        if not pd.isna(operator):
+            self.operator = operator
+        else:
+            self.operator = None
 
     def get_operator(self) -> str:
         return self.operator
 
     def set_time(self, time: str):
-        self.time = time
+        if not pd.isna(time):
+            self.time = time
+        else:
+            self.time = None
 
     def get_time(self) -> str:
         return self.time
 
     def set_date(self, date: str):
-        self.date = date
+        if not pd.isna(date):
+            self.date = date
+        else:
+            self.date = None
 
     def get_date(self) -> str:
         return self.date
 
     def set_test_qty(self, test_qty: int):
-        self.test_qty = test_qty
+        if not pd.isna(test_qty):
+            self.test_qty = test_qty
+        else:
+            self.test_qty = None
 
     def get_test_qty(self) -> int:
         return self.test_qty
 
     def set_failure_qty(self, failure_qty: int):
-        self.failure_qty = failure_qty
+        if not pd.isna(failure_qty):
+            self.failure_qty = failure_qty
+        else:
+            self.failure_qty = None
 
     def get_failure_qty(self) -> int:
         return self.failure_qty
 
     def set_lines_to_read(self, lines_to_read: list):
-        self.lines_to_read = lines_to_read
+        if lines_to_read:
+            self.lines_to_read = lines_to_read
+        else:
+            self.lines_to_read = []
 
     def get_lines_to_read(self):
         return self.lines_to_read

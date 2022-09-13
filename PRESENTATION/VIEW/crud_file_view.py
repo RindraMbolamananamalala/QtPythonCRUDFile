@@ -70,7 +70,14 @@ class CRUDFileView:
             raise exception
 
     def update_main_window(self, file: FileToRead):
-        # First of all, let's split the Lines contained under the file into 2, respectively for the Open Connections
+        # First of all, let's clear the whole Main Window
+        self.get_main_window_ui().get_list_open_connections_name().clear();
+        self.clear_open_connections_boxes()
+        self.get_main_window_ui().get_text_open_connections_comments().clear()
+        self.get_main_window_ui().get_list_shorts_name().clear()
+        self.get_main_window_ui().get_text_shorts_comments().clear()
+
+        # Let's split the Lines contained under the file into 2, respectively for the Open Connections
         # and for the Shorts parts
         self.set_open_connections_lines([])
         self.set_shorts_lines([])
@@ -97,10 +104,16 @@ class CRUDFileView:
     def update_open_connections_part(self):
         for line in self.get_open_connections_lines():
             self.get_main_window_ui().get_list_open_connections_name().addItem(line.get_name())
+            # Making each Item identifiable by its "Line Item" number
+            count = self.get_main_window_ui().get_list_open_connections_name().count()
+            self.get_main_window_ui().get_list_open_connections_name().item(count-1).setToolTip(str(line.get_item()))
 
     def update_shorts_part(self):
         for line in self.get_shorts_lines():
             self.get_main_window_ui().get_list_shorts_name().addItem(line.get_from_pins() + "|" + line.get_to_pins())
+            # Making each Item identifiable by its "Line Item" number
+            count = self.get_main_window_ui().get_list_shorts_name().count()
+            self.get_main_window_ui().get_list_shorts_name().item(count - 1).setToolTip(str(line.get_item()))
 
     def manage_events(self):
         # List Open Connections Name
@@ -121,7 +134,9 @@ class CRUDFileView:
         # Getting the current line corresponding to the current item
         current_item = self.get_main_window_ui().get_list_open_connections_name().currentItem()
         if current_item is not None:
-            current_line = next((x for x in self.get_open_connections_lines() if x.get_name() == current_item.text())
+            current_line = next((x for x in self.get_open_connections_lines()
+                                 # Let's remind it that teh item's tooltip corresponds to the Line's Item number
+                                 if str(x.get_item()) == current_item.toolTip())
                                 , None)
             if current_line:
                 # Wire Name

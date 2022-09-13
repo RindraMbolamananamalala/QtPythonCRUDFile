@@ -8,11 +8,11 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
-import time
-
 from watchdog.observers import Observer
 
 from CONFIGURATIONS.logger import LOGGER
+
+from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
 
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
 from PRESENTATION.CONTROLLER.crud_file_event_handler import CRUDFileEventHandler
@@ -65,6 +65,12 @@ class CRUDFileController:
     def get_crud_file_as(self) -> CRUDFileASIntf:
         return self.crud_file_as
 
+    def set_current_file(self, current_file: FileToRead):
+        self.current_file = current_file
+
+    def get_current_file(self) -> FileToRead:
+        return self.current_file
+
     def __init__(self, *args):
         """
 
@@ -115,7 +121,8 @@ class CRUDFileController:
                 "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\EXCEL_FILES\\B0008706912_2022-09-08_09-02-43.xlsx"
             )
 
-            self.get_crud_file_view().update_main_window(file_retrieved)
+            self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
+            self.get_crud_file_view().update_main_window(self.get_current_file())
 
             # Feeding the Combo Boxes of the Main Window
             self.feed_main_window_combo_boxes()
@@ -175,7 +182,7 @@ class CRUDFileController:
 
         # When the "Confirm" button of the GUI Additional Information Window is clicked, we write the selected
         # information in a new Excel File
-        self.get_crud_file_view().get_main_window_ui().get_additional_information_window()\
+        self.get_crud_file_view().get_main_window_ui().get_additional_information_window() \
             .get_button_additional_information_confirm().clicked.connect(self.write_additional_information)
 
     def feed_main_window_combo_boxes(self):
@@ -235,6 +242,21 @@ class CRUDFileController:
             + line_to_write.get_uut() + ".xlsx"
             , line_to_write)
 
+        """
+        Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
+        Line 
+        """
+
+        # First, let's identify which Line is the concerned one
+        line_to_remove_item = view_window.get_list_open_connections_name().currentItem().toolTip()
+        line_to_remove = next((x for x in self.get_current_file().get_lines_to_read()
+                               # Let's remind it that the item's tooltip corresponds to the Line's Item number
+                               if str(x.get_item()) == line_to_remove_item)
+                              , None)
+
+        # After the identification, the actual removal process
+        self.remove_confirmed_item(line_to_remove)
+
     def write_shorts_information(self):
         """
         After clicking the Shorts Confirm button, we write the selected information in
@@ -264,6 +286,21 @@ class CRUDFileController:
             "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
             + line_to_write.get_uut() + ".xlsx"
             , line_to_write)
+
+        """
+        Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
+        Line 
+        """
+
+        # First, let's identify which Line is the concerned one
+        line_to_remove_item = view_window.get_list_shorts_name().currentItem().toolTip()
+        line_to_remove = next((x for x in self.get_current_file().get_lines_to_read()
+                               # Let's remind it that the item's tooltip corresponds to the Line's Item number
+                               if str(x.get_item()) == line_to_remove_item)
+                              , None)
+
+        # After the identification, the actual removal process
+        self.remove_confirmed_item(line_to_remove)
 
     def write_additional_information(self):
         """
@@ -299,3 +336,15 @@ class CRUDFileController:
             "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
             + line_to_write.get_uut() + ".xlsx"
             , line_to_write)
+
+    def remove_confirmed_item(self, line_to_remove: LineToRead):
+        """
+        Removing the modified line from the Current File's Line
+        :line_to_remove: The modified line to be removed
+        :return: None
+        """
+        # Removal process
+        self.get_current_file().get_lines_to_read().remove(line_to_remove)
+
+        # Let's update the Main Window with the new state of the Current File
+        self.get_crud_file_view().update_main_window(self.get_current_file())
