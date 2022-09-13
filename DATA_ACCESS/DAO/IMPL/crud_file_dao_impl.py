@@ -9,8 +9,13 @@ __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
 # We're using Python Pandas for the CRUD on Excel Files
+import os.path
+
 import pandas as pd
 
+from openpyxl import load_workbook
+
+from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 from CONFIGURATIONS.logger import LOGGER
 from BUSINESS.MODEL.DTO.file_to_read_dto import FileToReadDTO
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
@@ -19,6 +24,7 @@ from DATA_ACCESS.DAO.INTF.crud_file_dao_intf import CRUDFileDAOIntf
 
 
 class CRUDFileDAOImpl(CRUDFileDAOIntf):
+
     def read_file(self, file_path: str) -> FileToReadDTO:
         """
 
@@ -76,3 +82,46 @@ class CRUDFileDAOImpl(CRUDFileDAOIntf):
                 + ". Can't go further with the Reading Process. "
             )
             raise
+
+    def write_line(self, file_path: str, line_to_add: LineToWriteDTO):
+        """
+
+        :param file_path: the file Path of Excel file where the line_to_add will be written
+        :param line_to_add: The Line to be written
+        :return: None
+        """
+        # Preparing the line
+        line_to_write = pd.DataFrame([
+            line_to_add.get_uut()
+            , line_to_add.get_f()
+            , line_to_add.get_date()
+            , line_to_add.get_time()
+            , line_to_add.get_wire_name()
+            , line_to_add.get_cross_section()
+            , line_to_add.get_color()
+            , line_to_add.get_position_1()
+            , line_to_add.get_cavity_1()
+            , line_to_add.get_position_2()
+            , line_to_add.get_cavity_2()
+            , line_to_add.get_w()
+            , line_to_add.get_comments()
+        ])
+
+        # The writing will happen in a the x-axis
+        line_to_write = line_to_write.transpose()
+
+        if os.path.isfile(file_path):
+            # The File where we will write already exists
+            wb = load_workbook(file_path)
+            ws = wb["Sheet1"]
+            list_line_to_write = line_to_write.values.tolist()
+            for i in range(len(list_line_to_write)):
+                ws.append(list_line_to_write[i])
+            wb.save(file_path)
+        else:
+            # The File where where we will write doesn't exist yet, so we need to create it first
+            writer = pd.ExcelWriter(file_path, mode="w", engine='xlsxwriter')
+            line_to_write.to_excel(writer, index=False, header=False)
+            writer.save()
+
+

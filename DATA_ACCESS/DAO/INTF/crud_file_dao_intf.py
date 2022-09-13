@@ -12,6 +12,7 @@ __email__ = "rindraibi@gmail.com"
 from abc import ABC, abstractmethod
 
 from BUSINESS.MODEL.DTO.file_to_read_dto import FileToReadDTO
+from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 
 
 class CRUDFileDAOIntf(ABC):
@@ -24,3 +25,14 @@ class CRUDFileDAOIntf(ABC):
         "file_path"
         """
         return
+
+    @abstractmethod
+    def write_line(self, file_path: str, line_to_add: LineToWriteDTO):
+        """
+
+        :param file_path: the file Path of Excel file where the line_to_add will be written
+        :param line_to_add: The Line to be written
+        :return: None
+        """
+        pass
+

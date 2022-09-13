@@ -77,8 +77,8 @@ class CRUDFileView:
 
         for line in file.get_lines_to_read():
             if line.get_type().upper() in ["TESTSWITCH", "TESTCONNECTION"
-                , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
-                , "TESTBUSCONNECTORGROUPDETECTION"]:
+                                            , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
+                                            , "TESTBUSCONNECTORGROUPDETECTION"]:
                 self.get_open_connections_lines().append(line)
             elif line.get_type().upper() in ["ISOLATIONTEST"]:
                 self.get_shorts_lines().append(line)
@@ -107,6 +107,9 @@ class CRUDFileView:
         self.get_main_window_ui().get_list_open_connections_name().clicked.connect(self.update_open_connections_boxes)
 
     def update_open_connections_boxes(self):
+        # First, clearing all the boxes
+        self.clear_open_connections_boxes()
+
         # Getting the current line corresponding to the current item
         current_item = self.get_main_window_ui().get_list_open_connections_name().currentItem()
         if current_item is not None:
@@ -164,3 +167,12 @@ class CRUDFileView:
 
             else:
                 LOGGER.error("No valid item is selected")
+
+    def clear_open_connections_boxes(self):
+        self.get_main_window_ui().get_text_wire_name().clear()
+        self.get_main_window_ui().get_text_cross_section().clear()
+        self.get_main_window_ui().get_text_color().clear()
+        self.get_main_window_ui().get_text_position_1().clear()
+        self.get_main_window_ui().get_text_cavity_1().clear()
+        self.get_main_window_ui().get_text_position_2().clear()
+        self.get_main_window_ui().get_text_cavity_2().clear()

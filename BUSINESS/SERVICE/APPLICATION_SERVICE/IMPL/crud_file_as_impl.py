@@ -8,6 +8,7 @@ Service part dedicated to any need of CRUD service by the Application.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 from CONFIGURATIONS.logger import LOGGER
 
 from BUSINESS.MODEL.DTO.file_to_read_dto import FileToReadDTO
@@ -19,6 +20,7 @@ from DATA_ACCESS.DAO.IMPL.crud_file_dao_impl import CRUDFileDAOImpl
 
 
 class CRUDFileASImpl(CRUDFileASIntf):
+
     def set_crud_file_dao(self, crud_file_dao: CRUDFileDAOIntf):
         """
 
@@ -52,6 +54,16 @@ class CRUDFileASImpl(CRUDFileASIntf):
                 + ". Can't go further with the Reading Process. "
             )
             raise
+
+    def write_modified_line(self, test_modified_report_file_path: str, line_to_write: LineToWriteDTO):
+        """
+
+        :param test_modified_report_file_path: The file path of the modified Test Report excel file
+        where the modified line will be added.
+        :param line_to_write: The modified line to be added.
+        :return: None
+        """
+        self.get_crud_file_dao().write_line(test_modified_report_file_path, line_to_write)
 
     def __init__(self):
         # Initializing the DAO
