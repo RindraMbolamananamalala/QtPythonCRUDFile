@@ -19,6 +19,8 @@ from PRESENTATION.CONTROLLER.crud_file_event_handler import CRUDFileEventHandler
 
 from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
+from BUSINESS.SERVICE.APPLICATION_SERVICE.INTF.crud_file_as_intf import CRUDFileASIntf
+from BUSINESS.SERVICE.APPLICATION_SERVICE.IMPL.crud_file_as_impl import CRUDFileASImpl
 
 
 class CRUDFileController:
@@ -56,6 +58,12 @@ class CRUDFileController:
         """
         return self.test_report_file_event_handler
 
+    def set_crud_file_as(self, crud_file_as: CRUDFileASIntf):
+        self.crud_file_as = crud_file_as
+
+    def get_crud_file_as(self) -> CRUDFileASIntf:
+        return self.crud_file_as
+
     def __init__(self, *args):
         """
 
@@ -71,38 +79,50 @@ class CRUDFileController:
 
             # Preparing the View Part
             self.set_crud_file_view(args[0])
-        elif len(args) == 2:
-            # Both the View part and the AS to be used by the Controller were provided
-            # Preparing each part
-            self.set_crud_file_view(args[0])
+
+            # Initializing the Application Service
+            self.set_crud_file_as(CRUDFileASImpl())
 
             # Preparing the Observer and the File Event Handler related to the Test Report folder.
             self.prepare_test_report_folder_observer()
 
             # TEMPORARY
-            file = FileToRead()
-            file.set_uut("B0008713583")
+            # file = FileToRead()
+            # file.set_uut("B0008713583")
+            #
+            # line_1 = LineToRead()
+            # line_1.set_name("8759/0.13`YE/VT")
+            # line_1.set_type("TestConnection")
+            # line_1.set_from_pins("A2/183*C1-B_V1.S")
+            # line_1.set_to_pins("A26/17*13-B_V1.S2")
+            # line_2 = LineToRead()
+            # line_2.set_name("3211/0.35`RD/WH")
+            # line_2.set_type("TestBusConnectorGroupDetection")
+            # line_2.set_from_pins("A2/182*C2-B_V1.S")
+            # line_2.set_to_pins("A26/17*13-B_V1.S3")
+            # line_3 = LineToRead()
+            # line_3.set_type("IsolationTest")
+            # line_3.set_from_pins("A2/182*C2-B_V1.S")
+            # line_3.set_to_pins("A26/17*13-B_V1.S3")
+            #
+            # file.get_lines_to_read().append(line_1)
+            # file.get_lines_to_read().append(line_2)
+            # file.get_lines_to_read().append(line_3)
 
-            line_1 = LineToRead()
-            line_1.set_name("8759/0.13`YE/VT")
-            line_1.set_type("TestConnection")
-            line_1.set_from_pins("A2/183*C1-B_V1.S")
-            line_1.set_to_pins("A26/17*13-B_V1.S2")
-            line_2 = LineToRead()
-            line_2.set_name("3211/0.35`RD/WH")
-            line_2.set_type("TestBusConnectorGroupDetection")
-            line_2.set_from_pins("A2/182*C2-B_V1.S")
-            line_2.set_to_pins("A26/17*13-B_V1.S3")
-            line_3 = LineToRead()
-            line_3.set_type("IsolationTest")
-            line_3.set_from_pins("A2/182*C2-B_V1.S")
-            line_3.set_to_pins("A26/17*13-B_V1.S3")
+            file_retrieved = self \
+                .get_crud_file_as().read_test_report_file(
+                "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\EXCEL_FILES\\B0008706912_2022-09-08_09-02-43.xlsx"
+            )
 
-            file.get_lines_to_read().append(line_1)
-            file.get_lines_to_read().append(line_2)
-            file.get_lines_to_read().append(line_3)
+            self.get_crud_file_view().update_main_window(file_retrieved)
+        elif len(args) == 2:
+            # Both the View part and the AS to be used by the Controller were provided
+            # Preparing each part
+            self.set_crud_file_view(args[0])
+            self.set_crud_file_as(args[1])
 
-            self.get_crud_file_view().update_main_window(file)
+            # Preparing the Observer and the File Event Handler related to the Test Report folder.
+            self.prepare_test_report_folder_observer()
         else:
             # An invalid number of arguments was provided
             msg_error = "Invalid number of arguments given for the instantiation of a Controller"

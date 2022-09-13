@@ -356,13 +356,6 @@ class Ui_MainWindow(object):
         self.text_open_connections_comments.setPlaceholderText(
             QCoreApplication.translate("MainWindow", u"Add comment", None))
         self.button_open_connections_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
-        self.text_wire_name.setPlainText(QCoreApplication.translate("MainWindow", u"7794.2", None))
-        self.text_cross_section.setPlainText(QCoreApplication.translate("MainWindow", u"0.35", None))
-        self.text_color.setPlainText(QCoreApplication.translate("MainWindow", u"GY/WH", None))
-        self.text_position_1.setPlainText(QCoreApplication.translate("MainWindow", u"E17/47*1-S_V1", None))
-        self.text_cavity_1.setPlainText(QCoreApplication.translate("MainWindow", u"2", None))
-        self.text_position_2.setPlainText(QCoreApplication.translate("MainWindow", u"N10/6*RB1-B_V1", None))
-        self.text_cavity_2.setPlainText(QCoreApplication.translate("MainWindow", u"57", None))
         self.label_wire_name.setText(QCoreApplication.translate("MainWindow", u"Wire Name", None))
         self.label_cross_section.setText(QCoreApplication.translate("MainWindow", u"Cross Section", None))
         self.label_color.setText(QCoreApplication.translate("MainWindow", u"Color", None))
