@@ -149,8 +149,6 @@ class Ui_MainWindow(object):
         """Open Connections Part"""
         self.label_open_connections.setFont(font1)
         self.combo_box_open_connection_W = QComboBox(self.main_frame)
-        self.combo_box_open_connection_W.addItem("")
-        self.combo_box_open_connection_W.addItem("")
         self.combo_box_open_connection_W.setObjectName(u"combo_box_open_connection_W")
         self.combo_box_open_connection_W.setGeometry(QRect(340, 200, 281, 121))
         font2 = QFont()
@@ -250,8 +248,6 @@ class Ui_MainWindow(object):
         font6.setKerning(True)
         self.list_shorts_name.setFont(font6)
         self.combo_box_shorts_W = QComboBox(self.main_frame)
-        self.combo_box_shorts_W.addItem("")
-        self.combo_box_shorts_W.addItem("")
         self.combo_box_shorts_W.setObjectName(u"combo_box_shorts_W")
         self.combo_box_shorts_W.setGeometry(QRect(510, 400, 281, 201))
         font7 = QFont()
@@ -304,10 +300,6 @@ class Ui_MainWindow(object):
         font9.setKerning(True)
         self.list_open_connections_name.setFont(font9)
         self.combo_box_F = QComboBox(self.main_frame)
-        self.combo_box_F.addItem("")
-        self.combo_box_F.addItem("")
-        self.combo_box_F.addItem("")
-        self.combo_box_F.addItem("")
         self.combo_box_F.setObjectName(u"combo_box_F")
         self.combo_box_F.setGeometry(QRect(200, 40, 141, 31))
         self.combo_box_F.setFont(font5)
@@ -347,11 +339,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_open_connections.setText(QCoreApplication.translate("MainWindow", u"Open connections", None))
-        self.combo_box_open_connection_W.setItemText(0, QCoreApplication.translate("MainWindow", u"W107 - Broken Wire",
-                                                                                   None))
-        self.combo_box_open_connection_W.setItemText(1,
-                                                     QCoreApplication.translate("MainWindow", u"W109 - Another Reason",
-                                                                                None))
 
         self.text_open_connections_comments.setPlaceholderText(
             QCoreApplication.translate("MainWindow", u"Add comment", None))
@@ -369,9 +356,6 @@ class Ui_MainWindow(object):
         self.list_shorts_name.setSortingEnabled(False)
         self.list_shorts_name.setSortingEnabled(__sortingEnabled)
 
-        self.combo_box_shorts_W.setItemText(0, QCoreApplication.translate("MainWindow", u"W107 - Broken Wire", None))
-        self.combo_box_shorts_W.setItemText(1, QCoreApplication.translate("MainWindow", u"W109 - Another Reason", None))
-
         self.button_shorts_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
         self.text_shorts_comments.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Add comment", None))
         self.button_add_additional_information.setText(
@@ -381,11 +365,6 @@ class Ui_MainWindow(object):
         __sortingEnabled1 = self.list_open_connections_name.isSortingEnabled()
         self.list_open_connections_name.setSortingEnabled(False)
         self.list_open_connections_name.setSortingEnabled(__sortingEnabled1)
-
-        self.combo_box_F.setItemText(0, QCoreApplication.translate("MainWindow", u"FA Team 1", None))
-        self.combo_box_F.setItemText(1, QCoreApplication.translate("MainWindow", u"FA Team 2", None))
-        self.combo_box_F.setItemText(2, QCoreApplication.translate("MainWindow", u"FA Team 3", None))
-        self.combo_box_F.setItemText(3, QCoreApplication.translate("MainWindow", u"FA Team 4", None))
 
         self.label_file_id.setText(QCoreApplication.translate("MainWindow", u"B0008713866", None))
         self.label_for_the_specific_fixed_string.setText(QCoreApplication.translate("MainWindow", u"ROB 11", None))

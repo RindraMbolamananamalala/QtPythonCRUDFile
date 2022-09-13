@@ -13,9 +13,30 @@ from abc import ABC, abstractmethod
 
 from BUSINESS.MODEL.DTO.file_to_read_dto import FileToReadDTO
 from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
+from BUSINESS.MODEL.DTO.file_f_dto import FileFDTO
+from BUSINESS.MODEL.DTO.file_w_dto import FileWDTO
 
 
 class CRUDFileDAOIntf(ABC):
+    @abstractmethod
+    def get_file_f(self, file_path: str) -> FileFDTO:
+        """
+
+        :param file_path: The path where the excel File F is located
+        :return: The structured File F
+        """
+        return
+
+    @abstractmethod
+    def get_file_w(self, file_path: str) -> FileWDTO:
+        """
+
+        :param file_path: The path where the excel File W is located
+        :return: The structured File W
+        """
+        return
+
+
     @abstractmethod
     def read_file(self, file_path: str) -> FileToReadDTO:
         """

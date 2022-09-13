@@ -117,6 +117,9 @@ class CRUDFileController:
 
             self.get_crud_file_view().update_main_window(file_retrieved)
 
+            # Feeding the Combo Boxes of the Main Window
+            self.feed_main_window_combo_boxes()
+
             # Managing the events
             self.manage_events()
         elif len(args) == 2:
@@ -169,6 +172,27 @@ class CRUDFileController:
         # information in a new Excel File
         self.get_crud_file_view().get_main_window_ui().get_button_shorts_confirm() \
             .clicked.connect(self.write_shorts_information)
+
+    def feed_main_window_combo_boxes(self):
+        """
+        Feeding the combo boxes on the main windows from their corresponding Excel File
+        :return: None
+        """
+        # Getting the View's Main window
+        main_window = self.get_crud_file_view().get_main_window_ui()
+
+        # Getting the F's values
+        file_f = self.get_crud_file_as().get_file_f("E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\F.XLSX")
+        file_w = self.get_crud_file_as().get_file_w("E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\W.XLSX")
+
+        # Feeding the combo boxes
+        # F_combo_box
+        for value in file_f.get_lines():
+            main_window.get_combo_box_F().addItem(value)
+        # W combo_boxes
+        for value in file_w.get_lines():
+            main_window.get_combo_box_open_connections_W().addItem(value)
+            main_window.get_combo_box_shorts_W().addItem(value)
 
     def write_open_connections_information(self):
         """

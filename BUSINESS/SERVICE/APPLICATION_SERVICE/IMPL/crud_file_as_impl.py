@@ -8,6 +8,8 @@ Service part dedicated to any need of CRUD service by the Application.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+from BUSINESS.MODEL.DTO.file_f_dto import FileFDTO
+from BUSINESS.MODEL.DTO.file_w_dto import FileWDTO
 from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 from CONFIGURATIONS.logger import LOGGER
 
@@ -20,6 +22,24 @@ from DATA_ACCESS.DAO.IMPL.crud_file_dao_impl import CRUDFileDAOImpl
 
 
 class CRUDFileASImpl(CRUDFileASIntf):
+
+    def get_file_f(self, file_path: str) -> FileFDTO:
+        """
+
+        :param file_path: The path where the excel File F is located
+        :return: The structured File F
+        """
+        file_retrieved = self.get_crud_file_dao().get_file_f(file_path)
+        return file_retrieved
+
+    def get_file_w(self, file_path: str) -> FileWDTO:
+        """
+
+        :param file_path: The path where the excel File W is located
+        :return: The structured File W
+        """
+        file_retrieved = self.get_crud_file_dao().get_file_w(file_path)
+        return file_retrieved
 
     def set_crud_file_dao(self, crud_file_dao: CRUDFileDAOIntf):
         """

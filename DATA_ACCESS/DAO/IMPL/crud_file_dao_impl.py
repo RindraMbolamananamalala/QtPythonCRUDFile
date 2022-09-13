@@ -15,6 +15,8 @@ import pandas as pd
 
 from openpyxl import load_workbook
 
+from BUSINESS.MODEL.DTO.file_f_dto import FileFDTO
+from BUSINESS.MODEL.DTO.file_w_dto import FileWDTO
 from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 from CONFIGURATIONS.logger import LOGGER
 from BUSINESS.MODEL.DTO.file_to_read_dto import FileToReadDTO
@@ -24,6 +26,36 @@ from DATA_ACCESS.DAO.INTF.crud_file_dao_intf import CRUDFileDAOIntf
 
 
 class CRUDFileDAOImpl(CRUDFileDAOIntf):
+
+    def get_file_f(self, file_path: str) -> FileFDTO:
+        """
+
+        :param file_path: The path where the excel File F is located
+        :return: The structured File F
+        """
+        file_to_return = FileFDTO()
+        file_retrieved = pd.read_excel(file_path, header=None)
+        lines_to_return = []
+        for i in range(0, file_retrieved.shape[0]):
+            line_to_return = file_retrieved.loc[i][0]
+            lines_to_return.append(line_to_return)
+        file_to_return.set_lines(lines_to_return)
+        return file_to_return
+
+    def get_file_w(self, file_path: str) -> FileWDTO:
+        """
+
+        :param file_path: The path where the excel File W is located
+        :return: The structured File W
+        """
+        file_to_return = FileWDTO()
+        file_retrieved = pd.read_excel(file_path, header=None)
+        lines_to_return = []
+        for i in range(0, file_retrieved.shape[0]):
+            line_to_return = file_retrieved.loc[i][0]
+            lines_to_return.append(line_to_return)
+        file_to_return.set_lines(lines_to_return)
+        return file_to_return
 
     def read_file(self, file_path: str) -> FileToReadDTO:
         """
@@ -123,5 +155,3 @@ class CRUDFileDAOImpl(CRUDFileDAOIntf):
             writer = pd.ExcelWriter(file_path, mode="w", engine='xlsxwriter')
             line_to_write.to_excel(writer, index=False, header=False)
             writer.save()
-
-
