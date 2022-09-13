@@ -91,9 +91,16 @@ class CRUDFileView:
         # Updating the Open Connections (Top) part
         self.update_open_connections_part()
 
+        # Updating the Shorts (Bottom) part
+        self.update_shorts_part()
+
     def update_open_connections_part(self):
         for line in self.get_open_connections_lines():
             self.get_main_window_ui().get_list_open_connections_name().addItem(line.get_name())
+
+    def update_shorts_part(self):
+        for line in self.get_shorts_lines():
+            self.get_main_window_ui().get_list_shorts_name().addItem(line.get_from_pins() + "|" + line.get_to_pins())
 
     def manage_events(self):
         # List Open Connections Name

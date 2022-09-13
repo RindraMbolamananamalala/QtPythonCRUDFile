@@ -242,19 +242,6 @@ class Ui_MainWindow(object):
         self.label_shorts.setGeometry(QRect(40, 370, 111, 21))
         self.label_shorts.setFont(font1)
         self.list_shorts_name = QListWidget(self.main_frame)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
-        QListWidgetItem(self.list_shorts_name)
         self.list_shorts_name.setObjectName(u"list_shorts_name")
         self.list_shorts_name.setGeometry(QRect(40, 400, 461, 201))
         font6 = QFont()
@@ -387,32 +374,6 @@ class Ui_MainWindow(object):
 
         __sortingEnabled = self.list_shorts_name.isSortingEnabled()
         self.list_shorts_name.setSortingEnabled(False)
-        ___qlistwidgetitem = self.list_shorts_name.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem1 = self.list_shorts_name.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainWindow", u"F152/1*A1-B_V1 BUS BAR", None));
-        ___qlistwidgetitem2 = self.list_shorts_name.item(2)
-        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainWindow", u"F152/1*A1-B_V1 BUS BAR", None));
-        ___qlistwidgetitem3 = self.list_shorts_name.item(3)
-        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem4 = self.list_shorts_name.item(4)
-        ___qlistwidgetitem4.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem5 = self.list_shorts_name.item(5)
-        ___qlistwidgetitem5.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem6 = self.list_shorts_name.item(6)
-        ___qlistwidgetitem6.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem7 = self.list_shorts_name.item(7)
-        ___qlistwidgetitem7.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem8 = self.list_shorts_name.item(8)
-        ___qlistwidgetitem8.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem9 = self.list_shorts_name.item(9)
-        ___qlistwidgetitem9.setText(QCoreApplication.translate("MainWindow", u"7794.2/0.35`GY/WH", None));
-        ___qlistwidgetitem10 = self.list_shorts_name.item(10)
-        ___qlistwidgetitem10.setText(QCoreApplication.translate("MainWindow", u"F152/1*A1-B_V1 BUS BAR", None));
-        ___qlistwidgetitem11 = self.list_shorts_name.item(11)
-        ___qlistwidgetitem11.setText(QCoreApplication.translate("MainWindow", u"F152/1*A1-B_V1 BUS BAR", None));
-        ___qlistwidgetitem12 = self.list_shorts_name.item(12)
-        ___qlistwidgetitem12.setText(QCoreApplication.translate("MainWindow", u"F152/1*A1-B_V1 BUS BAR", None));
         self.list_shorts_name.setSortingEnabled(__sortingEnabled)
 
         self.combo_box_shorts_W.setItemText(0, QCoreApplication.translate("MainWindow", u"W107 - Broken Wire", None))

@@ -95,8 +95,8 @@ class CRUDFileController:
             line_2.set_to_pins("A26/17*13-B_V1.S3")
             line_3 = LineToRead()
             line_3.set_type("IsolationTest")
-            line_2.set_from_pins("A2/182*C2-B_V1.S")
-            line_2.set_to_pins("A26/17*13-B_V1.S3")
+            line_3.set_from_pins("A2/182*C2-B_V1.S")
+            line_3.set_to_pins("A26/17*13-B_V1.S3")
 
             file.get_lines_to_read().append(line_1)
             file.get_lines_to_read().append(line_2)
