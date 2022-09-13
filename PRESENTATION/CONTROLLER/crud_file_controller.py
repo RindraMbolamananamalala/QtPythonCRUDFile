@@ -165,6 +165,11 @@ class CRUDFileController:
         self.get_crud_file_view().get_main_window_ui().get_button_open_connections_confirm() \
             .clicked.connect(self.write_open_connections_information)
 
+        # When the "Confirm" button of the GUI Shorts is clicked, we write the selected
+        # information in a new Excel File
+        self.get_crud_file_view().get_main_window_ui().get_button_shorts_confirm() \
+            .clicked.connect(self.write_shorts_information)
+
     def write_open_connections_information(self):
         """
         After clicking the Open Connections Confirm button, we write the selected information in
@@ -188,8 +193,38 @@ class CRUDFileController:
         line_to_write.set_cavity_1(view_window.get_text_cavity_1().toPlainText())
         line_to_write.set_position_2(view_window.get_text_position_2().toPlainText())
         line_to_write.set_cavity_2(view_window.get_text_cavity_2().toPlainText())
-        line_to_write.set_w(view_window.get_combo_box_shorts_W().currentText())
+        line_to_write.set_w(view_window.get_combo_box_open_connections_W().currentText())
         line_to_write.set_comments(view_window.get_text_open_connections_comments().toPlainText())
+
+        # Actual writing
+        self.get_crud_file_as().write_modified_line(
+            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
+            + line_to_write.get_uut() + ".xlsx"
+            , line_to_write)
+
+    def write_shorts_information(self):
+        """
+        After clicking the Shorts Confirm button, we write the selected information in
+        a new Excel File
+        :return: None
+        """
+        # Getting the main window of the view
+        view_window = self.get_crud_file_view().get_main_window_ui()
+        line_to_write = LineToWriteDTO()
+        line_to_write.set_uut(view_window.get_label_file_id().text())
+        line_to_write.set_f(view_window.get_combo_box_F().currentText())
+        line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
+        line_to_write.set_date("current date")
+        line_to_write.set_time("current time")
+        line_to_write.set_wire_name(None)
+        line_to_write.set_cross_section(None)
+        line_to_write.set_color(None)
+        line_to_write.set_position_1(None)
+        line_to_write.set_cavity_1(None)
+        line_to_write.set_position_2(None)
+        line_to_write.set_cavity_2(None)
+        line_to_write.set_w(view_window.get_combo_box_shorts_W().currentText())
+        line_to_write.set_comments(view_window.get_text_shorts_comments().toPlainText())
 
         # Actual writing
         self.get_crud_file_as().write_modified_line(
