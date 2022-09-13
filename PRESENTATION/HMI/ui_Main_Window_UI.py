@@ -18,6 +18,8 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+from PRESENTATION.HMI.ui_AdditionalInformation_UI import UI_AdditionalInformation
+
 
 class Ui_MainWindow(object):
 
@@ -35,6 +37,12 @@ class Ui_MainWindow(object):
         :return: The Qt Main Window used by the the current Main Window.
         """
         return self.main_window
+
+    def set_additional_information_window(self,  additional_information_window: UI_AdditionalInformation):
+        self.additional_information_window = additional_information_window
+
+    def get_additional_information_window(self) -> UI_AdditionalInformation:
+        return self.additional_information_window
 
     def set_label_file_id(self, label_file_id: QLabel):
         self.label_file_id = label_file_id
@@ -123,10 +131,15 @@ class Ui_MainWindow(object):
 
         :param main_window: a blank main window to be associated to the set of settings.
         """
+
+        # First preparations
         if not main_window.objectName():
             main_window.setObjectName(u"MainWindow")
         main_window.resize(1423, 800)
         self.set_main_window(main_window)
+
+        # Initializing the additional information window
+        self.set_additional_information_window(UI_AdditionalInformation(QMainWindow()))
 
         """General settings related to the Main Frame"""
         self.centralwidget = QWidget(main_window)

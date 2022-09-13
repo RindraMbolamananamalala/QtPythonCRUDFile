@@ -106,6 +106,14 @@ class CRUDFileView:
         # List Open Connections Name
         self.get_main_window_ui().get_list_open_connections_name().clicked.connect(self.update_open_connections_boxes)
 
+        # Additional information window appears when button "Add additional information" is clicked
+        self.get_main_window_ui().get_button_add_additional_information().clicked.connect(
+            self.open_additional_information_window)
+
+        # When the "Cancel" button of the Additional Information window is clicked, the latter closes
+        self.get_main_window_ui().get_additional_information_window().get_set_button_additional_information_cancel()\
+            .clicked.connect(self.close_additional_information_window)
+
     def update_open_connections_boxes(self):
         # First, clearing all the boxes
         self.clear_open_connections_boxes()
@@ -167,6 +175,20 @@ class CRUDFileView:
 
             else:
                 LOGGER.error("No valid item is selected")
+
+    def open_additional_information_window(self):
+        """
+        Opening the Additional information window
+        :return: None
+        """
+        self.get_main_window_ui().get_additional_information_window().get_main_window().show()
+
+    def close_additional_information_window(self):
+        """
+        Closing the Additional information window
+        :return: None
+        """
+        self.get_main_window_ui().get_additional_information_window().get_main_window().close()
 
     def clear_open_connections_boxes(self):
         self.get_main_window_ui().get_text_wire_name().clear()

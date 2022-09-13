@@ -163,27 +163,35 @@ class CRUDFileController:
         LOGGER.info("Test report folder observer has started")
 
     def manage_events(self):
-        # When the "Confirm" button of the GUI Open Connections is clicked, we write the selected
+        # When the "Confirm" button of the GUI Open Connections part is clicked, we write the selected
         # information in a new Excel File
         self.get_crud_file_view().get_main_window_ui().get_button_open_connections_confirm() \
             .clicked.connect(self.write_open_connections_information)
 
-        # When the "Confirm" button of the GUI Shorts is clicked, we write the selected
+        # When the "Confirm" button of the GUI Shorts part is clicked, we write the selected
         # information in a new Excel File
         self.get_crud_file_view().get_main_window_ui().get_button_shorts_confirm() \
             .clicked.connect(self.write_shorts_information)
 
+        # When the "Confirm" button of the GUI Additional Information Window is clicked, we write the selected
+        # information in a new Excel File
+        self.get_crud_file_view().get_main_window_ui().get_additional_information_window()\
+            .get_button_additional_information_confirm().clicked.connect(self.write_additional_information)
+
     def feed_main_window_combo_boxes(self):
         """
-        Feeding the combo boxes on the main windows from their corresponding Excel File
+        Feeding the combo boxes on the main windows, including that of the internal Add Additional information window,
+        from their corresponding Excel File
         :return: None
         """
         # Getting the View's Main window
         main_window = self.get_crud_file_view().get_main_window_ui()
 
         # Getting the F's values
-        file_f = self.get_crud_file_as().get_file_f("E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\F.XLSX")
-        file_w = self.get_crud_file_as().get_file_w("E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\W.XLSX")
+        file_f = self.get_crud_file_as().get_file_f(
+            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\F.XLSX")
+        file_w = self.get_crud_file_as().get_file_w(
+            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\W.XLSX")
 
         # Feeding the combo boxes
         # F_combo_box
@@ -193,6 +201,7 @@ class CRUDFileController:
         for value in file_w.get_lines():
             main_window.get_combo_box_open_connections_W().addItem(value)
             main_window.get_combo_box_shorts_W().addItem(value)
+            main_window.get_additional_information_window().get_combo_box_additional_information_w().addItem(value)
 
     def write_open_connections_information(self):
         """
@@ -249,6 +258,41 @@ class CRUDFileController:
         line_to_write.set_cavity_2(None)
         line_to_write.set_w(view_window.get_combo_box_shorts_W().currentText())
         line_to_write.set_comments(view_window.get_text_shorts_comments().toPlainText())
+
+        # Actual writing
+        self.get_crud_file_as().write_modified_line(
+            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
+            + line_to_write.get_uut() + ".xlsx"
+            , line_to_write)
+
+    def write_additional_information(self):
+        """
+        After clicking the Additional Information's Confirm button, we write the selected information in
+        a new Excel File
+        :return: None
+        """
+        # Getting the main window of the view
+        view_window = self.get_crud_file_view().get_main_window_ui()
+
+        # Getting the additional information window of the view
+        additional_information_window = view_window.get_additional_information_window()
+
+        line_to_write = LineToWriteDTO()
+        line_to_write.set_uut(view_window.get_label_file_id().text())
+        line_to_write.set_f(view_window.get_combo_box_F().currentText())
+        line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
+        line_to_write.set_date("current date")
+        line_to_write.set_time("current time")
+        line_to_write.set_wire_name(None)
+        line_to_write.set_cross_section(None)
+        line_to_write.set_color(None)
+        line_to_write.set_position_1(None)
+        line_to_write.set_cavity_1(None)
+        line_to_write.set_position_2(None)
+        line_to_write.set_cavity_2(None)
+        line_to_write.set_w(additional_information_window.get_combo_box_additional_information_w().currentText())
+        line_to_write.set_comments(additional_information_window.get_text_additional_information_comments()
+                                   .toPlainText())
 
         # Actual writing
         self.get_crud_file_as().write_modified_line(
