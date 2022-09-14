@@ -8,16 +8,11 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
-import pathlib
-
-from watchdog.observers import Observer
-
 from CONFIGURATIONS.logger import LOGGER
 
 from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
 
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
-from PRESENTATION.CONTROLLER.crud_file_event_handler import CRUDFileEventHandler
 
 from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
@@ -46,26 +41,26 @@ class CRUDFileController:
         """
         return self.crud_file_view
 
-    def set_test_report_file_event_handler(self, test_report_file_event_handler: CRUDFileEventHandler):
-        """
-
-        :param test_report_file_event_handler: The File event Handler related to the test report files.
-        :return: None
-        """
-        self.test_report_file_event_handler = test_report_file_event_handler
-
-    def get_test_report_file_event_handler(self) -> CRUDFileEventHandler:
-        """
-
-        :return: The File event Handler related to the test report files.
-        """
-        return self.test_report_file_event_handler
-
     def set_crud_file_as(self, crud_file_as: CRUDFileASIntf):
         self.crud_file_as = crud_file_as
 
     def get_crud_file_as(self) -> CRUDFileASIntf:
         return self.crud_file_as
+
+    def set_file_queue(self, file_queue: list):
+        """
+
+        :param file_queue: The Queue of Files which related events are handled by the CRUD File handler
+        :return: None
+        """
+        self.file_queue = file_queue
+
+    def get_file_queue(self) -> list:
+        """
+
+        :return: The Queue of Files which related events are handled by the CRUD File handler
+        """
+        return self.file_queue
 
     def set_current_file(self, current_file: FileToRead):
         self.current_file = current_file
@@ -92,23 +87,8 @@ class CRUDFileController:
             # Initializing the Application Service
             self.set_crud_file_as(CRUDFileASImpl())
 
-            # Preparing the Observer and the File Event Handler related to the Test Report folder.
-            self.prepare_test_report_folder_observer()
-
-            # If the File Event Handler's Queue already contains files path, let's initialize the Main Window with
-            # the first file related to those paths
-            file_handler_queue = self.get_test_report_file_event_handler().get_file_queue()
-            if len(file_handler_queue) > 0:
-                file_retrieved = self \
-                    .get_crud_file_as().read_test_report_file(
-                        file_handler_queue.pop(0)
-                    )
-                self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
-                LOGGER.info("Test report file loaded : " + str(self.get_current_file()))
-                # Before going further, let's first clean the Current File
-                self.clean_current_file_lines()
-                # Updating the main window with the Current File's contents
-                self.get_crud_file_view().update_main_window(self.get_current_file())
+            # Initializing the File_Queue
+            self.set_file_queue([])
 
             # Feeding the Combo Boxes of the Main Window
             self.feed_main_window_combo_boxes()
@@ -120,47 +100,12 @@ class CRUDFileController:
             # Preparing each part
             self.set_crud_file_view(args[0])
             self.set_crud_file_as(args[1])
-
-            # Preparing the Observer and the File Event Handler related to the Test Report folder.
-            self.prepare_test_report_folder_observer()
         else:
             # An invalid number of arguments was provided
             msg_error = "Invalid number of arguments given for the instantiation of a Controller"
             LOGGER.error(msg_error)
             exception = TypeError(msg_error)
             raise exception
-
-    def prepare_test_report_folder_observer(self):
-        """
-        Preparing the Observer and the File Event Handler related to the Test Report folder.
-        :return: None
-        """
-        # Initializing the File Event Handler
-        self.set_test_report_file_event_handler(CRUDFileEventHandler())
-
-        # Initializing the Folder Observer
-        test_report_folder_observer = Observer()
-
-        # Indicating the path of the Test Report Folder
-        test_report_folder_path = "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\EXCEL_FILES"
-
-        # At the start, by default, let's add any Excel file found under the Test Report Folder to the File Event
-        # Handler's Queue
-        test_report_directory = pathlib.Path(test_report_folder_path)
-        excel_file_pattern = "*.xlsx"
-        for excel_file in test_report_directory.glob(excel_file_pattern):
-            self.get_test_report_file_event_handler().get_file_queue().append(excel_file)
-
-        # Scheduling & Orchestration
-        test_report_folder_observer.schedule(
-            self.get_test_report_file_event_handler()
-            , path=test_report_folder_path
-            , recursive=False
-        )
-
-        # Starting the Folder Observer
-        test_report_folder_observer.start()
-        LOGGER.info("Test report folder observer has started")
 
     def manage_events(self):
         # When the "Confirm" button of the GUI Open Connections part is clicked, we write the selected
@@ -306,6 +251,10 @@ class CRUDFileController:
 
         # After the identification, the actual removal process
         self.remove_confirmed_item(line_to_remove)
+        LOGGER.info(
+            "The following line has been successfully removed from the Current File's list: "
+            + str(line_to_remove)
+        )
 
         """
         Once the Removal process successfully achieved, we need to check the state of the Controller's Current File 
@@ -378,14 +327,14 @@ class CRUDFileController:
         :return: None
         """
         # The file to be loaded is the the First one in the File Handler's queue of file
-        file_handler_queue = self.get_test_report_file_event_handler().get_file_queue()
+        file_handler_queue = self.get_file_queue()
 
         if len(file_handler_queue) > 0:
             # Loading a new file is only possible when the File Handler's queue still contains File
             file_retrieved = self \
                 .get_crud_file_as().read_test_report_file(
                     file_handler_queue.pop(0)
-                )
+            )
 
             self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
 
