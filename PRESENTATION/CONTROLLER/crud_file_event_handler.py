@@ -14,6 +14,7 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from CONFIGURATIONS.logger import LOGGER
+from CONFIGURATIONS.application_properties import get_application_property
 
 from PRESENTATION.CONTROLLER.crud_file_controller import CRUDFileController
 
@@ -50,7 +51,7 @@ class CRUDFileEventHandler(FileSystemEventHandler):
         test_report_folder_observer = Observer()
 
         # Indicating the path of the Test Report Folder
-        test_report_folder_path = "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\EXCEL_FILES"
+        test_report_folder_path = get_application_property("test_report_folder_path")
 
         # At the start, by default, let's add any Excel file found under the Test Report Folder to the File Event
         # Handler's Queue
@@ -59,7 +60,6 @@ class CRUDFileEventHandler(FileSystemEventHandler):
         for excel_file in test_report_directory.glob(excel_file_pattern):
             self.get_crud_file_controller().get_file_queue().append(excel_file)
 
-        print("controller queue" + str(self.get_crud_file_controller().get_file_queue()))
         # Scheduling & Orchestration
         test_report_folder_observer.schedule(
             self

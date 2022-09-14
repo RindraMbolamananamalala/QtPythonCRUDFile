@@ -18,6 +18,8 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+from CONFIGURATIONS.application_properties import get_application_property
+
 from PRESENTATION.HMI.ui_AdditionalInformation_UI import UI_AdditionalInformation
 
 
@@ -379,5 +381,10 @@ class Ui_MainWindow(object):
         self.list_open_connections_name.setSortingEnabled(False)
         self.list_open_connections_name.setSortingEnabled(__sortingEnabled1)
 
-        self.label_file_id.setText(QCoreApplication.translate("MainWindow", u"B0008713866", None))
-        self.label_for_the_specific_fixed_string.setText(QCoreApplication.translate("MainWindow", u"ROB 11", None))
+        self.label_file_id.setText(QCoreApplication.translate("MainWindow", u"", None))
+        self.label_for_the_specific_fixed_string.setText(
+            QCoreApplication.translate("MainWindow"
+                                        , get_application_property("specific_fixed_string")
+                                        , None
+                                       )
+        )

@@ -71,11 +71,7 @@ class CRUDFileView:
 
     def update_main_window(self, file: FileToRead):
         # First of all, let's clear the whole Main Window
-        self.get_main_window_ui().get_list_open_connections_name().clear();
-        self.clear_open_connections_boxes()
-        self.get_main_window_ui().get_text_open_connections_comments().clear()
-        self.get_main_window_ui().get_list_shorts_name().clear()
-        self.get_main_window_ui().get_text_shorts_comments().clear()
+        self.clear_main_window()
 
         # Let's split the Lines contained under the file into 2, respectively for the Open Connections
         # and for the Shorts parts
@@ -213,3 +209,12 @@ class CRUDFileView:
         self.get_main_window_ui().get_text_cavity_1().clear()
         self.get_main_window_ui().get_text_position_2().clear()
         self.get_main_window_ui().get_text_cavity_2().clear()
+
+    def clear_main_window(self):
+        self.clear_open_connections_boxes()
+        self.get_main_window_ui().get_label_file_id().setText("")
+        self.get_main_window_ui().get_list_open_connections_name().clear();
+        self.clear_open_connections_boxes()
+        self.get_main_window_ui().get_text_open_connections_comments().clear()
+        self.get_main_window_ui().get_list_shorts_name().clear()
+        self.get_main_window_ui().get_text_shorts_comments().clear()

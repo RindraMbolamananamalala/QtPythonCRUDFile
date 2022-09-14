@@ -8,7 +8,10 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+from CONFIGURATIONS.application_properties import get_application_property
+
 from CONFIGURATIONS.logger import LOGGER
+
 
 from UTILS.time_utils import get_current_time, get_current_date
 from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
@@ -136,9 +139,10 @@ class CRUDFileController:
 
         # Getting the F's values
         file_f = self.get_crud_file_as().get_file_f(
-            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\F.XLSX")
+            get_application_property("file_f_path"))
+        # Getting the W's values
         file_w = self.get_crud_file_as().get_file_w(
-            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\RESOURCE_EXCEL_FILES\\W.XLSX")
+            get_application_property("file_w_path"))
 
         # Feeding the combo boxes
         # F_combo_box
@@ -178,7 +182,7 @@ class CRUDFileController:
 
         # Actual writing
         self.get_crud_file_as().write_modified_line(
-            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
+            get_application_property("folder_modified_lines_path")
             + line_to_write.get_uut()
             + "_" + get_current_date("%Y-%m-%d")
             + "_" + get_current_time("%I-%M-%S")
@@ -239,7 +243,7 @@ class CRUDFileController:
 
         # Actual writing
         self.get_crud_file_as().write_modified_line(
-            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
+            get_application_property("folder_modified_lines_path")
             + line_to_write.get_uut()
             + "_" + get_current_date("%Y-%m-%d")
             + "_" + get_current_time("%I-%M-%S")
@@ -305,7 +309,7 @@ class CRUDFileController:
 
         # Actual writing
         self.get_crud_file_as().write_modified_line(
-            "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
+            get_application_property("folder_modified_lines_path")
             + line_to_write.get_uut()
             + "_" + get_current_date("%Y-%m-%d")
             + "_" + get_current_time("%I-%M-%S")
@@ -357,6 +361,9 @@ class CRUDFileController:
             LOGGER.info("Test report file loaded : " + str(self.get_current_file()))
             # Updating the main window with the Current File's contents
             self.get_crud_file_view().update_main_window(self.get_current_file())
+        else:
+            # Just Clear the main window until a new file is added within the Folder
+            self.get_crud_file_view().clear_main_window()
 
     def clean_current_file_lines(self):
         """
