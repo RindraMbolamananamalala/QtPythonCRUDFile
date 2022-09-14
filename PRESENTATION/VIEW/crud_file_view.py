@@ -80,8 +80,8 @@ class CRUDFileView:
 
         for line in file.get_lines_to_read():
             if line.get_type().upper() in ["TESTSWITCH", "TESTCONNECTION"
-                                            , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
-                                            , "TESTBUSCONNECTORGROUPDETECTION"]:
+                , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
+                , "TESTBUSCONNECTORGROUPDETECTION"]:
                 self.get_open_connections_lines().append(line)
             elif line.get_type().upper() in ["ISOLATIONTEST"]:
                 self.get_shorts_lines().append(line)
@@ -102,7 +102,7 @@ class CRUDFileView:
             self.get_main_window_ui().get_list_open_connections_name().addItem(line.get_name())
             # Making each Item identifiable by its "Line Item" number
             count = self.get_main_window_ui().get_list_open_connections_name().count()
-            self.get_main_window_ui().get_list_open_connections_name().item(count-1).setToolTip(str(line.get_item()))
+            self.get_main_window_ui().get_list_open_connections_name().item(count - 1).setToolTip(str(line.get_item()))
 
     def update_shorts_part(self):
         for line in self.get_shorts_lines():
@@ -120,7 +120,7 @@ class CRUDFileView:
             self.open_additional_information_window)
 
         # When the "Cancel" button of the Additional Information window is clicked, the latter closes
-        self.get_main_window_ui().get_additional_information_window().get_set_button_additional_information_cancel()\
+        self.get_main_window_ui().get_additional_information_window().get_set_button_additional_information_cancel() \
             .clicked.connect(self.close_additional_information_window)
 
     def update_open_connections_boxes(self):
@@ -136,54 +136,53 @@ class CRUDFileView:
                                 , None)
             if current_line:
                 # Wire Name
-                wire_name = current_line.get_name().split("/")[0]
-                if wire_name:
+                try:
+                    wire_name = current_line.get_name().split("/")[0]
                     self.get_main_window_ui().get_text_wire_name().setPlainText(wire_name)
-                else:
+                except:
                     self.get_main_window_ui().get_text_wire_name().setPlainText("")
 
                 # Cross section
-                cross_section = current_line.get_name().split("`")[0].split("/")[1]
-                if cross_section:
+                try:
+                    cross_section = current_line.get_name().split("`")[0].split("/")[1]
                     self.get_main_window_ui().get_text_cross_section().setPlainText(cross_section)
-                else:
+                except:
                     self.get_main_window_ui().get_text_cross_section().setPlainText("")
 
                 # Color
-                color = current_line.get_name().split("`")[1]
-                if color:
+                try:
+                    color = current_line.get_name().split("`")[1]
                     self.get_main_window_ui().get_text_color().setPlainText(color)
-                else:
+                except:
                     self.get_main_window_ui().get_text_color().setPlainText("")
 
                 # Position 1
-                position_1 = current_line.get_from_pins().split(".")[0]
-                if position_1:
+                try:
+                    position_1 = current_line.get_from_pins().split(".")[0]
                     self.get_main_window_ui().get_text_position_1().setPlainText(position_1)
-                else:
+                except:
                     self.get_main_window_ui().get_text_position_1().setPlainText("")
 
                 # Cavity 1
-                cavity_1 = current_line.get_from_pins().split(".")[1]
-                if cavity_1:
+                try:
+                    cavity_1 = current_line.get_from_pins().split(".")[1]
                     self.get_main_window_ui().get_text_cavity_1().setPlainText(cavity_1)
-                else:
+                except:
                     self.get_main_window_ui().get_text_cavity_1().setPlainText("")
 
                 # Position 2
-                position_2 = current_line.get_to_pins().split(".")[0]
-                if position_2:
+                try:
+                    position_2 = current_line.get_to_pins().split(".")[0]
                     self.get_main_window_ui().get_text_position_2().setPlainText(position_2)
-                else:
+                except:
                     self.get_main_window_ui().get_text_position_2().setPlainText("")
 
                 # Cavity 2
-                cavity_2 = current_line.get_to_pins().split(".")[1]
-                if cavity_2:
+                try:
+                    cavity_2 = current_line.get_to_pins().split(".")[1]
                     self.get_main_window_ui().get_text_cavity_2().setPlainText(cavity_2)
-                else:
+                except:
                     self.get_main_window_ui().get_text_cavity_2().setPlainText("")
-
             else:
                 LOGGER.error("No valid item is selected")
 
