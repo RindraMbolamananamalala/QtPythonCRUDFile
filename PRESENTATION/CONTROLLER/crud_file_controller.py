@@ -10,7 +10,9 @@ __email__ = "rindraibi@gmail.com"
 
 from CONFIGURATIONS.logger import LOGGER
 
+from UTILS.time_utils import get_current_time, get_current_date
 from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
+
 
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
 
@@ -162,8 +164,8 @@ class CRUDFileController:
         line_to_write.set_uut(view_window.get_label_file_id().text())
         line_to_write.set_f(view_window.get_combo_box_F().currentText())
         line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
-        line_to_write.set_date("current date")
-        line_to_write.set_time("current time")
+        line_to_write.set_date(get_current_date("%d.%m.%Y"))
+        line_to_write.set_time(get_current_time("%I:%M:%S %p"))
         line_to_write.set_wire_name(view_window.get_text_wire_name().toPlainText())
         line_to_write.set_cross_section(view_window.get_text_cross_section().toPlainText())
         line_to_write.set_color(view_window.get_text_color().toPlainText())
@@ -177,8 +179,12 @@ class CRUDFileController:
         # Actual writing
         self.get_crud_file_as().write_modified_line(
             "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
-            + line_to_write.get_uut() + ".xlsx"
-            , line_to_write)
+            + line_to_write.get_uut()
+            + "_" + get_current_date("%Y-%m-%d")
+            + "_" + get_current_time("%I-%M-%S")
+            + ".xlsx"
+            , line_to_write
+        )
 
         """
         Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
@@ -219,8 +225,8 @@ class CRUDFileController:
         line_to_write.set_uut(view_window.get_label_file_id().text())
         line_to_write.set_f(view_window.get_combo_box_F().currentText())
         line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
-        line_to_write.set_date("current date")
-        line_to_write.set_time("current time")
+        line_to_write.set_date(get_current_date("%d.%m.%Y"))
+        line_to_write.set_time(get_current_time("%I:%M:%S %p"))
         line_to_write.set_wire_name(None)
         line_to_write.set_cross_section(None)
         line_to_write.set_color(None)
@@ -234,8 +240,12 @@ class CRUDFileController:
         # Actual writing
         self.get_crud_file_as().write_modified_line(
             "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
-            + line_to_write.get_uut() + ".xlsx"
-            , line_to_write)
+            + line_to_write.get_uut()
+            + "_" + get_current_date("%Y-%m-%d")
+            + "_" + get_current_time("%I-%M-%S")
+            + ".xlsx"
+            , line_to_write
+        )
 
         """
         Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
@@ -280,8 +290,8 @@ class CRUDFileController:
         line_to_write.set_uut(view_window.get_label_file_id().text())
         line_to_write.set_f(view_window.get_combo_box_F().currentText())
         line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
-        line_to_write.set_date("current date")
-        line_to_write.set_time("current time")
+        line_to_write.set_date(get_current_date("%d.%m.%Y"))
+        line_to_write.set_time(get_current_time("%I:%M:%S %p"))
         line_to_write.set_wire_name(None)
         line_to_write.set_cross_section(None)
         line_to_write.set_color(None)
@@ -296,8 +306,12 @@ class CRUDFileController:
         # Actual writing
         self.get_crud_file_as().write_modified_line(
             "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\MODIFIED_EXCEL_FILES\\"
-            + line_to_write.get_uut() + ".xlsx"
-            , line_to_write)
+            + line_to_write.get_uut()
+            + "_" + get_current_date("%Y-%m-%d")
+            + "_" + get_current_time("%I-%M-%S")
+            + ".xlsx"
+            , line_to_write
+        )
 
     def remove_confirmed_item(self, line_to_remove: LineToRead):
         """
