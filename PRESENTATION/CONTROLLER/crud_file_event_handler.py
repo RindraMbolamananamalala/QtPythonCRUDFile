@@ -35,7 +35,7 @@ class CRUDFileEventHandler(FileSystemEventHandler):
         :param event: The event related to the creation of a new File
         :return: None
         """
-        LOGGER.info(event.src_path + " created and added to the queue of file");
+        LOGGER.info(event.src_path + " created and added to the queue of file")
         self.get_file_queue().append(event.src_path)
 
     def __init__(self):

@@ -8,6 +8,8 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+import pathlib
+
 from watchdog.observers import Observer
 
 from CONFIGURATIONS.logger import LOGGER
@@ -93,36 +95,20 @@ class CRUDFileController:
             # Preparing the Observer and the File Event Handler related to the Test Report folder.
             self.prepare_test_report_folder_observer()
 
-            # TEMPORARY
-            # file = FileToRead()
-            # file.set_uut("B0008713583")
-            #
-            # line_1 = LineToRead()
-            # line_1.set_name("8759/0.13`YE/VT")
-            # line_1.set_type("TestConnection")
-            # line_1.set_from_pins("A2/183*C1-B_V1.S")
-            # line_1.set_to_pins("A26/17*13-B_V1.S2")
-            # line_2 = LineToRead()
-            # line_2.set_name("3211/0.35`RD/WH")
-            # line_2.set_type("TestBusConnectorGroupDetection")
-            # line_2.set_from_pins("A2/182*C2-B_V1.S")
-            # line_2.set_to_pins("A26/17*13-B_V1.S3")
-            # line_3 = LineToRead()
-            # line_3.set_type("IsolationTest")
-            # line_3.set_from_pins("A2/182*C2-B_V1.S")
-            # line_3.set_to_pins("A26/17*13-B_V1.S3")
-            #
-            # file.get_lines_to_read().append(line_1)
-            # file.get_lines_to_read().append(line_2)
-            # file.get_lines_to_read().append(line_3)
-
-            file_retrieved = self \
-                .get_crud_file_as().read_test_report_file(
-                "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\EXCEL_FILES\\B0008706912_2022-09-08_09-02-43.xlsx"
-            )
-
-            self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
-            self.get_crud_file_view().update_main_window(self.get_current_file())
+            # If the File Event Handler's Queue already contains files path, let's initialize the Main Window with
+            # the first file related to those paths
+            file_handler_queue = self.get_test_report_file_event_handler().get_file_queue()
+            if len(file_handler_queue) > 0:
+                file_retrieved = self \
+                    .get_crud_file_as().read_test_report_file(
+                        file_handler_queue.pop(0)
+                    )
+                self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
+                LOGGER.info("Test report file loaded : " + str(self.get_current_file()))
+                # Before going further, let's first clean the Current File
+                self.clean_current_file_lines()
+                # Updating the main window with the Current File's contents
+                self.get_crud_file_view().update_main_window(self.get_current_file())
 
             # Feeding the Combo Boxes of the Main Window
             self.feed_main_window_combo_boxes()
@@ -157,6 +143,13 @@ class CRUDFileController:
 
         # Indicating the path of the Test Report Folder
         test_report_folder_path = "E:\\Upwork\\MdToriqul\\Project\\QTPythonCRUDFile\\EXCEL_FILES"
+
+        # At the start, by default, let's add any Excel file found under the Test Report Folder to the File Event
+        # Handler's Queue
+        test_report_directory = pathlib.Path(test_report_folder_path)
+        excel_file_pattern = "*.xlsx"
+        for excel_file in test_report_directory.glob(excel_file_pattern):
+            self.get_test_report_file_event_handler().get_file_queue().append(excel_file)
 
         # Scheduling & Orchestration
         test_report_folder_observer.schedule(
@@ -256,6 +249,18 @@ class CRUDFileController:
 
         # After the identification, the actual removal process
         self.remove_confirmed_item(line_to_remove)
+        LOGGER.info(
+            "The following line has been successfully removed from the Current File's list: "
+            + str(line_to_remove)
+        )
+
+        """
+        Once the Removal process successfully achieved, we need to check the state of the Controller's Current File 
+        Lines.
+        If there are no more lines (all of them have been modified), we load another file from the File Event Handler's
+        Queue.
+        """
+        self.check_current_file_lines()
 
     def write_shorts_information(self):
         """
@@ -301,6 +306,14 @@ class CRUDFileController:
 
         # After the identification, the actual removal process
         self.remove_confirmed_item(line_to_remove)
+
+        """
+        Once the Removal process successfully achieved, we need to check the state of the Controller's Current File 
+        Lines.
+        If there are no more lines (all of them have been modified), we load another file from the File Event Handler's
+        Queue.
+        """
+        self.check_current_file_lines()
 
     def write_additional_information(self):
         """
@@ -348,3 +361,54 @@ class CRUDFileController:
 
         # Let's update the Main Window with the new state of the Current File
         self.get_crud_file_view().update_main_window(self.get_current_file())
+
+    def check_current_file_lines(self):
+        """
+        Checking if the Current File lines property is Empty|Not Empty.
+        If (Empty), then, it is time to load another one.
+        :return: None
+        """
+        if len(self.get_current_file().get_lines_to_read()) < 1:
+            # If the Current File's line are Empty, we load another one
+            self.load_another_file()
+
+    def load_another_file(self):
+        """
+        Loading another Test Report Excel file to be treated by the Application through the latter's specific GUI.
+        :return: None
+        """
+        # The file to be loaded is the the First one in the File Handler's queue of file
+        file_handler_queue = self.get_test_report_file_event_handler().get_file_queue()
+
+        if len(file_handler_queue) > 0:
+            # Loading a new file is only possible when the File Handler's queue still contains File
+            file_retrieved = self \
+                .get_crud_file_as().read_test_report_file(
+                    file_handler_queue.pop(0)
+                )
+
+            self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
+
+            # Before going further, let's first clean the Current File
+            self.clean_current_file_lines()
+            LOGGER.info("Test report file loaded : " + str(self.get_current_file()))
+            # Updating the main window with the Current File's contents
+            self.get_crud_file_view().update_main_window(self.get_current_file())
+
+    def clean_current_file_lines(self):
+        """
+        Removing from the Current File the lines, even though with a Result set to "Fail",
+        but with a Type that should be ignored by the Application.
+        :return: None
+        """
+        line_to_be_removed = []
+        for line in self.get_current_file().get_lines_to_read():
+            if line.get_type().upper() not in ["TESTSWITCH", "TESTCONNECTION"
+                                                , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
+                                                , "TESTBUSCONNECTORGROUPDETECTION", "ISOLATIONTEST"]:
+                # Just list the lines that are supposed to be ignored
+                line_to_be_removed.append(line)
+
+        # Proceed to the actual removal process, based on the previous pre-filled list of lines
+        for line in line_to_be_removed:
+            self.get_current_file().get_lines_to_read().remove(line)
