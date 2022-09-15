@@ -60,6 +60,14 @@ class CRUDFileView:
                 args[0]
             )
 
+            # All the Boxes located in the Top sections must be set to ReadOnly
+            self.disable_permanently_the_top_section_boxes()
+
+            # First (default) check of the availabilities of all the Confirm Buttons
+            self.update_the_availability_of_the_open_connections_button_confirm()
+            self.update_the_availability_of_the_shorts_button_confirm()
+            self.update_the_availability_of_the_additional_information_button_confirm()
+
             # Managing all the Events
             self.manage_events()
         else:
@@ -80,8 +88,8 @@ class CRUDFileView:
 
         for line in file.get_lines_to_read():
             if line.get_type().upper() in ["TESTSWITCH", "TESTCONNECTION"
-                , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
-                , "TESTBUSCONNECTORGROUPDETECTION"]:
+                                            , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
+                                            , "TESTBUSCONNECTORGROUPDETECTION"]:
                 self.get_open_connections_lines().append(line)
             elif line.get_type().upper() in ["ISOLATIONTEST"]:
                 self.get_shorts_lines().append(line)
@@ -114,10 +122,32 @@ class CRUDFileView:
     def manage_events(self):
         # List Open Connections Name
         self.get_main_window_ui().get_list_open_connections_name().clicked.connect(self.update_open_connections_boxes)
+        self.get_main_window_ui().get_list_open_connections_name().clicked.connect(
+            self.update_the_availability_of_the_open_connections_button_confirm
+        )
+
+        # Open Connections Comments  text area
+        self.get_main_window_ui().get_text_open_connections_comments().textChanged.connect(
+            self.update_the_availability_of_the_open_connections_button_confirm
+        )
+
+        # List Shorts Name
+        self.get_main_window_ui().get_list_shorts_name().clicked.connect(
+            self.update_the_availability_of_the_shorts_button_confirm
+        )
+
+        # Shorts Comments  text area
+        self.get_main_window_ui().get_text_shorts_comments().textChanged.connect(
+            self.update_the_availability_of_the_shorts_button_confirm
+        )
 
         # Additional information window appears when button "Add additional information" is clicked
         self.get_main_window_ui().get_button_add_additional_information().clicked.connect(
             self.open_additional_information_window)
+
+        # Additional information comments text area
+        self.get_main_window_ui().get_additional_information_window().get_text_additional_information_comments()\
+            .textChanged.connect(self.update_the_availability_of_the_additional_information_button_confirm)
 
         # When the "Cancel" button of the Additional Information window is clicked, the latter closes
         self.get_main_window_ui().get_additional_information_window().get_set_button_additional_information_cancel() \
@@ -217,3 +247,49 @@ class CRUDFileView:
         self.get_main_window_ui().get_text_open_connections_comments().clear()
         self.get_main_window_ui().get_list_shorts_name().clear()
         self.get_main_window_ui().get_text_shorts_comments().clear()
+
+    def disable_permanently_the_top_section_boxes(self):
+        """
+        All the Boxes located in the Top sections must be set to ReadOnly.
+        :return: None
+        """
+        self.get_main_window_ui().get_text_wire_name().setReadOnly(True)
+        self.get_main_window_ui().get_text_cross_section().setReadOnly(True)
+        self.get_main_window_ui().get_text_color().setReadOnly(True)
+        self.get_main_window_ui().get_text_position_1().setReadOnly(True)
+        self.get_main_window_ui().get_text_cavity_1().setReadOnly(True)
+        self.get_main_window_ui().get_text_position_2().setReadOnly(True)
+        self.get_main_window_ui().get_text_cavity_2().setReadOnly(True)
+
+    def update_the_availability_of_the_open_connections_button_confirm(self):
+        """
+        Never make the the Open Connections Confirm Button available when No Name in the list is selected and/or
+        no text is present within the Comments Text area.
+        :return: None
+        """
+        main_window = self.get_main_window_ui()
+        availability = main_window.get_list_open_connections_name().currentItem() is not None \
+                       and (len(main_window.get_text_open_connections_comments().toPlainText()) > 0)
+        main_window.get_button_open_connections_confirm().setDisabled(not availability)
+
+    def update_the_availability_of_the_shorts_button_confirm(self):
+        """
+        Never make the the Shorts Confirm Button available when No Name in the list is selected and/or
+        no text is present within the Comments Text area.
+        :return: None
+        """
+        main_window = self.get_main_window_ui()
+        availability = main_window.get_list_shorts_name().currentItem() is not None \
+                       and (len(main_window.get_text_shorts_comments().toPlainText()) > 0)
+        main_window.get_button_shorts_confirm().setDisabled(not availability)
+
+    def update_the_availability_of_the_additional_information_button_confirm(self):
+        """
+        Never make the the Shorts Confirm Button available when No Name in the list is selected and/or
+        no text is present within the Comments Text area.
+        :return: None
+        """
+        main_window = self.get_main_window_ui()
+        additional_information_window = main_window.get_additional_information_window()
+        availability = (len(additional_information_window.get_text_additional_information_comments().toPlainText()) > 0)
+        additional_information_window.get_button_additional_information_confirm().setDisabled(not availability)
