@@ -305,6 +305,10 @@ class CRUDFileController:
             , line_to_write
         )
 
+        # Clearing the Comments Text area after the Writing process
+        self.get_crud_file_view().get_main_window_ui()\
+            .get_additional_information_window().get_text_additional_information_comments().clear()
+
     def remove_confirmed_item(self, line_to_remove: LineToRead):
         """
         Removing the modified line from the Current File's Line
