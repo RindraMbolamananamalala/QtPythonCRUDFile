@@ -183,10 +183,6 @@ class CRUDFileController:
         # Actual writing
         self.get_crud_file_as().write_modified_line(
             get_application_property("folder_modified_lines_path")
-            + line_to_write.get_uut()
-            + "_" + get_current_date("%Y-%m-%d")
-            + "_" + get_current_time("%I-%M-%S")
-            + ".xlsx"
             , line_to_write
         )
 
@@ -244,10 +240,6 @@ class CRUDFileController:
         # Actual writing
         self.get_crud_file_as().write_modified_line(
             get_application_property("folder_modified_lines_path")
-            + line_to_write.get_uut()
-            + "_" + get_current_date("%Y-%m-%d")
-            + "_" + get_current_time("%I-%M-%S")
-            + ".xlsx"
             , line_to_write
         )
 
@@ -310,10 +302,6 @@ class CRUDFileController:
         # Actual writing
         self.get_crud_file_as().write_modified_line(
             get_application_property("folder_modified_lines_path")
-            + line_to_write.get_uut()
-            + "_" + get_current_date("%Y-%m-%d")
-            + "_" + get_current_time("%I-%M-%S")
-            + ".xlsx"
             , line_to_write
         )
 
