@@ -352,7 +352,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Main Window", None))
         self.label_open_connections.setText(QCoreApplication.translate("MainWindow", u"Open connections", None))
 
         self.text_open_connections_comments.setPlaceholderText(

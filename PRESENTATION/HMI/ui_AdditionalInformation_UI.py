@@ -117,7 +117,7 @@ class UI_AdditionalInformation(object):
     # setupUi
 
     def retranslateUi(self, main_window):
-        main_window.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        main_window.setWindowTitle(QCoreApplication.translate("MainWindow", u"Additional Information Window", None))
 
         self.text_additional_information_comments.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Add comment", None))
         self.button_additional_information_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
