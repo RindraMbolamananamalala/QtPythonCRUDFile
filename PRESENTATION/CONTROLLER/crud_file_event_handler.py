@@ -33,13 +33,26 @@ class CRUDFileEventHandler(FileSystemEventHandler):
         :param event: The event related to the creation of a new File
         :return: None
         """
-        LOGGER.info(event.src_path + " created and added to the queue of file")
         self.get_crud_file_controller().get_file_queue().append(event.src_path)
+        LOGGER.info(event.src_path + " created and added to the queue of file")
 
         # Let's wait 5 seconds after the add of the new file before trying to treat it
         time.sleep(5)
         # Check if the Application is already ready to treat the new file
         self.get_crud_file_controller().check_current_file_lines()
+
+    def on_deleted(self, event):
+        """
+        Removing the file recently deleted from the Queue of Files of the Controller.
+        :param event: The event related to the deletion of an existing File
+        :return: None
+        """
+        # Determining the file to be removed from the Queue
+        file_to_remove = next((x for x in self.get_crud_file_controller().get_file_queue()
+                               if str(x).replace("\\\\", "\\") == str(event.src_path).replace("\\\\", "\\"))
+                              , None)
+        self.get_crud_file_controller().get_file_queue().remove(file_to_remove)
+        LOGGER.info(str(file_to_remove) + " removed from the queue of file")
 
     def prepare_test_report_folder_observer(self):
         """
