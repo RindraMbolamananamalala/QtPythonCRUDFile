@@ -68,11 +68,11 @@ class UI_AdditionalInformation(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.combo_box_additional_information__W = QComboBox(self.centralwidget)
         self.combo_box_additional_information__W.setObjectName(u"combo_box_additional_information__W")
-        self.combo_box_additional_information__W.setGeometry(QRect(50, 50, 271, 601))
+        self.combo_box_additional_information__W.setGeometry(QRect(50, 50, 551, 601))
         self.set_combo_box_additional_information_w(self.combo_box_additional_information__W)
         font = QFont()
         font.setFamily(u"Consolas")
-        font.setPointSize(14)
+        font.setPointSize(11)
 
         """W Combo-Box part"""
         self.combo_box_additional_information__W.setFont(font)
@@ -80,7 +80,7 @@ class UI_AdditionalInformation(object):
         """Comments part"""
         self.text_additional_information_comments = QPlainTextEdit(self.centralwidget)
         self.text_additional_information_comments.setObjectName(u"text_additional_information_comments")
-        self.text_additional_information_comments.setGeometry(QRect(330, 50, 641, 601))
+        self.text_additional_information_comments.setGeometry(QRect(610, 50, 361, 601))
         self.set_text_additional_information_comments(self.text_additional_information_comments)
 
         """Confirm button part"""
