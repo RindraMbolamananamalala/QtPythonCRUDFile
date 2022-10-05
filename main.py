@@ -5,6 +5,7 @@ from PySide2.QtWidgets import *
 
 from PRESENTATION.HMI.ui_Main_Window_UI import Ui_MainWindow
 from PRESENTATION.HMI.ui_Treatment_Window import Ui_TreatmentWindow
+from PRESENTATION.HMI.ui_Cross_Pinning import UI_CrossPinning
 from PRESENTATION.HMI.ui_Loading_Window import Ui_window_loading
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
 from PRESENTATION.CONTROLLER.crud_file_controller import CRUDFileController
@@ -16,8 +17,8 @@ if __name__ == '__main__':
 
     main_window = QMainWindow()
 
-    treatment_window = Ui_TreatmentWindow(main_window)
-    treatment_window.get_main_window().show()
+    cross_pinning_window = UI_CrossPinning(main_window)
+    cross_pinning_window.get_main_window().show()
 
     # main_window = QMainWindow()
     # window = Ui_MainWindow(main_window)
