@@ -37,6 +37,12 @@ class Ui_TreatmentWindow(object):
         return self.main_window
 
     def __init__(self, main_window):
+        """
+        Setting up the UI.
+
+        :param main_window: a blank main window to be associated with the set of settings.
+        """
+        # General Settings Part I
         if not main_window.objectName():
             main_window.setObjectName(u"MainWindow")
             self.set_main_window(main_window)
@@ -45,10 +51,14 @@ class Ui_TreatmentWindow(object):
         main_window.setStyleSheet(u"background-color: white;")
         self.centralwidget = QWidget(main_window)
         self.centralwidget.setObjectName(u"centralwidget")
+
+        # The column for the Navigation
         self.column_navigation = QWidget(self.centralwidget)
         self.column_navigation.setObjectName(u"column_navigation")
         self.column_navigation.setGeometry(QRect(0, 0, 75, 1080))
         self.column_navigation.setStyleSheet(u"background-color: blue;")
+
+        # The list of Label Icons
         self.label_icon_1 = QLabel(self.column_navigation)
         self.label_icon_1.setObjectName(u"label_icon_1")
         self.label_icon_1.setGeometry(QRect(7, 7, 60, 60))
@@ -70,6 +80,7 @@ class Ui_TreatmentWindow(object):
         self.label_icon_4.setStyleSheet(u"background-color: white")
         self.label_icon_4.setAlignment(Qt.AlignCenter)
 
+        # The Vertical label dedicated to the combination of the two fixed Strings
         self.label_fixed_strings = VerticalLabel(self.column_navigation)
         self.label_fixed_strings.setObjectName(u"label_fixed_strings")
         self.label_fixed_strings.setGeometry(QRect(0, 500, 72, 450))
@@ -85,10 +96,13 @@ class Ui_TreatmentWindow(object):
         self.label_fixed_strings.setTextFormat(Qt.AutoText)
         self.label_fixed_strings.setWordWrap(False)
 
+        # The column for the Treatment
         self.column_treatment = QWidget(self.centralwidget)
         self.column_treatment.setObjectName(u"column_treatment")
         self.column_treatment.setGeometry(QRect(75, 0, 1860, 1080))
         self.column_treatment.setStyleSheet(u"background-color: lightblue;")
+
+        # The Logo box area
         self.widget_logo_box = QWidget(self.column_treatment)
         self.widget_logo_box.setObjectName(u"widget_logo_box")
         self.widget_logo_box.setGeometry(QRect(1650, 30, 180, 80))
@@ -96,10 +110,14 @@ class Ui_TreatmentWindow(object):
         self.label_logo_box = QLabel(self.widget_logo_box)
         self.label_logo_box.setObjectName(u"label_logo_box")
         self.label_logo_box.setGeometry(QRect(60, 30, 55, 16))
+
+        # The settings related to the Combo-Box fed by a specific Excel Sheet to be provided
         self.combobox_fed_by_excel_sheet = QComboBox(self.column_treatment)
         self.combobox_fed_by_excel_sheet.setObjectName(u"combobox_fed_by_excel_sheet")
         self.combobox_fed_by_excel_sheet.setGeometry(QRect(10, 580, 1641, 51))
         self.combobox_fed_by_excel_sheet.setStyleSheet(u"background-color: white;")
+
+        # Comments Text area's settings
         self.text_comments = QPlainTextEdit(self.column_treatment)
         self.text_comments.setObjectName(u"text_comments")
         self.text_comments.setGeometry(QRect(10, 640, 1641, 241))
@@ -108,6 +126,8 @@ class Ui_TreatmentWindow(object):
         font1.setPointSize(10)
         self.text_comments.setFont(font1)
         self.text_comments.setStyleSheet(u"background-color: white;")
+
+        # Configuring the Button Confirm
         self.button_confirm = QPushButton(self.column_treatment)
         self.button_confirm.setObjectName(u"button_confirm")
         self.button_confirm.setGeometry(QRect(10, 890, 1641, 51))
@@ -119,6 +139,7 @@ class Ui_TreatmentWindow(object):
         self.button_confirm.setFont(font2)
         self.button_confirm.setStyleSheet(u"background-color: grey;")
 
+        # Configuring the Vertical Label dedicated to the UUT of the current file read by the Application
         self.label_uut = VerticalLabel(self.column_treatment)
         self.label_uut.setObjectName(u"label_uut")
         self.label_uut.setGeometry(QRect(1670, 485, 161, 450))
@@ -130,7 +151,7 @@ class Ui_TreatmentWindow(object):
         self.label_uut.setFont(font3)
         self.label_uut.setStyleSheet(u"color: white;")
 
-
+        # General Settings Part II
         main_window.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(main_window)
         self.menubar.setObjectName(u"menubar")
