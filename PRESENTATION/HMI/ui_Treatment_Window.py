@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-ui_Main_Window_UI.py: The python file dedicated to the graphical definition of the Main Window of the application.
+ui_Treatment_Window_UI.py: The python file dedicated to the graphical definition of the abstract
+Treatment Window of the application.
 """
 
 __author__ = "Rindra Mbolamananamalala"

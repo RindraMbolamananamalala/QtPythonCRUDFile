@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 
+"""
+ui_Loading_Window_UI.py: The python file dedicated to the graphical definition of the Loading/Waiting Window of the
+application.
+"""
+
+__author__ = "Rindra Mbolamananamalala"
+__email__ = "rindraibi@gmail.com"
+
 ################################################################################
 ## Created with: Qt User Interface Compiler version 5.15.2
 ##
