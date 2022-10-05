@@ -1,0 +1,173 @@
+# -*- coding: utf-8 -*-
+
+"""
+ui_Main_Window_UI.py: The python file dedicated to the graphical definition of the Main Window of the application.
+"""
+
+__author__ = "Rindra Mbolamananamalala"
+__email__ = "rindraibi@gmail.com"
+
+################################################################################
+## Created with: Qt User Interface Compiler version 5.15.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+from threading import main_thread
+
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+
+
+class Ui_TreatmentWindow(object):
+
+    def set_main_window(self, main_window: QMainWindow):
+        """
+
+        :param main_window: The Qt Main Window to be used by the the current Main Window.
+        :return:
+        """
+        self.main_window = main_window
+
+    def get_main_window(self) -> QMainWindow:
+        """
+
+        :return: The Qt Main Window used by the the current Main Window.
+        """
+        return self.main_window
+
+    def __init__(self, main_window):
+        if not main_window.objectName():
+            main_window.setObjectName(u"MainWindow")
+            self.set_main_window(main_window)
+        main_window.resize(1920, 1080)
+        main_window.setAutoFillBackground(False)
+        main_window.setStyleSheet(u"background-color: white;")
+        self.centralwidget = QWidget(main_window)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.column_navigation = QWidget(self.centralwidget)
+        self.column_navigation.setObjectName(u"column_navigation")
+        self.column_navigation.setGeometry(QRect(0, 0, 75, 1080))
+        self.column_navigation.setStyleSheet(u"background-color: blue;")
+        self.label_icon_1 = QLabel(self.column_navigation)
+        self.label_icon_1.setObjectName(u"label_icon_1")
+        self.label_icon_1.setGeometry(QRect(7, 7, 60, 60))
+        self.label_icon_1.setStyleSheet(u"background-color: white")
+        self.label_icon_1.setAlignment(Qt.AlignCenter)
+        self.label_icon_2 = QLabel(self.column_navigation)
+        self.label_icon_2.setObjectName(u"label_icon_2")
+        self.label_icon_2.setGeometry(QRect(7, 77, 60, 60))
+        self.label_icon_2.setStyleSheet(u"background-color: white")
+        self.label_icon_2.setAlignment(Qt.AlignCenter)
+        self.label_icon_3 = QLabel(self.column_navigation)
+        self.label_icon_3.setObjectName(u"label_icon_3")
+        self.label_icon_3.setGeometry(QRect(7, 147, 60, 60))
+        self.label_icon_3.setStyleSheet(u"background-color: white;")
+        self.label_icon_3.setAlignment(Qt.AlignCenter)
+        self.label_icon_4 = QLabel(self.column_navigation)
+        self.label_icon_4.setObjectName(u"label_icon_4")
+        self.label_icon_4.setGeometry(QRect(7, 217, 60, 60))
+        self.label_icon_4.setStyleSheet(u"background-color: white")
+        self.label_icon_4.setAlignment(Qt.AlignCenter)
+
+        self.label_fixed_strings = VerticalLabel(self.column_navigation)
+        self.label_fixed_strings.setObjectName(u"label_fixed_strings")
+        self.label_fixed_strings.setGeometry(QRect(0, 500, 72, 450))
+        font = QFont()
+        font.setFamily(u"Consolas")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_fixed_strings.setFont(font)
+        self.label_fixed_strings.setLayoutDirection(Qt.LeftToRight)
+        self.label_fixed_strings.setAlignment(Qt.AlignBottom | Qt.AlignLeading | Qt.AlignLeft)
+        self.label_fixed_strings.setStyleSheet(u"color: white;")
+        self.label_fixed_strings.setTextFormat(Qt.AutoText)
+        self.label_fixed_strings.setWordWrap(False)
+
+        self.column_treatment = QWidget(self.centralwidget)
+        self.column_treatment.setObjectName(u"column_treatment")
+        self.column_treatment.setGeometry(QRect(75, 0, 1860, 1080))
+        self.column_treatment.setStyleSheet(u"background-color: lightblue;")
+        self.widget_logo_box = QWidget(self.column_treatment)
+        self.widget_logo_box.setObjectName(u"widget_logo_box")
+        self.widget_logo_box.setGeometry(QRect(1650, 30, 180, 80))
+        self.widget_logo_box.setStyleSheet(u"background-color: cyan;")
+        self.label_logo_box = QLabel(self.widget_logo_box)
+        self.label_logo_box.setObjectName(u"label_logo_box")
+        self.label_logo_box.setGeometry(QRect(60, 30, 55, 16))
+        self.combobox_fed_by_excel_sheet = QComboBox(self.column_treatment)
+        self.combobox_fed_by_excel_sheet.setObjectName(u"combobox_fed_by_excel_sheet")
+        self.combobox_fed_by_excel_sheet.setGeometry(QRect(10, 580, 1641, 51))
+        self.combobox_fed_by_excel_sheet.setStyleSheet(u"background-color: white;")
+        self.text_comments = QPlainTextEdit(self.column_treatment)
+        self.text_comments.setObjectName(u"text_comments")
+        self.text_comments.setGeometry(QRect(10, 640, 1641, 241))
+        font1 = QFont()
+        font1.setFamily(u"Calibri")
+        font1.setPointSize(10)
+        self.text_comments.setFont(font1)
+        self.text_comments.setStyleSheet(u"background-color: white;")
+        self.button_confirm = QPushButton(self.column_treatment)
+        self.button_confirm.setObjectName(u"button_confirm")
+        self.button_confirm.setGeometry(QRect(10, 890, 1641, 51))
+        font2 = QFont()
+        font2.setFamily(u"Open Sans Semibold")
+        font2.setPointSize(14)
+        font2.setBold(False)
+        font2.setWeight(50)
+        self.button_confirm.setFont(font2)
+        self.button_confirm.setStyleSheet(u"background-color: grey;")
+
+        self.label_uut = VerticalLabel(self.column_treatment)
+        self.label_uut.setObjectName(u"label_uut")
+        self.label_uut.setGeometry(QRect(1670, 485, 161, 450))
+        font3 = QFont()
+        font3.setFamily(u"Consolas")
+        font3.setPointSize(43)
+        font3.setBold(False)
+        font3.setWeight(75)
+        self.label_uut.setFont(font3)
+        self.label_uut.setStyleSheet(u"color: white;")
+
+
+        main_window.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(main_window)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 1920, 26))
+        main_window.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(main_window)
+        self.statusbar.setObjectName(u"statusbar")
+        main_window.setStatusBar(self.statusbar)
+
+        self.retranslateUi(main_window)
+
+        QMetaObject.connectSlotsByName(main_window)
+
+    # setupUi
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.label_icon_1.setText(QCoreApplication.translate("MainWindow", u"ICON 1", None))
+        self.label_icon_2.setText(QCoreApplication.translate("MainWindow", u"ICON 2", None))
+        self.label_icon_3.setText(QCoreApplication.translate("MainWindow", u"ICON 3", None))
+        self.label_icon_4.setText(QCoreApplication.translate("MainWindow", u"ICON 4", None))
+        self.label_fixed_strings.setText(QCoreApplication.translate("MainWindow", u"Post Process - ROB 8", None))
+        self.label_logo_box.setText(QCoreApplication.translate("MainWindow", u"LogoBox", None))
+        self.text_comments.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Comments", None))
+        self.button_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
+        self.label_uut.setText(QCoreApplication.translate("MainWindow", u"B000012345", None))
+    # retranslateUi
+
+
+class VerticalLabel(QLabel):
+
+    def __init__(self, *args):
+        QLabel.__init__(self, *args)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.translate(0, self.height())
+        painter.rotate(-90)
+        painter.drawText(0, self.width() / 2, self.text())
+        painter.end()
