@@ -94,6 +94,7 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         font9.setWeight(75)
         self.button_done.setFont(font9)
         self.button_done.setStyleSheet(u"background-color: grey;")
+        self.button_done.setCursor(QCursor(Qt.PointingHandCursor))
 
         # Finally, we have to Retranslate the current UI, independently of the Superclass
         self.retranslateCurrentUi(main_window)

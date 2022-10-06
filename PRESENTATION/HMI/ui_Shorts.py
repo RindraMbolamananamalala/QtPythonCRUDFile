@@ -25,6 +25,12 @@ class UI_Shorts(Ui_TreatmentWindow):
         # all of the behaviors and data defined in it
         super(UI_Shorts, self).__init__(main_window)
 
+        # All the first 2 Label Icons have to be disabled at this level
+        self.label_icon_1.setDisabled(True)
+        self.label_icon_1.setStyleSheet(u"background-color: lightgrey;")
+        self.label_icon_2.setDisabled(True)
+        self.label_icon_2.setStyleSheet(u"background-color: lightgrey;")
+
         # Configuring the Shorts' label
         self.label_shorts = QLabel(self.column_treatment)
         self.label_shorts.setObjectName(u"label_shorts")

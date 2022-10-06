@@ -20,8 +20,8 @@ if __name__ == '__main__':
 
     main_window = QMainWindow()
 
-    additional_information_window = UI_AdditionalInformationWindow(main_window)
-    additional_information_window.get_main_window().show()
+    window = UI_CrossPinning(main_window)
+    window.get_main_window().show()
 
     # main_window = QMainWindow()
     # window = Ui_MainWindow(main_window)

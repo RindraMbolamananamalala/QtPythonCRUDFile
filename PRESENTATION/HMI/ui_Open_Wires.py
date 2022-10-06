@@ -25,6 +25,10 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # all of the behaviors and data defined in it
         super(UI_OpenWires, self).__init__(main_window)
 
+        # All the first Label Icon has to be disabled at this level
+        self.label_icon_1.setDisabled(True)
+        self.label_icon_1.setStyleSheet(u"background-color: lightgrey;")
+
         # Configuring the Open Wires' label
         self.label_open_wires = QLabel(self.column_treatment)
         self.label_open_wires.setObjectName(u"label_open_wires")

@@ -139,6 +139,7 @@ class Ui_TreatmentWindow(object):
         font2.setWeight(50)
         self.button_confirm.setFont(font2)
         self.button_confirm.setStyleSheet(u"background-color: grey;")
+        self.button_confirm.setCursor(QCursor(Qt.PointingHandCursor))
 
         # Configuring the Vertical Label dedicated to the UUT of the current file read by the Application
         self.label_uut = VerticalLabel(self.column_treatment)

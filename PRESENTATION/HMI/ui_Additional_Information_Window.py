@@ -27,6 +27,14 @@ class UI_AdditionalInformationWindow(Ui_TreatmentWindow):
         # all of the behaviors and data defined in it
         super(UI_AdditionalInformationWindow, self).__init__(main_window)
 
+        # All the first 3 Label Icons have to be disabled at this level
+        self.label_icon_1.setDisabled(True)
+        self.label_icon_1.setStyleSheet(u"background-color: lightgrey;")
+        self.label_icon_2.setDisabled(True)
+        self.label_icon_2.setStyleSheet(u"background-color: lightgrey;")
+        self.label_icon_3.setDisabled(True)
+        self.label_icon_3.setStyleSheet(u"background-color: lightgrey;")
+
         # Configuring the Additional Information' s label
         self.label_additional_information = QLabel(self.column_treatment)
         self.label_additional_information.setObjectName(u"label_shorts")
@@ -56,6 +64,7 @@ class UI_AdditionalInformationWindow(Ui_TreatmentWindow):
         font_button_done.setWeight(50)
         self.button_done.setFont(font_button_done)
         self.button_done.setStyleSheet(u"background-color: grey;")
+        self.button_done.setCursor(QCursor(Qt.PointingHandCursor))
 
         # Finally, we have to Retranslate the current UI, independently of the Superclass
         self.retranslateCurrentUi(main_window)
