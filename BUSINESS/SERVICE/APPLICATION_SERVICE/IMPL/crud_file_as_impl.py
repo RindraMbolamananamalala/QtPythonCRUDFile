@@ -18,7 +18,7 @@ from BUSINESS.SERVICE.APPLICATION_SERVICE.INTF.crud_file_as_intf import CRUDFile
 
 from DATA_ACCESS.DAO.INTF.crud_file_dao_intf import CRUDFileDAOIntf
 
-from DATA_ACCESS.DAO.IMPL.crud_file_dao_impl import CRUDFileDAOImpl
+from DATA_ACCESS.DAO.IMPL.crud_html_file_dao_impl import CRUDHTMLFileDAOImpl
 
 
 class CRUDFileASImpl(CRUDFileASIntf):
@@ -87,4 +87,4 @@ class CRUDFileASImpl(CRUDFileASIntf):
 
     def __init__(self):
         # Initializing the DAO
-        self.set_crud_file_dao(CRUDFileDAOImpl())
+        self.set_crud_file_dao(CRUDHTMLFileDAOImpl())
