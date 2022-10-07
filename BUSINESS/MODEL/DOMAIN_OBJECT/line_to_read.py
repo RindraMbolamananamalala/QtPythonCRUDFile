@@ -31,11 +31,23 @@ class LineToRead(CRUDFileDO):
     def get_from_pins(self) -> str:
         return self.from_pins
 
+    def set_from_pins_comment(self, from_pins_comment: str):
+        self.from_pins_comment = from_pins_comment
+
+    def get_from_pins_comment(self) -> str:
+        return self.from_pins_comment
+
     def set_to_pins(self, to_pins: str):
         self.to_pins = to_pins
 
     def get_to_pins(self) -> str:
         return self.to_pins
+
+    def set_to_pins_comment(self, to_pins_comment: str):
+        self.to_pins_comment = to_pins_comment
+
+    def get_to_pins_comment(self) -> str:
+        return self.to_pins_comment
 
     def set_measurement(self, measurement: str):
         self.measurement = measurement
@@ -60,7 +72,9 @@ class LineToRead(CRUDFileDO):
         self.set_item(None)
         self.set_name(None)
         self.set_from_pins(None)
+        self.set_from_pins_comment(None)
         self.set_to_pins(None)
+        self.set_to_pins_comment(None)
         self.set_measurement(None)
         self.set_type(None)
         self.set_result(None)
