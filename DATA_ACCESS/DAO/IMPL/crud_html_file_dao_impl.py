@@ -71,9 +71,9 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
 
             # Now, it's time to manage the Lines to return
             lines_to_return = []
-            for content_raw in soup.findAll("table", class_='3D"teststepfail"'):
-                # Only the Tables of the Class "teststepfail" within the MHTML file are concerned by the selection by the
-                # Application
+            for content_raw in soup.findAll("table", class_=['3D"teststepfail"', '3D"teststepfailGeneratedCommand"']):
+                # Only the Tables of the Classes "teststepfail" or "teststepfailGeneratedCommand"  within the MHTML file
+                # are concerned by the selection made by the Application
 
                 # So, first, let's get the content of those tables and process them
                 content = content_raw.get_text()
