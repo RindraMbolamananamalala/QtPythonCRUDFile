@@ -8,6 +8,8 @@ the "BUSINESS" layer of the Project, and at the same time one of the Project's D
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+import UTILS.ENUMS.line_types_enum
+
 from BUSINESS.MODEL.DOMAIN_OBJECT.crud_file_do import CRUDFileDO
 
 
@@ -55,10 +57,10 @@ class LineToRead(CRUDFileDO):
     def get_measurement(self) -> str:
         return self.measurement
 
-    def set_type(self, type: str):
+    def set_type(self, type: UTILS.ENUMS.line_types_enum.LineTypesEnum):
         self.type = type
 
-    def get_type(self) -> str:
+    def get_type(self) -> UTILS.ENUMS.line_types_enum.LineTypesEnum:
         return self.type
 
     def set_result(self, result: str):

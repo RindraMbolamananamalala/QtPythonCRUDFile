@@ -15,6 +15,8 @@ from bs4 import BeautifulSoup
 
 from CONFIGURATIONS.logger import LOGGER
 
+from UTILS.ENUMS.line_types_enum import LineTypesEnum
+
 from BUSINESS.MODEL.DTO.file_f_dto import FileFDTO
 from BUSINESS.MODEL.DTO.file_to_read_dto import FileToReadDTO
 from BUSINESS.MODEL.DTO.file_w_dto import FileWDTO
@@ -91,6 +93,8 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
 
                     line_to_add = LineToRead()
                     line_to_add.set_name(name)
+                    # Let's remind it, it's an Open Wires' line
+                    line_to_add.set_type(LineTypesEnum.OPEN_WIRES)
                     line_to_add.set_from_pins(from_pins)
                     line_to_add.set_from_pins_comment(from_pins_comment)
                     line_to_add.set_to_pins(to_pins)
@@ -105,6 +109,8 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                     cross_pinning_line_to_add = LineToReadCrossPinning()
                     name = content_split[1]
                     cross_pinning_line_to_add.set_name(name)
+                    # Let's remind it, it's an Cross Pinning' line
+                    cross_pinning_line_to_add.set_type(LineTypesEnum.CROSS_PINNING)
 
                     """
                     Managing the Miswire sub-lines
@@ -149,6 +155,8 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
 
                     line_to_add = LineToRead()
                     line_to_add.set_name(name)
+                    # Let's remind it, it's an Extra Wires - Shorts' line
+                    line_to_add.set_type(LineTypesEnum.EXTRA_WIRES_SHORTS)
                     line_to_add.set_from_pins(from_pins)
                     line_to_add.set_from_pins_comment(from_pins_comment)
                     line_to_add.set_to_pins(to_pins)
@@ -177,4 +185,3 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
         :return: None
         """
         pass
-
