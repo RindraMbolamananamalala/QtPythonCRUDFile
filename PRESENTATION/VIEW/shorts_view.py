@@ -104,7 +104,7 @@ class ShortsView(CRUDFileView):
             # At least one error has occurred, therefore, stop the process
             LOGGER.error(
                 exception.__class__.__name__ + ": " + str(exception)
-                + ". Can't go further with the Update Process related to the Open Wires Window. "
+                + ". Can't go further with the Update Process related to the Extra Wires - Shorts Window. "
             )
             raise
 
