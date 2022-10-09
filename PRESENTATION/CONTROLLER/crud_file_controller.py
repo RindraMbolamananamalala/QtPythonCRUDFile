@@ -8,7 +8,8 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
-import UTILS.ENUMS.line_types_enum
+from PySide2.QtWidgets import *
+
 
 from CONFIGURATIONS.application_properties import get_application_property
 
@@ -19,8 +20,12 @@ from UTILS.time_utils import get_current_time, get_current_date
 
 from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
 
+from PRESENTATION.HMI.ui_Open_Wires import UI_OpenWires
+from PRESENTATION.HMI.ui_Shorts import UI_Shorts
+
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
 from PRESENTATION.VIEW.open_wires_view import OpenWiresView
+from PRESENTATION.VIEW.shorts_view import ShortsView
 
 from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
@@ -65,6 +70,23 @@ class CRUDFileController:
         level of the Presentation Layer of the Project.
         """
         return self.open_wires_view
+
+    def set_shorts_view(self, shorts_view: ShortsView):
+        """
+
+        :param open_wires_view: The Open Wires View part to be associated with the Controller part within the MVC
+        Implementation at the level of the Presentation Layer of the Project.
+        :return: None
+        """
+        self.shorts_view = shorts_view
+
+    def get_shorts_view(self) -> ShortsView:
+        """
+
+        :return: The Shorts View part associated with the Controller part within the MVC Implementation at the
+        level of the Presentation Layer of the Project.
+        """
+        return self.shorts_view
 
     def set_crud_file_as(self, crud_file_as: CRUDFileASIntf):
         """
@@ -127,15 +149,16 @@ class CRUDFileController:
         :param crud_file_as: The Application Service to be associated with the current Controller
         """
         if len(args) == 0:
-            # No specific part to be used by the Controller was provided and have to be "manually" provided be the
-            # Developer
-            pass
-        elif len(args) == 1:
-            # The (Initial) View part was provided
 
-            # Preparing the View Part (TEMPORARY, the Loading Window View should be the first VIEW to be managed by
+            # Preparing the View Parts (TEMPORARY, the Loading Window View should be the first VIEW to be managed by
             # the Controller)
-            self.set_open_wires_view(args[0])
+
+            # Shorts View
+            shorts_ui = UI_Shorts(QMainWindow())
+            self.set_shorts_view(ShortsView(shorts_ui))
+            # Open Wires View
+            open_wires_ui = UI_OpenWires(QMainWindow())
+            self.set_open_wires_view(OpenWiresView(open_wires_ui))
 
             # Initializing the Application Service
             self.set_crud_file_as(CRUDFileASImpl())
@@ -165,10 +188,11 @@ class CRUDFileController:
                     LOGGER.error(msg_error)
                     raise TypeError(msg_error)
 
-            # Initializing the Open wires View part by feeding it with the first line of the Open Wires list
+            # Initializing the Views  by feeding them with the first line of the adequate Lines list
             # TEMPORARY, should be called mor dynamically once it is possible
             # (The same process should be applied to the others View Part, with the adequate list of lines)
             self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+            self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
 
             # Initializing the File_Queue
             # self.set_file_queue([])
@@ -200,6 +224,12 @@ class CRUDFileController:
         # Writing in the Excel File the current content of the Open Wires UI when the "Confirm" button is clicked.
         self.get_open_wires_view().get_window_ui().get_button_confirm().clicked.connect(
             self.write_open_wires_information
+        )
+
+        # Writing in the Excel File the current content of the Extra Wires - Short UI when the "Confirm" button
+        # is clicked.
+        self.get_shorts_view().get_window_ui().get_button_confirm().clicked.connect(
+            self.write_shorts_information
         )
 
     def feed_main_window_combo_boxes(self):
@@ -290,8 +320,9 @@ class CRUDFileController:
     def write_open_wires_information(self):
         try:
             """
-            After clicking the Open Connections Confirm button, we write the selected information in
-            a new Excel File
+            After clicking the Open Wires window Confirm button, we write the selected information in
+            a new Excel File.
+            
             :return: None
             """
             # Getting the Open Wires window of the view
@@ -374,61 +405,60 @@ class CRUDFileController:
             raise
 
     def write_shorts_information(self):
-        """
-        After clicking the Shorts Confirm button, we write the selected information in
-        a new Excel File
-        :return: None
-        """
-        # Getting the main window of the view
-        view_window = self.get_crud_file_view().get_main_window_ui()
-        line_to_write = LineToWriteDTO()
-        line_to_write.set_uut(view_window.get_label_file_id().text())
-        line_to_write.set_f(view_window.get_combo_box_F().currentText())
-        line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
-        line_to_write.set_date(get_current_date("%d.%m.%Y"))
-        line_to_write.set_time(get_current_time("%I:%M:%S %p"))
-        line_to_write.set_wire_name(None)
-        line_to_write.set_cross_section(None)
-        line_to_write.set_color(None)
-        line_to_write.set_position_1(None)
-        line_to_write.set_cavity_1(None)
-        line_to_write.set_position_2(None)
-        line_to_write.set_cavity_2(None)
-        line_to_write.set_w(view_window.get_combo_box_shorts_W().currentText())
-        line_to_write.set_comments(view_window.get_text_shorts_comments().toPlainText())
+        try:
+            """
+            After clicking the Extra Wires - Shorts Confirm button, we write the selected information in
+            a new Excel File.
+            
+            :return: None
+            """
+            # Getting the Shorts window of the view
+            shorts_view_window_ui = self.get_shorts_view().get_window_ui()
 
-        # Actual writing
-        self.get_crud_file_as().write_modified_line(
-            get_application_property("folder_modified_lines_path")
-            , line_to_write
-        )
+            # Preparing the data that still needs pre-processing
+            fixed_string_part_1 = shorts_view_window_ui.get_label_fixed_strings().text().split(" - ")[0]
+            equipment_name = shorts_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
+            from_pins_info = shorts_view_window_ui.get_label_left_part().toolTip().split("->")[0]
+            from_pins = from_pins_info.split("[")[0]
+            pos_1 = from_pins.split(".")[0]
+            cav_1 = from_pins.split(".")[1]
+            from_pins_comment = from_pins_info.split("[")[1].replace("]", "")
+            to_pins_info = shorts_view_window_ui.get_label_left_part().toolTip().split("->")[1]
+            to_pins = to_pins_info.split("[")[0]
+            pos_2 = to_pins.split(".")[0]
+            cav_2 = to_pins.split(".")[1]
+            to_pins_comment = to_pins_info.split("[")[1].replace("]", "")
+            defect_code = shorts_view_window_ui.get_combobox_fed_by_excel_sheet().currentText()
 
-        """
-        Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
-        Line 
-        """
+            # Now, let's prepare the line to write
+            line_to_write = LineToWriteDTO()
+            line_to_write.set_uut(shorts_view_window_ui.get_label_uut().text())
+            line_to_write.set_fixed_string_part_1(fixed_string_part_1)
+            line_to_write.set_equipment_name(equipment_name)
+            line_to_write.set_date(get_current_date("%d.%m.%Y"))
+            line_to_write.set_time(get_current_time("%I:%M:%S %p"))
+            line_to_write.set_wire_name(None)
+            line_to_write.set_cross_section(None)
+            line_to_write.set_color(None)
+            line_to_write.set_position_1(pos_1)
+            line_to_write.set_cavity_1(cav_1)
+            line_to_write.set_position_2(pos_2)
+            line_to_write.set_cavity_2(cav_2)
+            line_to_write.set_w(defect_code)
+            line_to_write.set_comments(shorts_view_window_ui.get_text_comments().toPlainText())
 
-        # First, let's identify which Line is the concerned one
-        line_to_remove_item = view_window.get_list_shorts_name().currentItem().toolTip()
-        line_to_remove = next((x for x in self.get_current_file().get_lines_to_read()
-                               # Let's remind it that the item's tooltip corresponds to the Line's Item number
-                               if str(x.get_item()) == line_to_remove_item)
-                              , None)
-
-        # After the identification, the actual removal process
-        self.remove_confirmed_item(line_to_remove)
-        LOGGER.info(
-            "The following line has been successfully removed from the Current File's list: "
-            + str(line_to_remove)
-        )
-
-        """
-        Once the Removal process successfully achieved, we need to check the state of the Controller's Current File 
-        Lines.
-        If there are no more lines (all of them have been modified), we load another file from the File Event Handler's
-        Queue.
-        """
-        self.check_current_file_lines()
+            # Actual writing
+            self.get_crud_file_as().write_modified_line(
+                get_application_property("folder_modified_lines_path")
+                , line_to_write
+            )
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
 
     def write_additional_information(self):
         """
