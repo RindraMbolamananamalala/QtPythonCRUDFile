@@ -19,9 +19,9 @@ class AdditionalInformationView(CRUDFileView):
     def set_window_ui(self, window_ui: UI_AdditionalInformationWindow):
         """
         Even though the setter/getter are already initialized at the level of the Superclass, it's better and convenient
-        to always precise the type of Window UI to be managed by the current View: UI_Shorts.
+        to always precise the type of Window UI to be managed by the current View: UI_AdditionalInformationWindow.
 
-        :param window_ui: The UI_OpenWires to be managed by the Current View.
+        :param window_ui: The UI_AdditionalInformationWindow to be managed by the Current View.
         :return: None
         """
         self.window_ui = window_ui
@@ -29,7 +29,7 @@ class AdditionalInformationView(CRUDFileView):
     def get_window_ui(self) -> UI_AdditionalInformationWindow:
         """
         Even though the setter/getter are already initialized at the level of the Superclass, it's better and convenient
-        to always precise the type of Window UI to be managed by the current View: UI_Shorts.
+        to always precise the type of Window UI to be managed by the current View: UI_AdditionalInformationWindow.
 
         :return: The window UI managed by the Current View.
         """

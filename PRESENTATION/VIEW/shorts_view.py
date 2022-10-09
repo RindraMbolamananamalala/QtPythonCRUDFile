@@ -61,7 +61,7 @@ class ShortsView(CRUDFileView):
         Even though the setter/getter are already initialized at the level of the Superclass, it's better and convenient
         to always precise the type of Window UI to be managed by the current View: UI_Shorts.
 
-        :param window_ui: The UI_OpenWires to be managed by the Current View.
+        :param window_ui: The UI_Shorts to be managed by the Current View.
         :return: None
         """
         self.window_ui = window_ui
