@@ -18,6 +18,9 @@ from PRESENTATION.HMI.ui_Treatment_Window import Ui_TreatmentWindow
 
 class UI_AdditionalInformationWindow(Ui_TreatmentWindow):
 
+    def get_button_done(self) -> QPushButton:
+        return self.button_done
+
     def __init__(self, main_window: QMainWindow):
         """
 

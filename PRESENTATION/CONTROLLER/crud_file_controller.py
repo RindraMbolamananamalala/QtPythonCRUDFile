@@ -22,10 +22,12 @@ from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
 
 from PRESENTATION.HMI.ui_Open_Wires import UI_OpenWires
 from PRESENTATION.HMI.ui_Shorts import UI_Shorts
+from PRESENTATION.HMI.ui_Additional_Information_Window import UI_AdditionalInformationWindow
 
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
 from PRESENTATION.VIEW.open_wires_view import OpenWiresView
 from PRESENTATION.VIEW.shorts_view import ShortsView
+from PRESENTATION.VIEW.additional_information_view import AdditionalInformationView
 
 from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
@@ -87,6 +89,23 @@ class CRUDFileController:
         level of the Presentation Layer of the Project.
         """
         return self.shorts_view
+
+    def set_additional_information_view(self, additional_information_view: AdditionalInformationView):
+        """
+
+        :param additional_information_view: The Additional Information View part to be associated with the Controller
+        part within the MVC Implementation at the level of the Presentation Layer of the Project.
+        :return: None
+        """
+        self.additional_information_view = additional_information_view
+
+    def get_additional_information_view(self) -> AdditionalInformationView:
+        """
+
+        :return: The Shorts View part associated with the Controller part within the MVC Implementation at the
+        level of the Presentation Layer of the Project.
+        """
+        return self.additional_information_view
 
     def set_crud_file_as(self, crud_file_as: CRUDFileASIntf):
         """
@@ -153,12 +172,15 @@ class CRUDFileController:
             # Preparing the View Parts (TEMPORARY, the Loading Window View should be the first VIEW to be managed by
             # the Controller)
 
-            # Shorts View
-            shorts_ui = UI_Shorts(QMainWindow())
-            self.set_shorts_view(ShortsView(shorts_ui))
             # Open Wires View
             open_wires_ui = UI_OpenWires(QMainWindow())
             self.set_open_wires_view(OpenWiresView(open_wires_ui))
+            # Shorts View
+            shorts_ui = UI_Shorts(QMainWindow())
+            self.set_shorts_view(ShortsView(shorts_ui))
+            # Additional Information View
+            additional_information_view = UI_AdditionalInformationWindow(QMainWindow())
+            self.set_additional_information_view(AdditionalInformationView(additional_information_view))
 
             # Initializing the Application Service
             self.set_crud_file_as(CRUDFileASImpl())
@@ -230,6 +252,18 @@ class CRUDFileController:
         # is clicked.
         self.get_shorts_view().get_window_ui().get_button_confirm().clicked.connect(
             self.write_shorts_information
+        )
+
+        # Writing in the Excel File the current content of the Additional Information and then just stay there
+        # when the "Confirm" button is clicked.
+        self.get_additional_information_view().get_window_ui().get_button_confirm().clicked.connect(
+            self.write_additional_information
+        )
+
+        # Writing in the Excel File the current content of the Additional Information and then go back to the loading
+        # Window when the "Done" button is clicked.
+        self.get_additional_information_view().get_window_ui().get_button_done().clicked.connect(
+            self.write_additional_information_after_done
         )
 
     def feed_main_window_combo_boxes(self):
@@ -461,43 +495,72 @@ class CRUDFileController:
             raise
 
     def write_additional_information(self):
+        try:
+            """
+            After clicking the Additional Information Window's Confirm button, we write the selected information in
+            a new Excel File.
+
+            :return: None
+            """
+            # Getting the Shorts window of the view
+            additional_information_view_window_ui = self.get_additional_information_view().get_window_ui()
+
+            # Preparing the data that still needs pre-processing
+            fixed_string_part_1 = additional_information_view_window_ui.get_label_fixed_strings().text().split(" - ")[0]
+            equipment_name = additional_information_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
+            defect_code = additional_information_view_window_ui.get_combobox_fed_by_excel_sheet().currentText()
+
+            # Now, let's prepare the line to write
+            line_to_write = LineToWriteDTO()
+            line_to_write.set_uut(additional_information_view_window_ui.get_label_uut().text())
+            line_to_write.set_fixed_string_part_1(fixed_string_part_1)
+            line_to_write.set_equipment_name(equipment_name)
+            line_to_write.set_date(get_current_date("%d.%m.%Y"))
+            line_to_write.set_time(get_current_time("%I:%M:%S %p"))
+            line_to_write.set_wire_name(None)
+            line_to_write.set_cross_section(None)
+            line_to_write.set_color(None)
+            line_to_write.set_position_1(None)
+            line_to_write.set_cavity_1(None)
+            line_to_write.set_position_2(None)
+            line_to_write.set_cavity_2(None)
+            line_to_write.set_w(defect_code)
+            line_to_write.set_comments(additional_information_view_window_ui.get_text_comments().toPlainText())
+
+            # Actual writing
+            self.get_crud_file_as().write_modified_line(
+                get_application_property("folder_modified_lines_path")
+                , line_to_write
+            )
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
+
+    def write_additional_information_after_done(self):
         """
-        After clicking the Additional Information's Confirm button, we write the selected information in
-        a new Excel File
+        After clicking the Additional Information Window's Done button, we write the selected information in
+        a new Excel File and leave the Window (redirection to the Loading Window).
+
         :return: None
         """
-        # Getting the main window of the view
-        view_window = self.get_crud_file_view().get_main_window_ui()
+        try:
+            # First, just write
+            self.write_additional_information()
 
-        # Getting the additional information window of the view
-        additional_information_window = view_window.get_additional_information_window()
-
-        line_to_write = LineToWriteDTO()
-        line_to_write.set_uut(view_window.get_label_file_id().text())
-        line_to_write.set_f(view_window.get_combo_box_F().currentText())
-        line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
-        line_to_write.set_date(get_current_date("%d.%m.%Y"))
-        line_to_write.set_time(get_current_time("%I:%M:%S %p"))
-        line_to_write.set_wire_name(None)
-        line_to_write.set_cross_section(None)
-        line_to_write.set_color(None)
-        line_to_write.set_position_1(None)
-        line_to_write.set_cavity_1(None)
-        line_to_write.set_position_2(None)
-        line_to_write.set_cavity_2(None)
-        line_to_write.set_w(additional_information_window.get_combo_box_additional_information_w().currentText())
-        line_to_write.set_comments(additional_information_window.get_text_additional_information_comments()
-                                   .toPlainText())
-
-        # Actual writing
-        self.get_crud_file_as().write_modified_line(
-            get_application_property("folder_modified_lines_path")
-            , line_to_write
-        )
-
-        # Clearing the Comments Text area after the Writing process
-        self.get_crud_file_view().get_main_window_ui()\
-            .get_additional_information_window().get_text_additional_information_comments().clear()
+            # And then, go back to the Loading Window
+            # TEMPORARY, we'lle work on it SERIOUSLY once the Cross Pinning managed
+            print("ADDITIONAL INFORMATION DONE")
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
 
     def remove_confirmed_item(self, line_to_remove: LineToRead):
         """

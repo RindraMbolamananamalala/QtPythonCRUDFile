@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     controller = CRUDFileController()
 
-    controller.get_open_wires_view().get_window_ui().get_main_window().show()
+    controller.get_additional_information_view().get_window_ui().get_main_window().show()
 
     # main_window = QMainWindow()
     # window = Ui_MainWindow(main_window)
