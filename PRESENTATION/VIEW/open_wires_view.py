@@ -103,7 +103,7 @@ class OpenWiresView(CRUDFileView):
         """
         Updating the current content of the Open Wires Window from a given Line of information.
 
-        :param line_to_display: The line the information of which are tobe displayed on the Open Wires Window
+        :param line_to_display: The line the information of which are to be displayed on the Open Wires Window
         :return:  None
         """
         try:
