@@ -6,6 +6,8 @@ implemented within the "BUSINESS" layer of the Project, and at the same time one
 This DO is a child class of the Model:LineToRead DO, but instead of just one object dedicated to each of the 2 Pins
 ("From" and "To"), it stores those information within List Data Structures (because several information related to those
  Pins are to now be managed, and then stored).
+ Also, this DO contains a property name "Splices List", dedicated to the list of Splices contained within a Cross
+ Pinning line.
 """
 
 __author__ = "Rindra Mbolamananamalala"
@@ -76,6 +78,21 @@ class LineToReadCrossPinning(LineToRead):
         """
         return self.to_pins_comment
 
+    def set_splices_list(self, splices_list: list):
+        """
+
+        :param splices_list: The list managing the "splices" within the current line
+        :return:
+        """
+        self.splices_list = splices_list
+
+    def get_splices_list(self) -> list:
+        """
+
+        :return: The list managing the "splices" within the current line
+        """
+        return self.splices_list
+
     def __init__(self):
         # First, let's initialize the Object according to the default behaviors and Data of its Superclass
         super(LineToReadCrossPinning, self).__init__()
@@ -85,3 +102,4 @@ class LineToReadCrossPinning(LineToRead):
         self.set_from_pins_comment([])
         self.set_to_pins([])
         self.set_to_pins_comment([])
+        self.set_splices_list([])

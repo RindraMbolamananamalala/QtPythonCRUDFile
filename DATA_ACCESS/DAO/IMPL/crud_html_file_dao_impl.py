@@ -143,6 +143,9 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                     from_pins_comment_1 = content_split[3]
                     to_pins_1 = content_split[4]
                     to_pins_comment_1 = content_split[5]
+                    if re.search(":Z", content_split[6]):
+                        # The current sub-line contains information on Splices, therefore, let's take them into account
+                        cross_pinning_line_to_add.set_splices_list(content_split[6].split(", "))
 
                     cross_pinning_line_to_add.get_from_pins().append(from_pins_1)
                     cross_pinning_line_to_add.get_from_pins_comment().append(from_pins_comment_1)
