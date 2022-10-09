@@ -16,6 +16,16 @@ from PRESENTATION.HMI.ui_Treatment_Window import Ui_TreatmentWindow
 
 
 class UI_CrossPinning(Ui_TreatmentWindow):
+
+    def get_label_left_part(self) -> QLabel:
+        return self.label_left_part
+
+    def get_label_middle_part(self) -> QLabel:
+        return self.label_middle_part
+
+    def get_label_right_part(self) -> QLabel:
+        return self.label_right_part
+
     def __init__(self, main_window: QMainWindow):
         """
 

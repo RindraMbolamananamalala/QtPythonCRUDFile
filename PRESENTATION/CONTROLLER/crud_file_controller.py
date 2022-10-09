@@ -20,11 +20,13 @@ from UTILS.time_utils import get_current_time, get_current_date
 
 from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
 
+from PRESENTATION.HMI.ui_Cross_Pinning import UI_CrossPinning
 from PRESENTATION.HMI.ui_Open_Wires import UI_OpenWires
 from PRESENTATION.HMI.ui_Shorts import UI_Shorts
 from PRESENTATION.HMI.ui_Additional_Information_Window import UI_AdditionalInformationWindow
 
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
+from PRESENTATION.VIEW.cross_pinning_view import CrossPinningView
 from PRESENTATION.VIEW.open_wires_view import OpenWiresView
 from PRESENTATION.VIEW.shorts_view import ShortsView
 from PRESENTATION.VIEW.additional_information_view import AdditionalInformationView
@@ -55,6 +57,23 @@ class CRUDFileController:
         :return: None
         """
         return self.crud_file_view
+
+    def set_cross_pinning_view(self, cross_pinning_view: CrossPinningView):
+        """
+
+        :param cross_pinning_view: The Cross Pinning View part to be associated with the Controller part within the MVC
+        Implementation at the level of the Presentation Layer of the Project.
+        :return: None
+        """
+        self.cross_pinning_view = cross_pinning_view
+
+    def get_cross_pinning_view(self) -> CrossPinningView:
+        """
+
+        :return: The Cross Pinning View part associated with the Controller part within the MVC Implementation at the
+        level of the Presentation Layer of the Project.
+        """
+        return self.cross_pinning_view
 
     def set_open_wires_view(self, open_wires_view: OpenWiresView):
         """
@@ -172,6 +191,9 @@ class CRUDFileController:
             # Preparing the View Parts (TEMPORARY, the Loading Window View should be the first VIEW to be managed by
             # the Controller)
 
+            # Cross Pinning View
+            cross_pinning_ui = UI_CrossPinning(QMainWindow())
+            self.set_cross_pinning_view(CrossPinningView(cross_pinning_ui))
             # Open Wires View
             open_wires_ui = UI_OpenWires(QMainWindow())
             self.set_open_wires_view(OpenWiresView(open_wires_ui))
@@ -193,7 +215,7 @@ class CRUDFileController:
 
             # Retrieving all the lines from the current MHTML file and then dispatch them to the adequate list
             # VERY TEMPORARY; will be managed with a dynamic way once it is possible
-            current_mhtml_path = "E:\\Upwork\\MdToriqul\\Project\\wAnalysisOfMHTMLFiles\\reports\\Test Protocol.mhtml"
+            current_mhtml_path = "E:\\Upwork\\MdToriqul\\Project\\wAnalysisOfMHTMLFiles\\reports\\Test Protocol3.mhtml"
             for line in self.get_crud_file_as().read_test_report_file(current_mhtml_path).get_lines_to_read():
                 if line.get_type() == LineTypesEnum.CROSS_PINNING:
                     # Case of a Cross Pinning-related Line
@@ -213,8 +235,12 @@ class CRUDFileController:
             # Initializing the Views  by feeding them with the first line of the adequate Lines list
             # TEMPORARY, should be called mor dynamically once it is possible
             # (The same process should be applied to the others View Part, with the adequate list of lines)
-            self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
-            self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
+            if self.get_list_lines_cross_pinning():
+                self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
+            if self.get_list_lines_open_wires():
+                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+            if self.get_list_lines_shorts():
+                self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
 
             # Initializing the File_Queue
             # self.set_file_queue([])
