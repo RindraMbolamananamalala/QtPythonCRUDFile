@@ -25,11 +25,17 @@ class LineToWriteDTO(CRUDFileDTO):
     def get_f(self) -> str:
         return self.f
 
-    def set_fixed_string(self, fixed_string: str):
-        self.fixed_string = fixed_string
+    def set_equipment_name(self, equipment_name: str):
+        self.equipment_name = equipment_name
 
-    def get_fixed_string(self) -> str:
-        return self.fixed_string
+    def get_equipment_name(self) -> str:
+        return self.equipment_name
+
+    def set_fixed_string_part_1(self, fixed_string_part_1: str):
+        self.fixed_string_part_1 = fixed_string_part_1
+
+    def get_fixed_string_part_1(self) -> str:
+        return self.fixed_string_part_1
 
     def set_date(self, date: str):
         self.date = date
@@ -107,7 +113,7 @@ class LineToWriteDTO(CRUDFileDTO):
         # Initializing all properties with default values
         self.set_uut(None)
         self.set_f(None)
-        self.set_fixed_string(None)
+        self.set_equipment_name(None)
         self.set_date(None)
         self.set_time(None)
         self.set_wire_name(None)

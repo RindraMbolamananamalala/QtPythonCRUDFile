@@ -24,9 +24,32 @@ from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read_cross_pinning import LineToReadCrossPinning
 from DATA_ACCESS.DAO.INTF.crud_file_dao_intf import CRUDFileDAOIntf
+from DATA_ACCESS.DAO.IMPL.crud_file_dao_impl import CRUDFileDAOImpl
 
 
 class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
+
+    def set_crud_file_dao(self, crud_file_dao: CRUDFileDAOImpl) -> None:
+        """
+
+        :param crud_file_dao: The CRUD File DAO to be used by the Current DAO when the time of writing within an
+        Excel File will come.
+        :return: None
+        """
+        self.crud_file_dao = crud_file_dao
+
+    def get_crud_file_dao(self) -> CRUDFileDAOImpl:
+        """
+
+        :return: The CRUD File DAO used by the Current DAO when the time of writing within an Excel File will come.
+        """
+        return self.crud_file_dao
+
+    def __init__(self):
+        # Initializing the CRUD File DAO to be used by the Current DAO when the time of writing within an Excel File
+        # will come.
+        self.set_crud_file_dao(CRUDFileDAOImpl())
+
     def get_file_f(self, file_path: str) -> FileFDTO:
         """
         (We're still going to use that of the DATA_ACCESS.DAO.INTF.crud_file_dao_impl.CRUDFileDAOImpl when this
@@ -177,11 +200,20 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
 
     def write_line(self, file_path: str, line_to_add: LineToWriteDTO):
         """
-        (We're still going to use that of the DATA_ACCESS.DAO.INTF.crud_file_dao_impl.CRUDFileDAOImpl when this
-        Function is needed), so, just "pass" here.
+        Since we still have to write the lines inside an Excel File, we are going to use that of the
+        DATA_ACCESS.DAO.INTF.crud_file_dao_impl.CRUDFileDAOImpl.
+        Therefore, we're going to just call this ready-to-use "write_line" function here.
 
         :param file_path: the file Path of Excel file where the line_to_add will be written
         :param line_to_add: The Line to be written
         :return: None
         """
-        pass
+        try:
+            self.crud_file_dao.write_line(file_path, line_to_add)
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise

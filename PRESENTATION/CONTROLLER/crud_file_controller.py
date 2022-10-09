@@ -8,16 +8,19 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+import UTILS.ENUMS.line_types_enum
+
 from CONFIGURATIONS.application_properties import get_application_property
 
 from CONFIGURATIONS.logger import LOGGER
 
-
+from UTILS.ENUMS.line_types_enum import LineTypesEnum
 from UTILS.time_utils import get_current_time, get_current_date
+
 from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
 
-
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
+from PRESENTATION.VIEW.open_wires_view import OpenWiresView
 
 from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
@@ -46,10 +49,36 @@ class CRUDFileController:
         """
         return self.crud_file_view
 
+    def set_open_wires_view(self, open_wires_view: OpenWiresView):
+        """
+
+        :param open_wires_view: The Open Wires View part to be associated with the Controller part within the MVC
+        Implementation at the level of the Presentation Layer of the Project.
+        :return: None
+        """
+        self.open_wires_view = open_wires_view
+
+    def get_open_wires_view(self) -> OpenWiresView:
+        """
+
+        :return: The Open Wires View part associated with the Controller part within the MVC Implementation at the
+        level of the Presentation Layer of the Project.
+        """
+        return self.open_wires_view
+
     def set_crud_file_as(self, crud_file_as: CRUDFileASIntf):
+        """
+
+        :param crud_file_as: The CRUD File Application Service to be used by the current Controller
+        :return:
+        """
         self.crud_file_as = crud_file_as
 
     def get_crud_file_as(self) -> CRUDFileASIntf:
+        """
+
+        :return: The CRUD File Application Service used by the current Controller
+        """
         return self.crud_file_as
 
     def set_file_queue(self, file_queue: list):
@@ -73,6 +102,24 @@ class CRUDFileController:
     def get_current_file(self) -> FileToRead:
         return self.current_file
 
+    def set_list_lines_cross_pinning(self, list_lines_cross_pinning: list):
+        self.list_lines_cross_pinning = list_lines_cross_pinning
+
+    def get_list_lines_cross_pinning(self) -> list:
+        return self.list_lines_cross_pinning
+
+    def set_list_lines_open_wires(self, list_lines_open_wires: list):
+        self.list_lines_open_wires = list_lines_open_wires
+
+    def get_list_lines_open_wires(self) -> list:
+        return self.list_lines_open_wires
+
+    def set_list_lines_shorts(self, list_lines_shorts: list):
+        self.list_lines_shorts = list_lines_shorts
+
+    def get_list_lines_shorts(self) -> list:
+        return self.list_lines_shorts
+
     def __init__(self, *args):
         """
 
@@ -84,19 +131,50 @@ class CRUDFileController:
             # Developer
             pass
         elif len(args) == 1:
-            # The View part was provided
+            # The (Initial) View part was provided
 
-            # Preparing the View Part
-            self.set_crud_file_view(args[0])
+            # Preparing the View Part (TEMPORARY, the Loading Window View should be the first VIEW to be managed by
+            # the Controller)
+            self.set_open_wires_view(args[0])
 
             # Initializing the Application Service
             self.set_crud_file_as(CRUDFileASImpl())
 
+            # Initializing all the lists of lines, acknowledging that each of them corresponds to a specific type of
+            # lines
+            self.set_list_lines_cross_pinning([])
+            self.set_list_lines_open_wires([])
+            self.set_list_lines_shorts([])
+
+            # Retrieving all the lines from the current MHTML file and then dispatch them to the adequate list
+            # VERY TEMPORARY; will be managed with a dynamic way once it is possible
+            current_mhtml_path = "E:\\Upwork\\MdToriqul\\Project\\wAnalysisOfMHTMLFiles\\reports\\Test Protocol.mhtml"
+            for line in self.get_crud_file_as().read_test_report_file(current_mhtml_path).get_lines_to_read():
+                if line.get_type() == LineTypesEnum.CROSS_PINNING:
+                    # Case of a Cross Pinning-related Line
+                    self.get_list_lines_cross_pinning().append(line)
+                elif line.get_type() == LineTypesEnum.OPEN_WIRES:
+                    # Case of a Open Wires-related Line
+                    self.get_list_lines_open_wires().append(line)
+                elif line.get_type() == LineTypesEnum.EXTRA_WIRES_SHORTS:
+                    # Case of a Extra Wires - Shorts-related Line
+                    self.get_list_lines_shorts().append(line)
+                else:
+                    # Unknown type of line
+                    msg_error = "An unknown type of line was detected while treating : " + "\"" + str(line) + "\""
+                    LOGGER.error(msg_error)
+                    raise TypeError(msg_error)
+
+            # Initializing the Open wires View part by feeding it with the first line of the Open Wires list
+            # TEMPORARY, should be called mor dynamically once it is possible
+            # (The same process should be applied to the others View Part, with the adequate list of lines)
+            self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+
             # Initializing the File_Queue
-            self.set_file_queue([])
+            # self.set_file_queue([])
 
             # Feeding the Combo Boxes of the Main Window
-            self.feed_main_window_combo_boxes()
+            # self.feed_main_window_combo_boxes()
 
             # Managing the events
             self.manage_events()
@@ -113,20 +191,16 @@ class CRUDFileController:
             raise exception
 
     def manage_events(self):
-        # When the "Confirm" button of the GUI Open Connections part is clicked, we write the selected
-        # information in a new Excel File
-        self.get_crud_file_view().get_main_window_ui().get_button_open_connections_confirm() \
-            .clicked.connect(self.write_open_connections_information)
+        """
+        Associating actions with Event(s) at the level of different Components
 
-        # When the "Confirm" button of the GUI Shorts part is clicked, we write the selected
-        # information in a new Excel File
-        self.get_crud_file_view().get_main_window_ui().get_button_shorts_confirm() \
-            .clicked.connect(self.write_shorts_information)
+        :return: None
+        """
 
-        # When the "Confirm" button of the GUI Additional Information Window is clicked, we write the selected
-        # information in a new Excel File
-        self.get_crud_file_view().get_main_window_ui().get_additional_information_window() \
-            .get_button_additional_information_confirm().clicked.connect(self.write_additional_information)
+        # Writing in the Excel File the current content of the Open Wires UI when the "Confirm" button is clicked.
+        self.get_open_wires_view().get_window_ui().get_button_confirm().clicked.connect(
+            self.write_open_wires_information
+        )
 
     def feed_main_window_combo_boxes(self):
         """
@@ -212,6 +286,92 @@ class CRUDFileController:
         Queue.
         """
         self.check_current_file_lines()
+
+    def write_open_wires_information(self):
+        try:
+            """
+            After clicking the Open Connections Confirm button, we write the selected information in
+            a new Excel File
+            :return: None
+            """
+            # Getting the Open Wires window of the view
+            open_wires_view_window_ui = self.get_open_wires_view().get_window_ui()
+
+            # Preparing the data that still needs pre-processing
+            fixed_string_part_1 = open_wires_view_window_ui.get_label_fixed_strings().text().split(" - ")[0]
+            equipment_name = open_wires_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
+            wire_name = open_wires_view_window_ui.get_label_right_part().text().split("/")[0]
+            cross_section = open_wires_view_window_ui.get_label_right_part().text().split("/")[1]
+            color = open_wires_view_window_ui.get_label_middle_part().text()
+            from_pins_info = open_wires_view_window_ui.get_label_left_part().toolTip().split("->")[0]
+            from_pins = from_pins_info.split("[")[0]
+            pos_1 = from_pins.split(".")[0]
+            cav_1 = from_pins.split(".")[1]
+            from_pins_comment = from_pins_info.split("[")[1].replace("]", "")
+            to_pins_info = open_wires_view_window_ui.get_label_left_part().toolTip().split("->")[1]
+            to_pins = to_pins_info.split("[")[0]
+            pos_2 = to_pins.split(".")[0]
+            cav_2 = to_pins.split(".")[1]
+            to_pins_comment = to_pins_info.split("[")[1].replace("]", "")
+            defect_code = open_wires_view_window_ui.get_combobox_fed_by_excel_sheet().currentText()
+
+            # Now, let's prepare the line to write
+            line_to_write = LineToWriteDTO()
+            line_to_write.set_uut(open_wires_view_window_ui.get_label_uut().text())
+            line_to_write.set_fixed_string_part_1(fixed_string_part_1)
+            line_to_write.set_equipment_name(equipment_name)
+            line_to_write.set_date(get_current_date("%d.%m.%Y"))
+            line_to_write.set_time(get_current_time("%I:%M:%S %p"))
+            line_to_write.set_wire_name(wire_name)
+            line_to_write.set_cross_section(cross_section)
+            line_to_write.set_color(color)
+            line_to_write.set_position_1(pos_1)
+            line_to_write.set_cavity_1(cav_1)
+            line_to_write.set_position_2(pos_2)
+            line_to_write.set_cavity_2(cav_2)
+            line_to_write.set_w(defect_code)
+            line_to_write.set_comments(open_wires_view_window_ui.get_text_comments().toPlainText())
+
+            # Actual writing
+            self.get_crud_file_as().write_modified_line(
+                get_application_property("folder_modified_lines_path")
+                , line_to_write
+            )
+
+            # TEMPORARY COMMENTED, will be seriously reviewed once it is possible
+            """
+            Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
+            Line
+            """
+
+            # First, let's identify which Line is the concerned one
+            # line_to_remove_item = view_window.get_list_open_connections_name().currentItem().toolTip()
+            # line_to_remove = next((x for x in self.get_current_file().get_lines_to_read()
+            #                        # Let's remind it that the item's tooltip corresponds to the Line's Item number
+            #                        if str(x.get_item()) == line_to_remove_item)
+            #                       , None)
+            #
+            # # After the identification, the actual removal process
+            # self.remove_confirmed_item(line_to_remove)
+            # LOGGER.info(
+            #     "The following line has been successfully removed from the Current File's list: "
+            #     + str(line_to_remove)
+            # )
+
+            """
+            Once the Removal process successfully achieved, we need to check the state of the Controller's Current File
+            Lines.
+            If there are no more lines (all of them have been modified), we load another file from the File Event 
+            Handler's Queue.
+            """
+            # self.check_current_file_lines()
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
 
     def write_shorts_information(self):
         """
@@ -343,7 +503,7 @@ class CRUDFileController:
             # Loading a new file is only possible when the File Handler's queue still contains File
             file_retrieved = self \
                 .get_crud_file_as().read_test_report_file(
-                    file_handler_queue.pop(0)
+                file_handler_queue.pop(0)
             )
 
             self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
@@ -366,8 +526,8 @@ class CRUDFileController:
         line_to_be_removed = []
         for line in self.get_current_file().get_lines_to_read():
             if line.get_type().upper() not in ["TESTSWITCH", "TESTCONNECTION"
-                                                , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
-                                                , "TESTBUSCONNECTORGROUPDETECTION", "ISOLATIONTEST"]:
+                , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
+                , "TESTBUSCONNECTORGROUPDETECTION", "ISOLATIONTEST"]:
                 # Just list the lines that are supposed to be ignored
                 line_to_be_removed.append(line)
 

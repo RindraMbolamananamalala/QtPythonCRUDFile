@@ -11,6 +11,7 @@ from PRESENTATION.HMI.ui_Shorts import UI_Shorts
 from PRESENTATION.HMI.ui_Additional_Information_Window import UI_AdditionalInformationWindow
 from PRESENTATION.HMI.ui_Loading_Window import Ui_window_loading
 from PRESENTATION.VIEW.crud_file_view import CRUDFileView
+from PRESENTATION.VIEW.open_wires_view import OpenWiresView
 from PRESENTATION.CONTROLLER.crud_file_controller import CRUDFileController
 from PRESENTATION.CONTROLLER.crud_file_event_handler import CRUDFileEventHandler
 
@@ -19,9 +20,13 @@ if __name__ == '__main__':
     application = QApplication(sys.argv)
 
     main_window = QMainWindow()
+    window = UI_OpenWires(main_window)
 
-    window = UI_CrossPinning(main_window)
-    window.get_main_window().show()
+    view = OpenWiresView(window)
+
+    controller = CRUDFileController(view)
+
+    controller.get_open_wires_view().get_window_ui().get_main_window().show()
 
     # main_window = QMainWindow()
     # window = Ui_MainWindow(main_window)

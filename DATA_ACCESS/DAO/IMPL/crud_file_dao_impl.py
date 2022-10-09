@@ -125,8 +125,8 @@ class CRUDFileDAOImpl(CRUDFileDAOIntf):
         # Preparing the line
         line_to_write = pd.DataFrame([
             line_to_add.get_uut()
-            , line_to_add.get_fixed_string()
-            , line_to_add.get_f()
+            , line_to_add.get_fixed_string_part_1()
+            , line_to_add.get_equipment_name()
             , line_to_add.get_date()
             , line_to_add.get_time()
             , line_to_add.get_wire_name()
@@ -154,7 +154,7 @@ class CRUDFileDAOImpl(CRUDFileDAOIntf):
         else:
             # The File where where we will write doesn't exist yet, so we need to create it first
             writer = pd.ExcelWriter(file_path, mode="w", engine='xlsxwriter')
-            line_to_write.to_excel(writer, index=False, header=["Order number", "Equipment name", "Production team"
+            line_to_write.to_excel(writer, index=False, header=["Order number", "<Fixed Sring Part 1>", "Equipment name"
                                                                 , "Date", "Time", "Wire name", "Cross section"
                                                                 , "Color", "Pos1", "Cav1"
                                                                 , "Pos2", "Cav2", "Defect code"

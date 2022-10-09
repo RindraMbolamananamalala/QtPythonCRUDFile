@@ -37,6 +37,41 @@ class Ui_TreatmentWindow(object):
         """
         return self.main_window
 
+    def get_combobox_fed_by_excel_sheet(self) -> QComboBox:
+        """
+
+        :return: The combobox fed by excel sheet present on the Current Treatment Window.
+        """
+        return self.combobox_fed_by_excel_sheet
+
+    def get_text_comments(self) -> QPlainTextEdit:
+        """
+
+        :return: The Text Area dedicated to the Comments present on the Current Treatment Window.
+        """
+        return self.text_comments
+
+    def get_button_confirm(self) -> QPushButton:
+        """
+
+        :return: The Confirm Button present on the Current Treatment Window.
+        """
+        return self.button_confirm
+
+    def get_label_uut(self) -> QLabel:
+        """
+
+        :return: The UUT Label present on the Current Treatment Window.
+        """
+        return self.label_uut
+
+    def get_label_fixed_strings(self) -> QLabel:
+        """
+
+        :return: The label dedicated to the combination of the two fixed Strings
+        """
+        return self.label_fixed_strings
+
     def __init__(self, main_window):
         """
         Setting up the UI.
