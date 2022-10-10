@@ -73,29 +73,29 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
     def read_file(self, file_path: str) -> FileToReadDTO:
         """
 
-        :param file_path: the file Path of the Test Report MHTML File
-        :return: The structured content (FileToReadDTO) of the Test Report MHTML File represented by its Path
+        :param file_path: the file Path of the Test Report HTML File
+        :return: The structured content (FileToReadDTO) of the Test Report HTML File represented by its Path
         "file_path"
         """
         try:
             # Initializing the File to be returned later
             file_to_return = FileToReadDTO()
 
-            # First of all, let's access to the MHTML file
+            # First of all, let's access to the HTML file
             with open(file_path) as file_to_read:
                 soup = BeautifulSoup(file_to_read, "html.parser")
 
             # Getting the File's UUT (we're going to retrieve the UUT now, but if needed, all the others properties
             # could be easily retrieved)
-            table_header = soup.find("table", class_='3D"header"')
+            table_header = soup.find("table", class_="header")
             table_header_content = table_header.get_text()
             uut = table_header_content.split("UUT\n")[1].split("\n")[0]
             file_to_return.set_uut(uut)
 
             # Now, it's time to manage the Lines to return
             lines_to_return = []
-            for content_raw in soup.findAll("table", class_=['3D"teststepfail"', '3D"teststepfailGeneratedCommand"']):
-                # Only the Tables of the Classes "teststepfail" or "teststepfailGeneratedCommand"  within the MHTML file
+            for content_raw in soup.findAll("table", class_=["teststepfail", "teststepfailGeneratedCommand"]):
+                # Only the Tables of the Classes "teststepfail" or "teststepfailGeneratedCommand"  within the HTML file
                 # are concerned by the selection made by the Application
 
                 # So, first, let's get the content of those tables and process them

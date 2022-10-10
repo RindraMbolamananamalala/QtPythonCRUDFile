@@ -215,7 +215,7 @@ class CRUDFileController:
 
             # Retrieving all the lines from the current MHTML file and then dispatch them to the adequate list
             # VERY TEMPORARY; will be managed with a dynamic way once it is possible
-            current_mhtml_path = "E:\\Upwork\\MdToriqul\\Project\\wAnalysisOfMHTMLFiles\\reports\\Test Protocol3.mhtml"
+            current_mhtml_path = "E:\\Upwork\\MdToriqul\\Project\\Actual HTML files for the tests\\B0008721651_2022-09-20_22-48-40.html"
             for line in self.get_crud_file_as().read_test_report_file(current_mhtml_path).get_lines_to_read():
                 if line.get_type() == LineTypesEnum.CROSS_PINNING:
                     # Case of a Cross Pinning-related Line
