@@ -138,7 +138,7 @@ class Ui_TreatmentWindow(object):
         self.column_treatment = QWidget(self.centralwidget)
         self.column_treatment.setObjectName(u"column_treatment")
         self.column_treatment.setGeometry(QRect(75, 0, 1860, 1080))
-        self.column_treatment.setStyleSheet(u"background-color: lightblue;")
+        self.column_treatment.setStyleSheet(u"background-color: lightblue; color: white;")
 
         # The Logo box area
         self.widget_logo_box = QWidget(self.column_treatment)

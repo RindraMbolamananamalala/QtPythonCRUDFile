@@ -242,6 +242,7 @@ class CRUDFileController:
             if self.get_list_lines_shorts():
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
 
+
             # Initializing the File_Queue
             # self.set_file_queue([])
 
