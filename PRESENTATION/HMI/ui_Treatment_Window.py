@@ -163,7 +163,7 @@ class Ui_TreatmentWindow(object):
         font1.setFamily(u"Calibri")
         font1.setPointSize(10)
         self.text_comments.setFont(font1)
-        self.text_comments.setStyleSheet(u"background-color: white;")
+        self.text_comments.setStyleSheet(u"background-color: white; color: black;")
 
         # Configuring the Button Confirm
         self.button_confirm = QPushButton(self.column_treatment)

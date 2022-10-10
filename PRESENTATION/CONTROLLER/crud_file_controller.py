@@ -31,6 +31,7 @@ from PRESENTATION.VIEW.open_wires_view import OpenWiresView
 from PRESENTATION.VIEW.shorts_view import ShortsView
 from PRESENTATION.VIEW.additional_information_view import AdditionalInformationView
 
+from BUSINESS.CONSTRAINTS.CONVERTER.text_converter import html_content_to_simple_text
 from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
 from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
@@ -270,6 +271,17 @@ class CRUDFileController:
         :return: None
         """
 
+        # Writing in the Excel File the current content of the Cross Pinning window and then pass to the Open Wires
+        # window when the "Done" button is clicked.
+        self.get_cross_pinning_view().get_window_ui().get_button_done().clicked.connect(
+            self.write_cross_pinning_information_after_done
+        )
+
+        # Writing in the Excel File the current content of the Cross Pinning UI when the "Confirm" button is clicked.
+        self.get_cross_pinning_view().get_window_ui().get_button_confirm().clicked.connect(
+            self.write_cross_pinning_information
+        )
+
         # Writing in the Excel File the current content of the Open Wires UI when the "Confirm" button is clicked.
         self.get_open_wires_view().get_window_ui().get_button_confirm().clicked.connect(
             self.write_open_wires_information
@@ -378,6 +390,75 @@ class CRUDFileController:
         """
         self.check_current_file_lines()
 
+    def write_cross_pinning_information(self):
+        """
+        After clicking the Cross Pinning window's Confirm button, we write the selected information in
+        a new Excel File.
+
+        :return: None
+        """
+        try:
+            # Getting the Cross Pinning window of the view
+            cross_pinning_view_window_ui = self.get_cross_pinning_view().get_window_ui()
+
+            # Preparing the data that still need pre-processing
+            fixed_string_part_1 = cross_pinning_view_window_ui.get_label_fixed_strings().text().split(" - ")[0]
+            equipment_name = cross_pinning_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
+            wire_name = cross_pinning_view_window_ui.get_label_name().text().split(" ")[0]
+            cross_section = cross_pinning_view_window_ui.get_label_name().text().split(" ")[1]
+            color = cross_pinning_view_window_ui.get_label_name().text().split(" ")[2]
+            from_pins_info = html_content_to_simple_text(
+                self.get_cross_pinning_view().get_selected_from_item_label().text()
+            )
+            from_pins = from_pins_info.split("[")[0]
+            pos_1 = from_pins.split(".")[0]
+            cav_1 = from_pins.split(".")[1]
+            try:
+                from_pins_comment = from_pins_info.split("[")[1].replace("]", "")
+            except:
+                from_pins_comment = ""
+            to_pins_info = html_content_to_simple_text(
+                self.get_cross_pinning_view().get_selected_to_item_label().text()
+            )
+            to_pins = to_pins_info.split("[")[0]
+            pos_2 = to_pins.split(".")[0]
+            cav_2 = to_pins.split(".")[1]
+            try:
+                to_pins_comment = to_pins_info.split("[")[1].replace("]", "")
+            except:
+                to_pins_comment = ""
+            defect_code = cross_pinning_view_window_ui.get_combobox_fed_by_excel_sheet().currentText()
+
+            # Now, let's prepare the line to write
+            line_to_write = LineToWriteDTO()
+            line_to_write.set_uut(cross_pinning_view_window_ui.get_label_uut().text())
+            line_to_write.set_fixed_string_part_1(fixed_string_part_1)
+            line_to_write.set_equipment_name(equipment_name)
+            line_to_write.set_date(get_current_date("%d.%m.%Y"))
+            line_to_write.set_time(get_current_time("%I:%M:%S %p"))
+            line_to_write.set_wire_name(wire_name)
+            line_to_write.set_cross_section(cross_section)
+            line_to_write.set_color(color)
+            line_to_write.set_position_1(pos_1)
+            line_to_write.set_cavity_1(cav_1)
+            line_to_write.set_position_2(pos_2)
+            line_to_write.set_cavity_2(cav_2)
+            line_to_write.set_w(defect_code)
+            line_to_write.set_comments(cross_pinning_view_window_ui.get_text_comments().toPlainText())
+
+            # Actual writing
+            self.get_crud_file_as().write_modified_line(
+                get_application_property("folder_modified_lines_path")
+                , line_to_write
+            )
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
+
     def write_open_wires_information(self):
         try:
             """
@@ -389,7 +470,7 @@ class CRUDFileController:
             # Getting the Open Wires window of the view
             open_wires_view_window_ui = self.get_open_wires_view().get_window_ui()
 
-            # Preparing the data that still needs pre-processing
+            # Preparing the data that still need pre-processing
             fixed_string_part_1 = open_wires_view_window_ui.get_label_fixed_strings().text().split(" - ")[0]
             equipment_name = open_wires_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
             wire_name = open_wires_view_window_ui.get_label_right_part().text().split("/")[0]
@@ -559,6 +640,28 @@ class CRUDFileController:
                 get_application_property("folder_modified_lines_path")
                 , line_to_write
             )
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
+
+    def write_cross_pinning_information_after_done(self):
+        """
+        After clicking the Cross Pinning Information Window's Done button, we write the selected information in
+        a new Excel File and pass to the next Window (Open Wires Window).
+
+        :return: None
+        """
+        try:
+            # First, just write
+            self.write_cross_pinning_information()
+
+            # And then, go back to the Loading Window
+            # TEMPORARY, we'll work on it SERIOUSLY once the Cross Pinning managed
+            print("CROSS PINNING DONE")
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
