@@ -19,6 +19,8 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+from PRESENTATION.HMI.WIDGET.crud_file_vertical_label import CRUDFileVerticalLabel
+
 
 class Ui_TreatmentWindow(object):
 
@@ -117,7 +119,7 @@ class Ui_TreatmentWindow(object):
         self.label_icon_4.setAlignment(Qt.AlignCenter)
 
         # The Vertical label dedicated to the combination of the two fixed Strings
-        self.label_fixed_strings = VerticalLabel(self.column_navigation)
+        self.label_fixed_strings = CRUDFileVerticalLabel(self.column_navigation)
         self.label_fixed_strings.setObjectName(u"label_fixed_strings")
         self.label_fixed_strings.setGeometry(QRect(0, 500, 72, 450))
         font = QFont()
@@ -177,7 +179,7 @@ class Ui_TreatmentWindow(object):
         self.button_confirm.setCursor(QCursor(Qt.PointingHandCursor))
 
         # Configuring the Vertical Label dedicated to the UUT of the current file read by the Application
-        self.label_uut = VerticalLabel(self.column_treatment)
+        self.label_uut = CRUDFileVerticalLabel(self.column_treatment)
         self.label_uut.setObjectName(u"label_uut")
         self.label_uut.setGeometry(QRect(1670, 485, 161, 450))
         font3 = QFont()
@@ -218,14 +220,4 @@ class Ui_TreatmentWindow(object):
     # retranslateUi
 
 
-class VerticalLabel(QLabel):
 
-    def __init__(self, *args):
-        QLabel.__init__(self, *args)
-
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.translate(0, self.height())
-        painter.rotate(-90)
-        painter.drawText(0, self.width() / 2, self.text())
-        painter.end()
