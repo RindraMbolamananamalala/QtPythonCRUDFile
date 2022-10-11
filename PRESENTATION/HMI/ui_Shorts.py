@@ -56,7 +56,7 @@ class UI_Shorts(Ui_TreatmentWindow):
         # Configuring the Shorts' Left Part's label
         self.label_left_part = QLabel(self.column_treatment)
         self.label_left_part.setObjectName(u"label_left_part")
-        self.label_left_part.setGeometry(QRect(40, 120, 400, 400))
+        self.label_left_part.setGeometry(QRect(40, 120, 700, 400))
         font5 = QFont()
         font5.setFamily(u"Consolas")
         font5.setPointSize(16)
