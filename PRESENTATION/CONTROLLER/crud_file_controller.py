@@ -213,10 +213,18 @@ class CRUDFileController:
             self.set_list_lines_open_wires([])
             self.set_list_lines_shorts([])
 
-            # Retrieving all the lines from the current MHTML file and then dispatch them to the adequate list
+            # Reading the file
             # VERY TEMPORARY; will be managed with a dynamic way once it is possible
-            current_mhtml_path = "E:\\Upwork\\MdToriqul\\Project\\Actual HTML files for the tests\\B0008721651_2022-09-20_22-48-40.html"
-            for line in self.get_crud_file_as().read_test_report_file(current_mhtml_path).get_lines_to_read():
+            current_html_path = "E:\\Upwork\\MdToriqul\\Project\\Actual HTML files for the tests\\B0008721651_2022-09-20_22-48-40.html"
+            self.set_current_file(self.get_crud_file_as().read_test_report_file(current_html_path))
+
+            # Retrieving all the general information about the file that is read and display them on the Windows
+            fixed_string_part_1 = get_application_property("specific_fixed_string_part_1")
+            equipment_name = get_application_property("equipment_name")
+            uut = self.get_current_file().get_uut()
+
+            # Retrieving all the lines from the current MHTML file and then dispatch them to the adequate list
+            for line in self.get_current_file().get_lines_to_read():
                 if line.get_type() == LineTypesEnum.CROSS_PINNING:
                     # Case of a Cross Pinning-related Line
                     self.get_list_lines_cross_pinning().append(line)
@@ -234,13 +242,36 @@ class CRUDFileController:
 
             # Initializing the Views  by feeding them with the first line of the adequate Lines list
             # TEMPORARY, should be called mor dynamically once it is possible
-            # (The same process should be applied to the others View Part, with the adequate list of lines)
+
+            # CROSS PINNING
+            self.get_cross_pinning_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
+            self.get_cross_pinning_view().get_window_ui().get_label_uut().setText(uut)
             if self.get_list_lines_cross_pinning():
                 self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
+
+            # OPEN WIRES
+            self.get_open_wires_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
+            self.get_open_wires_view().get_window_ui().get_label_uut().setText(uut)
             if self.get_list_lines_open_wires():
                 self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+
+            # SHORTS
+            self.get_shorts_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
+            self.get_shorts_view().get_window_ui().get_label_uut().setText(uut)
             if self.get_list_lines_shorts():
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
+
+            # ADDITIONAL INFORMATION
+            self.get_shorts_view().get_window_ui().get_label_uut().setText(uut)
+            self.get_additional_information_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
 
             """
             TEMPORARY, it will be the Loading Window that will appear first
