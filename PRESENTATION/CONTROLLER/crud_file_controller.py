@@ -282,8 +282,8 @@ class CRUDFileController:
             # Initializing the File_Queue
             # self.set_file_queue([])
 
-            # Feeding the Combo Boxes of the Main Window
-            # self.feed_main_window_combo_boxes()
+            # Feeding the Combo Boxes of the all the Windows
+            self.feed_windows_combo_boxes()
 
             # Managing the events
             self.manage_events()
@@ -340,31 +340,41 @@ class CRUDFileController:
             self.write_additional_information_after_done
         )
 
-    def feed_main_window_combo_boxes(self):
+    def feed_windows_combo_boxes(self):
         """
         Feeding the combo boxes on the main windows, including that of the internal Add Additional information window,
         from their corresponding Excel File
         :return: None
         """
         # Getting the View's Main window
-        main_window = self.get_crud_file_view().get_main_window_ui()
+        cross_pinning_window = self.get_cross_pinning_view().get_window_ui()
+        open_wires_window = self.get_open_wires_view().get_window_ui()
+        shorts_window = self.get_shorts_view().get_window_ui()
+        additional_information_window = self.get_additional_information_view().get_window_ui()
 
-        # Getting the F's values
-        file_f = self.get_crud_file_as().get_file_f(
-            get_application_property("file_f_path"))
-        # Getting the W's values
-        file_w = self.get_crud_file_as().get_file_w(
-            get_application_property("file_w_path"))
+        # Getting the respective values
+        defects_codes = self.get_crud_file_as().get_defect_codes(
+            get_application_property("defect_codes_path")
+        )
 
-        # Feeding the combo boxes
-        # F_combo_box
-        for value in file_f.get_lines():
-            main_window.get_combo_box_F().addItem(value)
-        # W combo_boxes
-        for value in file_w.get_lines():
-            main_window.get_combo_box_open_connections_W().addItem(value)
-            main_window.get_combo_box_shorts_W().addItem(value)
-            main_window.get_additional_information_window().get_combo_box_additional_information_w().addItem(value)
+        """ 
+        Actual feeding processes 
+        """
+        # CROSS PINNING
+        for value in defects_codes[0].get_lines():
+            cross_pinning_window.get_combobox_fed_by_excel_sheet().addItem(value)
+
+        # OPEN WIRES
+        for value in defects_codes[1].get_lines():
+            open_wires_window.get_combobox_fed_by_excel_sheet().addItem(value)
+
+        # SHORTS
+        for value in defects_codes[2].get_lines():
+            shorts_window.get_combobox_fed_by_excel_sheet().addItem(value)
+
+        # ADDITIONAL INFORMATION
+        for value in defects_codes[3].get_lines():
+            additional_information_window.get_combobox_fed_by_excel_sheet().addItem(value)
 
     def write_open_connections_information(self):
         """

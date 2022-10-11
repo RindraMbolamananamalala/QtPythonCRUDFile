@@ -37,6 +37,22 @@ class CRUDFileASIntf(ABC):
         return
 
     @abstractmethod
+    def get_defect_codes(self, file_path: str) -> list:
+        """
+        Returns in the format of a list the lines that correspond respectively to the Defect Codes in
+        function of the type of Treatment.
+            L[0] : Cross Pinning
+            L[1] : Open wires
+            L[2] : Extra Wires - Shorts
+            L[3] : Additional Information
+
+            :param file_path: The path of the Excel File in which the Defect Codes will be retrieved
+            :return The list of the various Defect Codes' Lines.
+        """
+        return
+
+
+    @abstractmethod
     def read_test_report_file(self, test_report_file_path: str) -> FileToReadDTO:
         """
 

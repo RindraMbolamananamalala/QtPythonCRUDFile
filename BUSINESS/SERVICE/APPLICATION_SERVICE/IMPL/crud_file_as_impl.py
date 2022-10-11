@@ -17,8 +17,8 @@ from BUSINESS.MODEL.DTO.file_to_read_dto import FileToReadDTO
 from BUSINESS.SERVICE.APPLICATION_SERVICE.INTF.crud_file_as_intf import CRUDFileASIntf
 
 from DATA_ACCESS.DAO.INTF.crud_file_dao_intf import CRUDFileDAOIntf
-
 from DATA_ACCESS.DAO.IMPL.crud_html_file_dao_impl import CRUDHTMLFileDAOImpl
+from DATA_ACCESS.DAO.IMPL.crud_file_dao_impl import CRUDFileDAOImpl
 
 
 class CRUDFileASImpl(CRUDFileASIntf):
@@ -56,6 +56,46 @@ class CRUDFileASImpl(CRUDFileASIntf):
         """
         return self.crud_filed_dao
 
+    def set_crud_excel_file_dao(self, crud_excel_file_dao: CRUDFileDAOIntf):
+        """
+
+        :param crud_excel_file_dao: The CRUD file DAO dedicated to Excel Files only to be used by the current AS
+        :return: None
+        """
+        self.crud_excel_file_dao = crud_excel_file_dao
+
+    def get_crud_excel_file_dao(self) -> CRUDFileDAOIntf:
+        """
+
+        :return: The CRUD file DAO dedicated to Excel Files only used by the current AS
+        """
+        return self.crud_excel_file_dao
+
+    def get_defect_codes(self, file_path: str) -> list:
+        """
+        Returns in the format of a list the lines that correspond respectively to the Defect Codes in
+        function of the type of Treatment.
+            L[0] : Cross Pinning
+            L[1] : Open wires
+            L[2] : Extra Wires - Shorts
+            L[3] : Additional Information
+
+            :param file_path: The path of the Excel File in which the Defect Codes will be retrieved
+            :return The list of the various Defect Codes' Lines.
+        """
+        try:
+            codes_retrieved = self.get_crud_excel_file_dao().get_defect_codes(file_path)
+            return codes_retrieved
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Retrieval of Defect Codes Process. "
+            )
+            raise
+
+
+
     def read_test_report_file(self, test_report_file_path: str) -> FileToReadDTO:
         """
 
@@ -86,5 +126,6 @@ class CRUDFileASImpl(CRUDFileASIntf):
         self.get_crud_file_dao().write_line(test_modified_report_file_path, line_to_write)
 
     def __init__(self):
-        # Initializing the DAO
+        # Initializing the DAOs
         self.set_crud_file_dao(CRUDHTMLFileDAOImpl())
+        self.set_crud_excel_file_dao(CRUDFileDAOImpl())

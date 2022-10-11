@@ -29,6 +29,14 @@ from DATA_ACCESS.DAO.IMPL.crud_file_dao_impl import CRUDFileDAOImpl
 
 class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
 
+    def get_defect_codes(self, file_path: str) -> list:
+        """
+        Just pass...
+        :param file_path:
+        :return:
+        """
+        pass
+
     def set_crud_file_dao(self, crud_file_dao: CRUDFileDAOImpl) -> None:
         """
 

@@ -42,6 +42,31 @@ class CRUDFileDAOImpl(CRUDFileDAOIntf):
         file_to_return.set_lines(lines_to_return)
         return file_to_return
 
+    def get_defect_codes(self, file_path: str) -> list:
+        """
+        Returns in the format of a list the lines that correspond respectively to the Defect Codes in
+        function of the type of Treatment.
+            L[0] : Cross Pinning
+            L[1] : Open wires
+            L[2] : Extra Wires - Shorts
+            L[3] : Additional Information
+
+            :param file_path: The path of the Excel File in which the Defect Codes will be retrieved
+            :return: The list of the various Defect Codes' Lines.
+        """
+        files_to_return = []
+        for i in range(0, 4):
+            file_to_return = FileFDTO()
+            sheet_name = "Sheet" + str(i + 1)
+            file_retrieved = pd.read_excel(file_path, header=None, sheet_name=sheet_name)
+            lines_to_return = []
+            for j in range(0, file_retrieved.shape[0]):
+                line_to_return = file_retrieved.loc[j][0]
+                lines_to_return.append(line_to_return)
+            file_to_return.set_lines(lines_to_return)
+            files_to_return.append(file_to_return)
+        return files_to_return
+
     def get_file_w(self, file_path: str) -> FileWDTO:
         """
 

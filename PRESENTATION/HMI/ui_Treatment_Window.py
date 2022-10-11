@@ -153,7 +153,11 @@ class Ui_TreatmentWindow(object):
         self.combobox_fed_by_excel_sheet = QComboBox(self.column_treatment)
         self.combobox_fed_by_excel_sheet.setObjectName(u"combobox_fed_by_excel_sheet")
         self.combobox_fed_by_excel_sheet.setGeometry(QRect(10, 580, 1641, 51))
-        self.combobox_fed_by_excel_sheet.setStyleSheet(u"background-color: white;")
+        font_combo_box = QFont()
+        font_combo_box.setFamily(u"Consolas")
+        font_combo_box.setPointSize(15)
+        self.combobox_fed_by_excel_sheet.setFont(font_combo_box)
+        self.combobox_fed_by_excel_sheet.setStyleSheet(u"background-color: lightgrey; color:black;")
 
         # Comments Text area's settings
         self.text_comments = QPlainTextEdit(self.column_treatment)
