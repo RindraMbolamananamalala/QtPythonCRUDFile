@@ -84,11 +84,12 @@ class Ui_TreatmentWindow(object):
         if not main_window.objectName():
             main_window.setObjectName(u"MainWindow")
             self.set_main_window(main_window)
-        main_window.resize(1920, 1080)
+        main_window.setFixedSize(1920, 1080)
+
         main_window.setAutoFillBackground(False)
-        main_window.setStyleSheet(u"background-color: white;")
         self.centralwidget = QWidget(main_window)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setGeometry(0, 0, 1920, 1080)
 
         # The column for the Navigation
         self.column_navigation = QWidget(self.centralwidget)
