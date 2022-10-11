@@ -35,16 +35,16 @@ def deduce_left_part_content(line_to_display: LineToReadCrossPinning) -> list:
             line_from_pins = from_pin
             line_from_pins_comment = line_to_display.get_from_pins_comment()[i]
             texts_to_return.append(
-                                    "<html>" \
-                                          "<body>" \
-                                              "<p>" \
-                                            + line_from_pins \
-                                                + "<span style=\" vertical-align:sub;\">" \
-                                                    + "[" + line_from_pins_comment + "]" \
-                                                + "</span>" \
-                                              "</p>" \
-                                          "</body>" \
-                                      "</html>")
+                "<html>" \
+                "<body>" \
+                "<p>" \
+                + line_from_pins \
+                + "<span style=\" vertical-align:sub;\">" \
+                + "[" + line_from_pins_comment + "]" \
+                + "</span>" \
+                  "</p>" \
+                  "</body>" \
+                  "</html>")
             # Next Line of From Pin
             i = i + 1
         return texts_to_return
@@ -67,16 +67,16 @@ def deduce_middle_part_content(line_to_display: LineToReadCrossPinning) -> list:
             line_to_pins = to_pin
             line_to_pins_comment = line_to_display.get_to_pins_comment()[i]
             texts_to_return.append(
-                                  "<html>" \
-                                      "<body>" \
-                                          "<p>" \
-                                            + line_to_pins \
-                                            + "<span style=\" vertical-align:sub;\">" \
-                                                + "[" + line_to_pins_comment + "]" \
-                                            + "</span>" \
-                                          "</p>" \
-                                      "</body>" \
-                                  "</html>"
+                "<html>" \
+                "<body>" \
+                "<p>" \
+                + line_to_pins \
+                + "<span style=\" vertical-align:sub;\">" \
+                + "[" + line_to_pins_comment + "]" \
+                + "</span>" \
+                  "</p>" \
+                  "</body>" \
+                  "</html>"
             )
             # Next Line of To Pin
             i = i + 1
@@ -97,13 +97,13 @@ def deduce_right_part_content(line_to_display: LineToReadCrossPinning) -> list:
         texts_to_return = []
         for splice in line_to_display.get_splices_list():
             texts_to_return.append(
-                                "<html>" \
-                                      "<body>" \
-                                          "<p>" \
-                                            + splice + \
-                                          "</p>" \
-                                    "</body>" \
-                                "</html>"
+                "<html>" \
+                "<body>" \
+                "<p>" \
+                + splice + \
+                "</p>" \
+                "</body>" \
+                "</html>"
             )
         return texts_to_return
     except Exception as ex:
@@ -113,7 +113,6 @@ def deduce_right_part_content(line_to_display: LineToReadCrossPinning) -> list:
 
 
 class CrossPinningView(CRUDFileView):
-
     # A specific Counter dedicated to the selection of items which will play the role of "POSITION 1" and "POSITION 2"
     label_color_cpt = 0
 
@@ -212,6 +211,14 @@ class CrossPinningView(CRUDFileView):
             #             + "->" \
             #             + line_to_display.get_to_pins() + "[" + line_to_display.get_to_pins_comment() + "]"
             # self.get_window_ui().get_label_left_part().setToolTip(pins_info)
+
+            # Middle Part's Line's Name
+            line_name_initial = line_to_display.get_name()
+            color = line_name_initial.split("`")[1]
+            wire_name = line_name_initial.split("`")[0].split("/")[0]
+            cross_section = line_name_initial.split("`")[0].split("/")[1]
+            line_name_transformed = wire_name + " " + cross_section + " " + color
+            self.get_window_ui().get_label_name().setText(line_name_transformed)
 
             # Middle Part for possible To Pins
             self.get_window_ui().feed_widget_middle_part(deduce_middle_part_content(line_to_display))
@@ -333,5 +340,3 @@ class CrossPinningView(CRUDFileView):
                 + ". Can't go further with the Update Process. "
             )
             raise
-
-
