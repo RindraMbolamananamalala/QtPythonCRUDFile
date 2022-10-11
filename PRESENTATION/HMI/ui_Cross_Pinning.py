@@ -19,14 +19,17 @@ from PRESENTATION.HMI.WIDGET.cross_pinning_selectable_label import CrossPinningS
 
 class UI_CrossPinning(Ui_TreatmentWindow):
 
+    def set_widget_left_part(self, widget_left_part: QWidget):
+        self.widget_left_part = widget_left_part
+
     def get_widget_left_part(self) -> QWidget:
         return self.widget_left_part
 
-    def get_label_middle_part(self) -> QLabel:
-        return self.label_middle_part
+    def get_widget_middle_part(self) -> QWidget:
+        return self.widget_middle_part
 
-    def get_label_right_part(self) -> QLabel:
-        return self.label_right_part
+    def get_widget_right_part(self) -> QWidget:
+        return self.widget_right_part
 
     def set_label_items(self, label_items: list):
         self.label_items = label_items
@@ -124,6 +127,73 @@ class UI_CrossPinning(Ui_TreatmentWindow):
 
         self.button_done.setText(QCoreApplication.translate("MainWindow", u"Done", None))
 
+    def clear_left_part(self):
+        """
+        Clearing the content of the left part.
+
+        :return: None
+        """
+        try:
+            widget_left_part = self.get_widget_left_part()
+            for child in widget_left_part.children():
+                child.setParent(None)
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the clearing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Clearing Process. "
+            )
+            raise
+
+    def clear_middle_part(self):
+        """
+        Clearing the content of the middle part.
+
+        :return: None
+        """
+        try:
+            widget_middle_part = self.get_widget_middle_part()
+            for child in widget_middle_part.children():
+                child.setParent(None)
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the clearing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Clearing Process. "
+            )
+            raise
+
+    def clear_right_part(self):
+        """
+        Clearing teh content of the Right Part.
+
+        :return: None
+        """
+        try:
+            widget_right_part = self.get_widget_right_part()
+            for child in widget_right_part.children():
+                child.setParent(None)
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the clearing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Clearing Process. "
+            )
+            raise
+
+    def clear_window(self):
+        """
+        Clearing the contents of all the Parts.
+
+        :return: None
+        """
+        # Left Part
+        self.clear_left_part()
+        # Middle Part
+        self.clear_middle_part()
+        # Right Part
+        self.clear_right_part()
+
     def feed_widget_left_part(self, list_of_lines: list):
         """
         Feeding the Widget dedicated to the Left Part of the Treatment area withe the corresponding lines.
@@ -137,11 +207,12 @@ class UI_CrossPinning(Ui_TreatmentWindow):
                 font = QFont()
                 font.setFamily(u"Consolas")
                 font.setPointSize(16)
-                label_from_pin = CrossPinningSelectableLabel(self.widget_left_part)
+                label_from_pin = CrossPinningSelectableLabel(self.get_widget_left_part())
                 label_from_pin.setGeometry(0, (i * 50), 400, 50)
                 label_from_pin.set_label_normal_font(font)
                 label_from_pin.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
                 label_from_pin.setText(line)
+                label_from_pin.show()
                 self.get_label_items().append(label_from_pin)
                 i = i + 1
         except Exception as exception:
@@ -170,6 +241,7 @@ class UI_CrossPinning(Ui_TreatmentWindow):
                 label_to_pin.set_label_normal_font(font)
                 label_to_pin.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
                 label_to_pin.setText(line)
+                label_to_pin.show()
                 self.get_label_items().append(label_to_pin)
                 i = i + 1
         except Exception as exception:
@@ -198,6 +270,7 @@ class UI_CrossPinning(Ui_TreatmentWindow):
                 label_splice.set_label_normal_font(font)
                 label_splice.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
                 label_splice.setText(line)
+                label_splice.show()
                 self.get_label_items().append(label_splice)
                 i = i + 1
         except Exception as exception:

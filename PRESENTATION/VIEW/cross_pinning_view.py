@@ -192,6 +192,17 @@ class CrossPinningView(CRUDFileView):
         :return:  None
         """
         try:
+            """
+            First, re-initialize the entire WINDOW
+            """
+            # No selected label or selectable label...
+            self.set_selected_from_item_label(None)
+            self.set_selected_to_item_label(None)
+            self.get_window_ui().reset_all_items_labels_color()
+            self.get_window_ui().set_label_items([])
+            # Clearing the content of the Window
+            self.get_window_ui().clear_window()
+
             # Left Part for the possible From Pins
             self.get_window_ui().feed_widget_left_part(deduce_left_part_content(line_to_display))
             # # However, we need to store the original main information on the Pins in order to use them later (for the

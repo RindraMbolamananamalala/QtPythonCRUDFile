@@ -22,8 +22,6 @@ if __name__ == '__main__':
 
     controller = CRUDFileController()
 
-    controller.get_cross_pinning_view().get_window_ui().get_main_window().show()
-
     # main_window = QMainWindow()
     # window = Ui_MainWindow(main_window)
     #

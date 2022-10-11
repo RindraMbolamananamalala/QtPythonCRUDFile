@@ -10,7 +10,6 @@ __email__ = "rindraibi@gmail.com"
 
 from PySide2.QtWidgets import *
 
-
 from CONFIGURATIONS.application_properties import get_application_property
 
 from CONFIGURATIONS.logger import LOGGER
@@ -243,6 +242,11 @@ class CRUDFileController:
             if self.get_list_lines_shorts():
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
 
+            """
+            TEMPORARY, it will be the Loading Window that will appear first
+            """
+            # Showing the Cross Pinning window
+            self.get_cross_pinning_view().get_window_ui().get_main_window().show()
 
             # Initializing the File_Queue
             # self.set_file_queue([])
@@ -459,6 +463,36 @@ class CRUDFileController:
             )
             raise
 
+    def write_cross_pinning_information_after_done(self):
+        """
+        After clicking the Cross Pinning Information Window's Done button, we write the selected information in
+        a new Excel File and pass to the next Window (Open Wires Window).
+
+        :return: None
+        """
+        try:
+            # First, just write
+            self.write_cross_pinning_information()
+
+            # Now, it's time to :
+            # 1- Load another line (If there is still any)
+            # OR
+            # 2 - Pass to the the Next Step: OPEN WIRES
+            if len(self.get_list_lines_cross_pinning()) > 0:
+                # There is still any...
+                self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
+            else:
+                # No more line, let's pass to the Next Step: OPEN WIRES
+                self.get_cross_pinning_view().get_window_ui().get_main_window().close()
+                self.get_open_wires_view().get_window_ui().get_main_window().show()
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
+
     def write_open_wires_information(self):
         try:
             """
@@ -510,6 +544,18 @@ class CRUDFileController:
                 get_application_property("folder_modified_lines_path")
                 , line_to_write
             )
+
+            # Now, it's time to :
+            # 1- Load another line (If there is still any)
+            # OR
+            # 2 - Pass to the the Next Step: SHORTS
+            if len(self.get_list_lines_open_wires()) > 0:
+                # There is still any...
+                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+            else:
+                # No more line, let's pass to the Next Step: SHORTS
+                self.get_open_wires_view().get_window_ui().get_main_window().close()
+                self.get_shorts_view().get_window_ui().get_main_window().show()
 
             # TEMPORARY COMMENTED, will be seriously reviewed once it is possible
             """
@@ -594,6 +640,18 @@ class CRUDFileController:
                 get_application_property("folder_modified_lines_path")
                 , line_to_write
             )
+
+            # Now, it's time to :
+            # 1- Load another line (If there is still any)
+            # OR
+            # 2 - Pass to the the Next Step: SHORTS
+            if len(self.get_list_lines_shorts()) > 0:
+                self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
+            else:
+                # time.sleep(2)
+                self.get_shorts_view().get_window_ui().get_main_window().close()
+                self.get_additional_information_view().get_window_ui().get_main_window().show()
+
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
@@ -640,28 +698,6 @@ class CRUDFileController:
                 get_application_property("folder_modified_lines_path")
                 , line_to_write
             )
-        except Exception as exception:
-            # At least one error has occurred, therefore, stop the writing process
-            LOGGER.error(
-                exception.__class__.__name__ + ": " + str(exception)
-                + ". Can't go further with the Writing Process. "
-            )
-            raise
-
-    def write_cross_pinning_information_after_done(self):
-        """
-        After clicking the Cross Pinning Information Window's Done button, we write the selected information in
-        a new Excel File and pass to the next Window (Open Wires Window).
-
-        :return: None
-        """
-        try:
-            # First, just write
-            self.write_cross_pinning_information()
-
-            # And then, go back to the Loading Window
-            # TEMPORARY, we'll work on it SERIOUSLY once the Cross Pinning managed
-            print("CROSS PINNING DONE")
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
