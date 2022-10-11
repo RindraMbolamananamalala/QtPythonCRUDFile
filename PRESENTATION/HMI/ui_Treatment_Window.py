@@ -143,11 +143,12 @@ class Ui_TreatmentWindow(object):
         # The Logo box area
         self.widget_logo_box = QWidget(self.column_treatment)
         self.widget_logo_box.setObjectName(u"widget_logo_box")
-        self.widget_logo_box.setGeometry(QRect(1650, 30, 180, 80))
-        self.widget_logo_box.setStyleSheet(u"background-color: cyan;")
+        self.widget_logo_box.setGeometry(QRect(1450, 50, 350, 45))
         self.label_logo_box = QLabel(self.widget_logo_box)
+        self.label_logo_box.setGeometry(QRect(0, 0, 350, 45))
+        self.label_logo_box.setPixmap(QPixmap("RESOURCES\\IMAGES\\logo_350x45.png"))
         self.label_logo_box.setObjectName(u"label_logo_box")
-        self.label_logo_box.setGeometry(QRect(60, 30, 55, 16))
+
 
         # The settings related to the Combo-Box fed by a specific Excel Sheet to be provided
         self.combobox_fed_by_excel_sheet = QComboBox(self.column_treatment)
@@ -217,7 +218,7 @@ class Ui_TreatmentWindow(object):
         self.label_icon_3.setText(QCoreApplication.translate("MainWindow", u"ICON 3", None))
         self.label_icon_4.setText(QCoreApplication.translate("MainWindow", u"ICON 4", None))
         self.label_fixed_strings.setText(QCoreApplication.translate("MainWindow", u"Post Process - ROB 8", None))
-        self.label_logo_box.setText(QCoreApplication.translate("MainWindow", u"LogoBox", None))
+        # self.label_logo_box.setText(QCoreApplication.translate("MainWindow", u"LogoBox", None))
         self.text_comments.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Comments", None))
         self.button_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
         self.label_uut.setText(QCoreApplication.translate("MainWindow", u"B000012345", None))
