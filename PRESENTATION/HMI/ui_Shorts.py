@@ -37,9 +37,10 @@ class UI_Shorts(Ui_TreatmentWindow):
 
         # All the first 2 Label Icons have to be disabled at this level
         self.label_icon_1.setDisabled(True)
-        self.label_icon_1.setStyleSheet(u"background-color: lightgrey;")
+        self.label_icon_1.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon1_inactive.png"))
         self.label_icon_2.setDisabled(True)
-        self.label_icon_2.setStyleSheet(u"background-color: lightgrey;")
+        self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon2_inactive.png"))
+
 
         # Configuring the Shorts' label
         self.label_shorts = QLabel(self.column_treatment)

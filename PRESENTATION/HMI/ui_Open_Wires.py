@@ -37,7 +37,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
 
         # All the first Label Icon has to be disabled at this level
         self.label_icon_1.setDisabled(True)
-        self.label_icon_1.setStyleSheet(u"background-color: lightgrey;")
+        self.label_icon_1.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon1_inactive.png"))
 
         # Configuring the Open Wires' label
         self.label_open_wires = QLabel(self.column_treatment)

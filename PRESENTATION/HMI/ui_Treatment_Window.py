@@ -93,30 +93,29 @@ class Ui_TreatmentWindow(object):
         # The column for the Navigation
         self.column_navigation = QWidget(self.centralwidget)
         self.column_navigation.setObjectName(u"column_navigation")
-        self.column_navigation.setGeometry(QRect(0, 0, 75, 1080))
+        self.column_navigation.setGeometry(QRect(0, 0, 100, 1080))
         self.column_navigation.setStyleSheet(u"background-color: blue;")
 
         # The list of Label Icons
         self.label_icon_1 = QLabel(self.column_navigation)
         self.label_icon_1.setObjectName(u"label_icon_1")
-        self.label_icon_1.setGeometry(QRect(7, 7, 60, 60))
-        self.label_icon_1.setStyleSheet(u"background-color: white")
-        self.label_icon_1.setAlignment(Qt.AlignCenter)
+        self.label_icon_1.setGeometry(QRect(13, 7, 75, 75))
+        self.label_icon_1.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon1_active.png"))
+
         self.label_icon_2 = QLabel(self.column_navigation)
         self.label_icon_2.setObjectName(u"label_icon_2")
-        self.label_icon_2.setGeometry(QRect(7, 77, 60, 60))
-        self.label_icon_2.setStyleSheet(u"background-color: white")
-        self.label_icon_2.setAlignment(Qt.AlignCenter)
+        self.label_icon_2.setGeometry(QRect(13, 87, 75, 75))
+        self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon2_active.png"))
+
         self.label_icon_3 = QLabel(self.column_navigation)
         self.label_icon_3.setObjectName(u"label_icon_3")
-        self.label_icon_3.setGeometry(QRect(7, 147, 60, 60))
-        self.label_icon_3.setStyleSheet(u"background-color: white;")
-        self.label_icon_3.setAlignment(Qt.AlignCenter)
+        self.label_icon_3.setGeometry(QRect(13, 167, 75, 75))
+        self.label_icon_3.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon3_active.png"))
+
         self.label_icon_4 = QLabel(self.column_navigation)
         self.label_icon_4.setObjectName(u"label_icon_4")
-        self.label_icon_4.setGeometry(QRect(7, 217, 60, 60))
-        self.label_icon_4.setStyleSheet(u"background-color: white")
-        self.label_icon_4.setAlignment(Qt.AlignCenter)
+        self.label_icon_4.setGeometry(QRect(13, 247, 75, 75))
+        self.label_icon_4.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon4_active.png"))
 
         # The Vertical label dedicated to the combination of the two fixed Strings
         self.label_fixed_strings = CRUDFileVerticalLabel(self.column_navigation)
@@ -137,7 +136,7 @@ class Ui_TreatmentWindow(object):
         # The column for the Treatment
         self.column_treatment = QWidget(self.centralwidget)
         self.column_treatment.setObjectName(u"column_treatment")
-        self.column_treatment.setGeometry(QRect(75, 0, 1860, 1080))
+        self.column_treatment.setGeometry(QRect(100, 0, 1860, 1080))
         self.column_treatment.setStyleSheet(u"background-color: lightblue; color: white;")
 
         # The Logo box area
@@ -148,7 +147,6 @@ class Ui_TreatmentWindow(object):
         self.label_logo_box.setGeometry(QRect(0, 0, 350, 45))
         self.label_logo_box.setPixmap(QPixmap("RESOURCES\\IMAGES\\logo_350x45.png"))
         self.label_logo_box.setObjectName(u"label_logo_box")
-
 
         # The settings related to the Combo-Box fed by a specific Excel Sheet to be provided
         self.combobox_fed_by_excel_sheet = QComboBox(self.column_treatment)
@@ -213,16 +211,7 @@ class Ui_TreatmentWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label_icon_1.setText(QCoreApplication.translate("MainWindow", u"ICON 1", None))
-        self.label_icon_2.setText(QCoreApplication.translate("MainWindow", u"ICON 2", None))
-        self.label_icon_3.setText(QCoreApplication.translate("MainWindow", u"ICON 3", None))
-        self.label_icon_4.setText(QCoreApplication.translate("MainWindow", u"ICON 4", None))
         self.label_fixed_strings.setText(QCoreApplication.translate("MainWindow", u"Post Process - ROB 8", None))
-        # self.label_logo_box.setText(QCoreApplication.translate("MainWindow", u"LogoBox", None))
         self.text_comments.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Comments", None))
         self.button_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
-        self.label_uut.setText(QCoreApplication.translate("MainWindow", u"B000012345", None))
     # retranslateUi
-
-
-
