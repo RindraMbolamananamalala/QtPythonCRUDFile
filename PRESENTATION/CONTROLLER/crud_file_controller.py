@@ -268,7 +268,7 @@ class CRUDFileController:
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
 
             # ADDITIONAL INFORMATION
-            self.get_shorts_view().get_window_ui().get_label_uut().setText(uut)
+            self.get_additional_information_view().get_window_ui().get_label_uut().setText(uut)
             self.get_additional_information_view().get_window_ui().get_label_fixed_strings().setText(
                 fixed_string_part_1 + " - " + equipment_name
             )
