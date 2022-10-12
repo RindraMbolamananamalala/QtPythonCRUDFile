@@ -194,8 +194,8 @@ class CrossPinningView(CRUDFileView):
 
     def manage_events(self):
         """
-        Managing the various events related to the different components to bring
-        the necessary general updates one the Window.
+        Managing the various events related to the different components to bring the necessary general updates
+        one the Window.
 
         :return:
         """
@@ -207,6 +207,12 @@ class CrossPinningView(CRUDFileView):
         self.get_window_ui().get_button_done().clicked.connect(self.update_buttons_availabilities)
 
     def update_buttons_availabilities(self):
+        """
+        The availabilities of the "Confirm" and "Done" Buttons relies on the validity of the information provided
+        as the User's inputs.
+
+        :return: None
+        """
         combobox_fed_by_excel_sheet = self.get_window_ui().get_combobox_fed_by_excel_sheet()
         text_comments = self.get_window_ui().get_text_comments()
         selected_from_item_label = self.get_selected_from_item_label()
@@ -227,6 +233,11 @@ class CrossPinningView(CRUDFileView):
             button_done.setStyleSheet("background-color: grey;")
 
     def clear_data(self):
+        """
+        Resetting the data contained on the Window
+
+        :return: None
+        """
         self.get_window_ui().get_text_comments().setPlainText("")
         self.reset_current_selections()
 
