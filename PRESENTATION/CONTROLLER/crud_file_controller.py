@@ -578,10 +578,11 @@ class CRUDFileController:
             # Now, it's time to :
             # 1- Load another line (If there is still any)
             # OR
-            # 2 - Pass to the the Next Step: SHORTS
+            # 2 - Pass to the the Next Step: ADDITIONAL INFORMATION
             if len(self.get_list_lines_shorts()) > 0:
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
             else:
+                self.get_shorts_view().clear_data()
                 self.get_current_view().get_window_ui().get_main_window().close()
                 self.set_current_view(self.get_additional_information_view())
                 self.get_current_view().get_window_ui().get_main_window().showMaximized()
