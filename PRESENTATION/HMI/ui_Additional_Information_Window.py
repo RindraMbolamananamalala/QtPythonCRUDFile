@@ -36,7 +36,7 @@ class UI_AdditionalInformationWindow(Ui_TreatmentWindow):
         self.label_icon_2.setDisabled(True)
         self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon2_inactive.png"))
         self.label_icon_3.setDisabled(True)
-        self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon3_inactive.png"))
+        self.label_icon_3.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon3_inactive.png"))
 
         # Configuring the Additional Information' s label
         self.label_additional_information = QLabel(self.column_treatment)
