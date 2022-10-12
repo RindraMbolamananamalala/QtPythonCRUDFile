@@ -514,6 +514,7 @@ class CRUDFileController:
                 self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
             else:
                 # No more line, let's pass to the Next Step: SHORTS
+                self.get_open_wires_view().clear_data()
                 self.get_current_view().get_window_ui().get_main_window().close()
                 self.set_current_view(self.get_shorts_view())
                 self.get_current_view().get_window_ui().get_main_window().showMaximized()

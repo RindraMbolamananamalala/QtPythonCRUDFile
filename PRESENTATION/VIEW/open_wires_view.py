@@ -107,6 +107,9 @@ class OpenWiresView(CRUDFileView):
         :return:  None
         """
         try:
+            # First, let's clear the data
+            self.clear_data()
+
             # Left Part for the Pins
             self.get_window_ui().get_label_left_part().setText(deduce_label_left_part_content(line_to_display))
             # However, we need to store the original main information on the Pins in order to use them later (for the
@@ -136,4 +139,52 @@ class OpenWiresView(CRUDFileView):
 
         if len(args) == 1:
             # All the configurations have been managed during the call of the Superclass' Constructor
-            pass
+
+            # At the beginning, the Confirm button is disabled
+            self.get_window_ui().get_button_confirm().setEnabled(False)
+            self.get_window_ui().get_button_confirm().setStyleSheet("background-color: lightgrey;")
+
+            # Management of Events
+            self.manage_events()
+
+    def manage_events(self):
+        """
+        Managing the various events related to the different components to bring the necessary general updates
+        one the Window.
+
+        :return:
+        """
+        self.get_window_ui().get_combobox_fed_by_excel_sheet().currentIndexChanged.connect(
+            self.update_buttons_availabilities
+        )
+        self.get_window_ui().get_text_comments().textChanged.connect(self.update_buttons_availabilities)
+        self.get_window_ui().get_button_confirm().clicked.connect(self.update_buttons_availabilities)
+
+    def update_buttons_availabilities(self):
+        """
+        The availabilities of the "Confirm" and "Done" Buttons relies on the validity of the information provided
+        as the User's inputs.
+
+        :return: None
+        """
+        combobox_fed_by_excel_sheet = self.get_window_ui().get_combobox_fed_by_excel_sheet()
+        text_comments = self.get_window_ui().get_text_comments()
+        button_confirm = self.get_window_ui().get_button_confirm()
+        button_availability = (len(combobox_fed_by_excel_sheet.currentText()) > 0) \
+                                 & (len(text_comments.toPlainText()) > 0)
+        button_confirm.setEnabled(button_availability)
+        if not button_availability:
+            button_confirm.setStyleSheet("background-color: lightgrey;")
+        else:
+            button_confirm.setStyleSheet("background-color: grey;")
+
+    def clear_data(self):
+        """
+        Resetting the data contained on the Window
+
+        :return: None
+        """
+        self.get_window_ui().get_text_comments().setPlainText("")
+
+
+
