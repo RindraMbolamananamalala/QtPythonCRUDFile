@@ -413,6 +413,7 @@ class CRUDFileController:
                 get_application_property("folder_modified_lines_path")
                 , line_to_write
             )
+            self.get_cross_pinning_view().clear_data()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(

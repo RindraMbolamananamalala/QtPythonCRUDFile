@@ -183,6 +183,53 @@ class CrossPinningView(CRUDFileView):
         self.set_selected_from_item_label(None)
         self.set_selected_to_item_label(None)
 
+        # At the beginning, the 2 buttons are disabled
+        self.get_window_ui().get_button_confirm().setEnabled(False)
+        self.get_window_ui().get_button_done().setEnabled(False)
+        self.get_window_ui().get_button_confirm().setStyleSheet("background-color: lightgrey;")
+        self.get_window_ui().get_button_done().setStyleSheet("background-color: lightgrey;")
+
+        # Management of Events
+        self.manage_events()
+
+    def manage_events(self):
+        """
+        Managing the various events related to the different components to bring
+        the necessary general updates one the Window.
+
+        :return:
+        """
+        self.get_window_ui().get_combobox_fed_by_excel_sheet().currentIndexChanged.connect(
+            self.update_buttons_availabilities
+        )
+        self.get_window_ui().get_text_comments().textChanged.connect(self.update_buttons_availabilities)
+        self.get_window_ui().get_button_confirm().clicked.connect(self.update_buttons_availabilities)
+        self.get_window_ui().get_button_done().clicked.connect(self.update_buttons_availabilities)
+
+    def update_buttons_availabilities(self):
+        combobox_fed_by_excel_sheet = self.get_window_ui().get_combobox_fed_by_excel_sheet()
+        text_comments = self.get_window_ui().get_text_comments()
+        selected_from_item_label = self.get_selected_from_item_label()
+        selected_to_item_label = self.get_selected_to_item_label()
+        button_confirm = self.get_window_ui().get_button_confirm()
+        button_done = self.get_window_ui().get_button_done()
+        buttons_availabilities = (len(combobox_fed_by_excel_sheet.currentText()) > 0) \
+                                 & (len(text_comments.toPlainText()) > 0) \
+                                 & (selected_to_item_label is not None) \
+                                 & (selected_from_item_label is not None)
+        button_confirm.setEnabled(buttons_availabilities)
+        button_done.setEnabled(buttons_availabilities)
+        if not buttons_availabilities:
+            button_confirm.setStyleSheet("background-color: lightgrey;")
+            button_done.setStyleSheet("background-color: lightgrey;")
+        else:
+            button_confirm.setStyleSheet("background-color: grey;")
+            button_done.setStyleSheet("background-color: grey;")
+
+    def clear_data(self):
+        self.get_window_ui().get_text_comments().setPlainText("")
+        self.reset_current_selections()
+
     def update_content(self, line_to_display: LineToReadCrossPinning) -> None:
         """
         Updating the current content of the Open Wires Window from a given Line of information.
@@ -201,16 +248,10 @@ class CrossPinningView(CRUDFileView):
             self.get_window_ui().set_label_items([])
             # Clearing the content of the Window
             self.get_window_ui().clear_window()
+            self.clear_data()
 
             # Left Part for the possible From Pins
             self.get_window_ui().feed_widget_left_part(deduce_left_part_content(line_to_display))
-            # # However, we need to store the original main information on the Pins in order to use them later (for the
-            # # WRITE).
-            # # We're gonna exploit the Left Label's Tooltip for that.
-            # pins_info = line_to_display.get_from_pins() + "[" + line_to_display.get_from_pins_comment() + "]" \
-            #             + "->" \
-            #             + line_to_display.get_to_pins() + "[" + line_to_display.get_to_pins_comment() + "]"
-            # self.get_window_ui().get_label_left_part().setToolTip(pins_info)
 
             # Middle Part's Line's Name
             line_name_initial = line_to_display.get_name()
@@ -333,6 +374,9 @@ class CrossPinningView(CRUDFileView):
 
                     # ... without forgetting the transition of state.
                     self.update_label_color_cpt()
+
+            # Updating the availabilities of the Buttons
+            self.update_buttons_availabilities()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the Update process
             LOGGER.error(
