@@ -8,6 +8,9 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+import time
+import os
+
 from PySide2.QtWidgets import *
 
 from CONFIGURATIONS.application_properties import get_application_property
@@ -19,12 +22,13 @@ from UTILS.time_utils import get_current_time, get_current_date
 
 from MAPPER.crud_file_mapper import file_to_read_dto_to_file_to_read
 
+from PRESENTATION.HMI.ui_Loading_Window import Ui_window_loading
 from PRESENTATION.HMI.ui_Cross_Pinning import UI_CrossPinning
 from PRESENTATION.HMI.ui_Open_Wires import UI_OpenWires
 from PRESENTATION.HMI.ui_Shorts import UI_Shorts
 from PRESENTATION.HMI.ui_Additional_Information_Window import UI_AdditionalInformationWindow
 
-from PRESENTATION.VIEW.crud_file_view import CRUDFileView
+from PRESENTATION.VIEW.loading_window_view import LoadingWindowView
 from PRESENTATION.VIEW.cross_pinning_view import CrossPinningView
 from PRESENTATION.VIEW.open_wires_view import OpenWiresView
 from PRESENTATION.VIEW.shorts_view import ShortsView
@@ -32,7 +36,6 @@ from PRESENTATION.VIEW.additional_information_view import AdditionalInformationV
 
 from BUSINESS.CONSTRAINTS.CONVERTER.text_converter import html_content_to_simple_text
 from BUSINESS.MODEL.DOMAIN_OBJECT.file_to_read import FileToRead
-from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
 from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 from BUSINESS.SERVICE.APPLICATION_SERVICE.INTF.crud_file_as_intf import CRUDFileASIntf
 from BUSINESS.SERVICE.APPLICATION_SERVICE.IMPL.crud_file_as_impl import CRUDFileASImpl
@@ -40,23 +43,35 @@ from BUSINESS.SERVICE.APPLICATION_SERVICE.IMPL.crud_file_as_impl import CRUDFile
 
 class CRUDFileController:
 
-    def set_crud_file_view(self, crud_file_view: CRUDFileView):
+    def set_current_view(self, current_view):
         """
 
-        :param crud_file_view: The View part to be associated with the Controller part within the MVC
-        Implementation at the level of the Presentation Layer of the Project.
-        :return: None
+        :param current_view:  The current View to be managed by the Controller
+        :return:
         """
-        self.crud_file_view = crud_file_view
+        self.current_view = current_view
 
-    def get_crud_file_view(self) -> CRUDFileView:
+    def get_current_view(self):
         """
 
-        :return: The View part associated with the Controller part within the MVC Implementation at the level of
-        the Presentation Layer of the Project.
-        :return: None
+        :return: The current View managed by the controller
         """
-        return self.crud_file_view
+        return self.current_view
+
+    def set_loading_window_view(self, loading_window_view: LoadingWindowView):
+        """
+
+        :param loading_window_view: The View associated with the Loading Window
+        :return:
+        """
+        self.loading_window_view = loading_window_view
+
+    def get_loading_window_view(self) -> LoadingWindowView:
+        """
+
+        :return: The View associated with the Loading Window
+        """
+        return self.loading_window_view
 
     def set_cross_pinning_view(self, cross_pinning_view: CrossPinningView):
         """
@@ -157,10 +172,34 @@ class CRUDFileController:
         return self.file_queue
 
     def set_current_file(self, current_file: FileToRead):
+        """
+
+        :param current_file: The current File To Read Object for the treatments
+        :return: None
+        """
         self.current_file = current_file
 
     def get_current_file(self) -> FileToRead:
+        """
+
+        :return: The current File To Read Object for the treatments
+        """
         return self.current_file
+
+    def set_file_to_delete_path(self, file_to_delete_path: str):
+        """
+
+        :param file_to_delete_path: The path of the file to be deleted at the end of the current treatment
+        :return: None
+        """
+        self.file_to_delete_path = file_to_delete_path
+
+    def get_file_to_delete_path(self) -> str:
+        """
+
+        :return: The path of the file to be deleted at the end of the current treatment
+        """
+        return self.file_to_delete_path
 
     def set_list_lines_cross_pinning(self, list_lines_cross_pinning: list):
         self.list_lines_cross_pinning = list_lines_cross_pinning
@@ -187,10 +226,12 @@ class CRUDFileController:
         :param crud_file_as: The Application Service to be associated with the current Controller
         """
         if len(args) == 0:
-
-            # Preparing the View Parts (TEMPORARY, the Loading Window View should be the first VIEW to be managed by
-            # the Controller)
-
+            """
+            Preparing the View Parts
+            """
+            # Loading Window View
+            loading_window_ui = Ui_window_loading(QMainWindow())
+            self.set_loading_window_view(LoadingWindowView(loading_window_ui))
             # Cross Pinning View
             cross_pinning_ui = UI_CrossPinning(QMainWindow())
             self.set_cross_pinning_view(CrossPinningView(cross_pinning_ui))
@@ -207,86 +248,20 @@ class CRUDFileController:
             # Initializing the Application Service
             self.set_crud_file_as(CRUDFileASImpl())
 
-            # Initializing all the lists of lines, acknowledging that each of them corresponds to a specific type of
-            # lines
-            self.set_list_lines_cross_pinning([])
-            self.set_list_lines_open_wires([])
-            self.set_list_lines_shorts([])
-
-            # Reading the file
-            # VERY TEMPORARY; will be managed with a dynamic way once it is possible
-            current_html_path = "E:\\Upwork\\MdToriqul\\Project\\Actual HTML files for the tests\\B0008721651_2022-09-20_22-48-40.html"
-            self.set_current_file(self.get_crud_file_as().read_test_report_file(current_html_path))
-
-            # Retrieving all the general information about the file that is read and display them on the Windows
-            fixed_string_part_1 = get_application_property("specific_fixed_string_part_1")
-            equipment_name = get_application_property("equipment_name")
-            uut = self.get_current_file().get_uut()
-
-            # Retrieving all the lines from the current MHTML file and then dispatch them to the adequate list
-            for line in self.get_current_file().get_lines_to_read():
-                if line.get_type() == LineTypesEnum.CROSS_PINNING:
-                    # Case of a Cross Pinning-related Line
-                    self.get_list_lines_cross_pinning().append(line)
-                elif line.get_type() == LineTypesEnum.OPEN_WIRES:
-                    # Case of a Open Wires-related Line
-                    self.get_list_lines_open_wires().append(line)
-                elif line.get_type() == LineTypesEnum.EXTRA_WIRES_SHORTS:
-                    # Case of a Extra Wires - Shorts-related Line
-                    self.get_list_lines_shorts().append(line)
-                else:
-                    # Unknown type of line
-                    msg_error = "An unknown type of line was detected while treating : " + "\"" + str(line) + "\""
-                    LOGGER.error(msg_error)
-                    raise TypeError(msg_error)
-
-            # Initializing the Views  by feeding them with the first line of the adequate Lines list
-            # TEMPORARY, should be called mor dynamically once it is possible
-
-            # CROSS PINNING
-            self.get_cross_pinning_view().get_window_ui().get_label_fixed_strings().setText(
-                fixed_string_part_1 + " - " + equipment_name
-            )
-            self.get_cross_pinning_view().get_window_ui().get_label_uut().setText(uut)
-            if self.get_list_lines_cross_pinning():
-                self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
-
-            # OPEN WIRES
-            self.get_open_wires_view().get_window_ui().get_label_fixed_strings().setText(
-                fixed_string_part_1 + " - " + equipment_name
-            )
-            self.get_open_wires_view().get_window_ui().get_label_uut().setText(uut)
-            if self.get_list_lines_open_wires():
-                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
-
-            # SHORTS
-            self.get_shorts_view().get_window_ui().get_label_fixed_strings().setText(
-                fixed_string_part_1 + " - " + equipment_name
-            )
-            self.get_shorts_view().get_window_ui().get_label_uut().setText(uut)
-            if self.get_list_lines_shorts():
-                self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
-
-            # ADDITIONAL INFORMATION
-            self.get_additional_information_view().get_window_ui().get_label_uut().setText(uut)
-            self.get_additional_information_view().get_window_ui().get_label_fixed_strings().setText(
-                fixed_string_part_1 + " - " + equipment_name
-            )
-
-            """
-            TEMPORARY, it will be the Loading Window that will appear first
-            """
-            # Showing the Cross Pinning window
-            self.get_cross_pinning_view().get_window_ui().get_main_window().showMaximized()
-
-            # Initializing the File_Queue
-            # self.set_file_queue([])
-
             # Feeding the Combo Boxes of the all the Windows
             self.feed_windows_combo_boxes()
 
+            # Initializing the File_Queue
+            self.set_file_queue([])
+
             # Managing the events
             self.manage_events()
+
+            # At the beginning, the first viw is that of Loading Window
+            self.set_current_view(self.get_loading_window_view())
+
+            # Starting the treatments
+            self.check_current_window()
         elif len(args) == 2:
             # Both the View part and the AS to be used by the Controller were provided
             # Preparing each part
@@ -362,7 +337,8 @@ class CRUDFileController:
         """
         # CROSS PINNING
         for value in defects_codes[0].get_lines():
-            cross_pinning_window.get_combobox_fed_by_excel_sheet().addItem(value)
+            cross_pinning_window.get_combobox_fed_by_excel_sheet().addItem\
+                (value)
 
         # OPEN WIRES
         for value in defects_codes[1].get_lines():
@@ -375,65 +351,6 @@ class CRUDFileController:
         # ADDITIONAL INFORMATION
         for value in defects_codes[3].get_lines():
             additional_information_window.get_combobox_fed_by_excel_sheet().addItem(value)
-
-    def write_open_connections_information(self):
-        """
-        After clicking the Open Connections Confirm button, we write the selected information in
-        a new Excel File
-        :return: None
-        """
-        # Getting the main window of the view
-        view_window = self.get_crud_file_view().get_main_window_ui()
-
-        # Preparing the line to write
-        line_to_write = LineToWriteDTO()
-        line_to_write.set_uut(view_window.get_label_file_id().text())
-        line_to_write.set_f(view_window.get_combo_box_F().currentText())
-        line_to_write.set_fixed_string(view_window.get_label_for_the_specific_fixed_string().text())
-        line_to_write.set_date(get_current_date("%d.%m.%Y"))
-        line_to_write.set_time(get_current_time("%I:%M:%S %p"))
-        line_to_write.set_wire_name(view_window.get_text_wire_name().toPlainText())
-        line_to_write.set_cross_section(view_window.get_text_cross_section().toPlainText())
-        line_to_write.set_color(view_window.get_text_color().toPlainText())
-        line_to_write.set_position_1(view_window.get_text_position_1().toPlainText())
-        line_to_write.set_cavity_1(view_window.get_text_cavity_1().toPlainText())
-        line_to_write.set_position_2(view_window.get_text_position_2().toPlainText())
-        line_to_write.set_cavity_2(view_window.get_text_cavity_2().toPlainText())
-        line_to_write.set_w(view_window.get_combo_box_open_connections_W().currentText())
-        line_to_write.set_comments(view_window.get_text_open_connections_comments().toPlainText())
-
-        # Actual writing
-        self.get_crud_file_as().write_modified_line(
-            get_application_property("folder_modified_lines_path")
-            , line_to_write
-        )
-
-        """
-        Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
-        Line 
-        """
-
-        # First, let's identify which Line is the concerned one
-        line_to_remove_item = view_window.get_list_open_connections_name().currentItem().toolTip()
-        line_to_remove = next((x for x in self.get_current_file().get_lines_to_read()
-                               # Let's remind it that the item's tooltip corresponds to the Line's Item number
-                               if str(x.get_item()) == line_to_remove_item)
-                              , None)
-
-        # After the identification, the actual removal process
-        self.remove_confirmed_item(line_to_remove)
-        LOGGER.info(
-            "The following line has been successfully removed from the Current File's list: "
-            + str(line_to_remove)
-        )
-
-        """
-        Once the Removal process successfully achieved, we need to check the state of the Controller's Current File 
-        Lines.
-        If there are no more lines (all of them have been modified), we load another file from the File Event Handler's
-        Queue.
-        """
-        self.check_current_file_lines()
 
     def write_cross_pinning_information(self):
         """
@@ -524,8 +441,9 @@ class CRUDFileController:
                 self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
             else:
                 # No more line, let's pass to the Next Step: OPEN WIRES
-                self.get_cross_pinning_view().get_window_ui().get_main_window().close()
-                self.get_open_wires_view().get_window_ui().get_main_window().showMaximized()
+                self.get_current_view().get_window_ui().get_main_window().close()
+                self.set_current_view(self.get_open_wires_view())
+                self.get_current_view().get_window_ui().get_main_window().showMaximized()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
@@ -595,36 +513,9 @@ class CRUDFileController:
                 self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
             else:
                 # No more line, let's pass to the Next Step: SHORTS
-                self.get_open_wires_view().get_window_ui().get_main_window().close()
-                self.get_shorts_view().get_window_ui().get_main_window().showMaximized()
-
-            # TEMPORARY COMMENTED, will be seriously reviewed once it is possible
-            """
-            Once the Writing process successfully achieved, we have to remove the modified line from the Current File's
-            Line
-            """
-
-            # First, let's identify which Line is the concerned one
-            # line_to_remove_item = view_window.get_list_open_connections_name().currentItem().toolTip()
-            # line_to_remove = next((x for x in self.get_current_file().get_lines_to_read()
-            #                        # Let's remind it that the item's tooltip corresponds to the Line's Item number
-            #                        if str(x.get_item()) == line_to_remove_item)
-            #                       , None)
-            #
-            # # After the identification, the actual removal process
-            # self.remove_confirmed_item(line_to_remove)
-            # LOGGER.info(
-            #     "The following line has been successfully removed from the Current File's list: "
-            #     + str(line_to_remove)
-            # )
-
-            """
-            Once the Removal process successfully achieved, we need to check the state of the Controller's Current File
-            Lines.
-            If there are no more lines (all of them have been modified), we load another file from the File Event 
-            Handler's Queue.
-            """
-            # self.check_current_file_lines()
+                self.get_current_view().get_window_ui().get_main_window().close()
+                self.set_current_view(self.get_shorts_view())
+                self.get_current_view().get_window_ui().get_main_window().showMaximized()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
@@ -689,10 +580,9 @@ class CRUDFileController:
             if len(self.get_list_lines_shorts()) > 0:
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
             else:
-                # time.sleep(2)
-                self.get_shorts_view().get_window_ui().get_main_window().close()
-                self.get_additional_information_view().get_window_ui().get_main_window().showMaximized()
-
+                self.get_current_view().get_window_ui().get_main_window().close()
+                self.set_current_view(self.get_additional_information_view())
+                self.get_current_view().get_window_ui().get_main_window().showMaximized()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
@@ -758,9 +648,13 @@ class CRUDFileController:
             # First, just write
             self.write_additional_information()
 
-            # And then, go back to the Loading Window
-            # TEMPORARY, we'lle work on it SERIOUSLY once the Cross Pinning managed
-            print("ADDITIONAL INFORMATION DONE")
+            # Then, we have to remove the recently treated file
+            os.remove(self.get_file_to_delete_path())
+
+            # And finally, we are going to request the Treatment of a next HTML file
+            self.get_current_view().get_window_ui().get_main_window().close()
+            self.set_current_view(self.get_loading_window_view())
+            self.check_current_window()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
@@ -769,68 +663,111 @@ class CRUDFileController:
             )
             raise
 
-    def remove_confirmed_item(self, line_to_remove: LineToRead):
-        """
-        Removing the modified line from the Current File's Line
-        :line_to_remove: The modified line to be removed
-        :return: None
-        """
-        # Removal process
-        self.get_current_file().get_lines_to_read().remove(line_to_remove)
-
-        # Let's update the Main Window with the new state of the Current File
-        self.get_crud_file_view().update_main_window(self.get_current_file())
-
-    def check_current_file_lines(self):
+    def check_current_window(self):
         """
         Checking if the Current File lines property is Empty|Not Empty.
         If (Empty), then, it is time to load another one.
         :return: None
         """
-        if len(self.get_current_file().get_lines_to_read()) < 1:
-            # If the Current File's line are Empty, we load another one
-            self.load_another_file()
+        if self.get_current_view() == self.get_loading_window_view():
+            # We have to load an HTML file
+            self.load_html_file()
 
-    def load_another_file(self):
-        """
-        Loading another Test Report Excel file to be treated by the Application through the latter's specific GUI.
-        :return: None
-        """
-        # The file to be loaded is the the First one in the File Handler's queue of file
-        file_handler_queue = self.get_file_queue()
-
-        if len(file_handler_queue) > 0:
-            # Loading a new file is only possible when the File Handler's queue still contains File
-            file_retrieved = self \
-                .get_crud_file_as().read_test_report_file(
-                file_handler_queue.pop(0)
-            )
-
+    def load_html_file(self):
+        # The html file to be loaded is the the First one in the File queue
+        file_queue = self.get_file_queue()
+        if len(file_queue) > 0:
+            # Loading a new HTML file is only possible when the File Queue still contains File
+            html_file = file_queue.pop(0)
+            file_retrieved = self.get_crud_file_as().read_test_report_file(html_file)
             self.set_current_file(file_to_read_dto_to_file_to_read(file_retrieved))
+            self.set_file_to_delete_path(html_file)
+            LOGGER.info("Test report HTML file loaded : " + str(self.get_current_file()))
 
-            # Before going further, let's first clean the Current File
-            self.clean_current_file_lines()
-            LOGGER.info("Test report file loaded : " + str(self.get_current_file()))
-            # Updating the main window with the Current File's contents
-            self.get_crud_file_view().update_main_window(self.get_current_file())
+            # (Re-)Initializing all the lists of lines, acknowledging that each of them corresponds to a specific type
+            # of lines
+            self.set_list_lines_cross_pinning([])
+            self.set_list_lines_open_wires([])
+            self.set_list_lines_shorts([])
+            QApplication.processEvents()
+
+            # Retrieving all the general information about the file that is read and display them on the Windows
+            fixed_string_part_1 = get_application_property("specific_fixed_string_part_1")
+            equipment_name = get_application_property("equipment_name")
+            uut = self.get_current_file().get_uut()
+            QApplication.processEvents()
+
+            # Retrieving all the lines from the current HTML file and then dispatch them to the adequate list
+            for line in self.get_current_file().get_lines_to_read():
+                if line.get_type() == LineTypesEnum.CROSS_PINNING:
+                    # Case of a Cross Pinning-related Line
+                    self.get_list_lines_cross_pinning().append(line)
+                elif line.get_type() == LineTypesEnum.OPEN_WIRES:
+                    # Case of a Open Wires-related Line
+                    self.get_list_lines_open_wires().append(line)
+                elif line.get_type() == LineTypesEnum.EXTRA_WIRES_SHORTS:
+                    # Case of a Extra Wires - Shorts-related Line
+                    self.get_list_lines_shorts().append(line)
+                else:
+                    # Unknown type of line
+                    msg_error = "An unknown type of line was detected while treating : " + "\"" + str(line) + "\""
+                    LOGGER.error(msg_error)
+                    raise TypeError(msg_error)
+
+            """
+            (Re-)Initializing the Views by feeding them with the first line of the adequate Lines list
+            """
+            # CROSS PINNING
+            self.get_cross_pinning_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
+            self.get_cross_pinning_view().get_window_ui().get_label_uut().setText(uut)
+            if self.get_list_lines_cross_pinning():
+                self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
+            self.get_cross_pinning_view().get_window_ui().get_main_window().showMaximized()
+            # OPEN WIRES
+            self.get_open_wires_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
+            self.get_open_wires_view().get_window_ui().get_label_uut().setText(uut)
+            if self.get_list_lines_open_wires():
+                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+            # SHORTS
+            self.get_shorts_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
+            self.get_shorts_view().get_window_ui().get_label_uut().setText(uut)
+            if self.get_list_lines_shorts():
+                self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
+            # ADDITIONAL INFORMATION
+            self.get_additional_information_view().get_window_ui().get_label_uut().setText(uut)
+            self.get_additional_information_view().get_window_ui().get_label_fixed_strings().setText(
+                fixed_string_part_1 + " - " + equipment_name
+            )
+            QApplication.processEvents()
+
+            # And, The Cross Pinning window is the first of the Treatment Windows to be displayed
+            # and the others will follow once the treatments on this Window will be achieved
+            self.get_current_view().get_window_ui().get_main_window().close()
+            self.set_current_view(self.get_cross_pinning_view())
+            self.get_current_view().get_window_ui().get_main_window().showMaximized()
         else:
-            # Just Clear the main window until a new file is added within the Folder
-            self.get_crud_file_view().clear_main_window()
+            # We have to load all the HTML files present within dedicated folder to our File Queue
+            file_path = get_application_property("test_report_folder_path")
 
-    def clean_current_file_lines(self):
-        """
-        Removing from the Current File the lines, even though with a Result set to "Fail",
-        but with a Type that should be ignored by the Application.
-        :return: None
-        """
-        line_to_be_removed = []
-        for line in self.get_current_file().get_lines_to_read():
-            if line.get_type().upper() not in ["TESTSWITCH", "TESTCONNECTION"
-                , "TESTBUSCONNECTORGROUP", "TESTBUSCONNECTORGROUPOPEN"
-                , "TESTBUSCONNECTORGROUPDETECTION", "ISOLATIONTEST"]:
-                # Just list the lines that are supposed to be ignored
-                line_to_be_removed.append(line)
+            if not os.listdir(file_path):
+                # If no file is available within the HTML folder, we have to wait...
+                # ...so, let's display the Loading Window.
+                self.get_current_view().get_window_ui().get_main_window().showMaximized()
+                while not os.listdir(file_path):
+                    # In order to keep the Loading Window open
+                    QApplication.processEvents()
+                # Once the files are there:
+                # 1 - Let's wait for about 5 s in to make sure that the recently added file(s) are(is) ready
+                time.sleep(5)
+            # 2 -... and load all those files within our File Queue
+            for file_name in os.listdir(file_path):
+                self.get_file_queue().append(file_path + "\\" + file_name)
+            # 3 - Now, let's launch a new Load of HTML file, but this time, with the File(s)
+            self.load_html_file()
 
-        # Proceed to the actual removal process, based on the previous pre-filled list of lines
-        for line in line_to_be_removed:
-            self.get_current_file().get_lines_to_read().remove(line)

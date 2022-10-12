@@ -16,6 +16,8 @@ from PRESENTATION.VIEW.shorts_view import ShortsView
 from PRESENTATION.CONTROLLER.crud_file_controller import CRUDFileController
 from PRESENTATION.CONTROLLER.crud_file_event_handler import CRUDFileEventHandler
 
+import threading
+
 
 if __name__ == '__main__':
     application = QApplication(sys.argv)
@@ -29,7 +31,9 @@ if __name__ == '__main__':
     #
     # controller = CRUDFileController(view)
     #
-    # file_event_handler = CRUDFileEventHandler(controller)
+
+    #file_event_handler = CRUDFileEventHandler(controller)
+
     #
     # controller.get_crud_file_view().get_main_window_ui().get_main_window().show()
 

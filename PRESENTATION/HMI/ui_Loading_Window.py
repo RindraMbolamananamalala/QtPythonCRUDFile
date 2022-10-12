@@ -84,5 +84,3 @@ class Ui_window_loading(object):
 
     def retranslateUi(self, window_loading):
         window_loading.setWindowTitle(QCoreApplication.translate("window_loading", u"MainWindow", None))
-
-
