@@ -78,7 +78,7 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         # Configuring the Cross Pinning's name's label
         self.label_name = QLabel(self.column_treatment)
         self.label_name.setObjectName(u"label_name")
-        self.label_name.setGeometry(QRect(660, 50, 375, 50))
+        self.label_name.setGeometry(QRect(660, 50, 500, 50))
         font6 = QFont()
         font6.setFamily(u"Consolas")
         font6.setPointSize(22)

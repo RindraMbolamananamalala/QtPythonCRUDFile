@@ -654,6 +654,7 @@ class CRUDFileController:
             # And finally, we are going to request the Treatment of a next HTML file
             self.get_current_view().get_window_ui().get_main_window().close()
             self.set_current_view(self.get_loading_window_view())
+            self.get_current_view().get_window_ui().get_main_window().showMaximized()
             self.check_current_window()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
@@ -748,7 +749,8 @@ class CRUDFileController:
 
             # And, The Cross Pinning window is the first of the Treatment Windows to be displayed
             # and the others will follow once the treatments on this Window will be achieved
-            self.get_current_view().get_window_ui().get_main_window().close()
+            if self.get_current_view().get_window_ui().get_main_window().isVisible():
+                self.get_current_view().get_window_ui().get_main_window().close()
             self.set_current_view(self.get_cross_pinning_view())
             self.get_current_view().get_window_ui().get_main_window().showMaximized()
         else:
