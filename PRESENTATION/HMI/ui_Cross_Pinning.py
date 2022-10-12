@@ -136,6 +136,7 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         try:
             widget_left_part = self.get_widget_left_part()
             for child in widget_left_part.children():
+                child.close()
                 child.setParent(None)
         except Exception as exception:
             # At least one error has occurred, therefore, stop the clearing process
