@@ -277,7 +277,7 @@ class CRUDFileController:
             TEMPORARY, it will be the Loading Window that will appear first
             """
             # Showing the Cross Pinning window
-            self.get_cross_pinning_view().get_window_ui().get_main_window().show()
+            self.get_cross_pinning_view().get_window_ui().get_main_window().showMaximized()
 
             # Initializing the File_Queue
             # self.set_file_queue([])
@@ -525,7 +525,7 @@ class CRUDFileController:
             else:
                 # No more line, let's pass to the Next Step: OPEN WIRES
                 self.get_cross_pinning_view().get_window_ui().get_main_window().close()
-                self.get_open_wires_view().get_window_ui().get_main_window().show()
+                self.get_open_wires_view().get_window_ui().get_main_window().showMaximized()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
@@ -596,7 +596,7 @@ class CRUDFileController:
             else:
                 # No more line, let's pass to the Next Step: SHORTS
                 self.get_open_wires_view().get_window_ui().get_main_window().close()
-                self.get_shorts_view().get_window_ui().get_main_window().show()
+                self.get_shorts_view().get_window_ui().get_main_window().showMaximized()
 
             # TEMPORARY COMMENTED, will be seriously reviewed once it is possible
             """
@@ -691,7 +691,7 @@ class CRUDFileController:
             else:
                 # time.sleep(2)
                 self.get_shorts_view().get_window_ui().get_main_window().close()
-                self.get_additional_information_view().get_window_ui().get_main_window().show()
+                self.get_additional_information_view().get_window_ui().get_main_window().showMaximized()
 
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
