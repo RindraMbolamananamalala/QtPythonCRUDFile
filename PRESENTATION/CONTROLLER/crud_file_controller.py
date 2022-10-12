@@ -632,6 +632,9 @@ class CRUDFileController:
                 get_application_property("folder_modified_lines_path")
                 , line_to_write
             )
+
+            # Clearing the data
+            self.get_additional_information_view().clear_data()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
             LOGGER.error(
@@ -655,6 +658,7 @@ class CRUDFileController:
             os.remove(self.get_file_to_delete_path())
 
             # And finally, we are going to request the Treatment of a next HTML file
+            self.get_additional_information_view().clear_data()
             self.get_current_view().get_window_ui().get_main_window().close()
             self.set_current_view(self.get_loading_window_view())
             self.get_current_view().get_window_ui().get_main_window().showMaximized()
