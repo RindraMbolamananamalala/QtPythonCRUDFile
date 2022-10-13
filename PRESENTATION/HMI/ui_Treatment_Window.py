@@ -84,7 +84,7 @@ class Ui_TreatmentWindow(object):
         if not main_window.objectName():
             main_window.setObjectName(u"MainWindow")
             self.set_main_window(main_window)
-        main_window.setMaximumSize(1920, 1080)
+        main_window.setFixedSize(1920, 1080)
 
         main_window.setAutoFillBackground(False)
         self.centralwidget = QWidget(main_window)
@@ -99,22 +99,22 @@ class Ui_TreatmentWindow(object):
         # The list of Label Icons
         self.label_icon_1 = QLabel(self.column_navigation)
         self.label_icon_1.setObjectName(u"label_icon_1")
-        self.label_icon_1.setGeometry(QRect(13, 7, 75, 75))
+        self.label_icon_1.setGeometry(QRect(12.75, 7, 75, 75))
         self.label_icon_1.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon1_active.png"))
 
         self.label_icon_2 = QLabel(self.column_navigation)
         self.label_icon_2.setObjectName(u"label_icon_2")
-        self.label_icon_2.setGeometry(QRect(13, 87, 75, 75))
+        self.label_icon_2.setGeometry(QRect(12.75, 87, 75, 75))
         self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon2_active.png"))
 
         self.label_icon_3 = QLabel(self.column_navigation)
         self.label_icon_3.setObjectName(u"label_icon_3")
-        self.label_icon_3.setGeometry(QRect(13, 167, 75, 75))
+        self.label_icon_3.setGeometry(QRect(12.75, 167, 75, 75))
         self.label_icon_3.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon3_active.png"))
 
         self.label_icon_4 = QLabel(self.column_navigation)
         self.label_icon_4.setObjectName(u"label_icon_4")
-        self.label_icon_4.setGeometry(QRect(13, 247, 75, 75))
+        self.label_icon_4.setGeometry(QRect(12.75, 247, 75, 75))
         self.label_icon_4.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon4_active.png"))
 
         # The Vertical label dedicated to the combination of the two fixed Strings
