@@ -114,19 +114,6 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         # Finally, we have to Retranslate the current UI, independently of the Superclass
         self.retranslateCurrentUi(main_window)
 
-    def retranslateCurrentUi(self, main_window: QMainWindow):
-        """
-        Defining a specific Retranslation of the current UI, independently of the Superclass.
-
-        :param main_window: The main window of the current UI
-        :return:
-        """
-        # Temporary data are used to feed the UI, will be seriously managed latter
-
-        self.label_name.setText(QCoreApplication.translate("MainWindow", u"9611_1 0.75 WH", None))
-
-        self.button_done.setText(QCoreApplication.translate("MainWindow", u"Done", None))
-
     def clear_left_part(self):
         """
         Clearing the content of the left part.
@@ -290,3 +277,13 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         """
         for label in self.get_label_items():
             label.setStyleSheet("color: white")
+
+    def retranslateCurrentUi(self, main_window: QMainWindow):
+        """
+        Defining a specific Retranslation of the current UI, independently of the Superclass.
+
+        :param main_window: The main window of the current UI
+        :return:
+        """
+        self.label_cross_pinning.setText(QCoreApplication.translate("MainWindow", u"Cross Pinning", None))
+        self.button_done.setText(QCoreApplication.translate("MainWindow", u"Done", None))
