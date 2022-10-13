@@ -269,7 +269,7 @@ class CrossPinningView(CRUDFileView):
             color = line_name_initial.split("`")[1]
             wire_name = line_name_initial.split("`")[0].split("/")[0]
             cross_section = line_name_initial.split("`")[0].split("/")[1]
-            line_name_transformed = wire_name + " " + cross_section + " " + color
+            line_name_transformed = wire_name + "  " + cross_section + "  " + color
             self.get_window_ui().get_label_name().setText(line_name_transformed)
 
             # Middle Part for possible To Pins

@@ -366,9 +366,9 @@ class CRUDFileController:
             # Preparing the data that still need pre-processing
             fixed_string_part_1 = cross_pinning_view_window_ui.get_label_fixed_strings().text().split(" - ")[0]
             equipment_name = cross_pinning_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
-            wire_name = cross_pinning_view_window_ui.get_label_name().text().split(" ")[0]
-            cross_section = cross_pinning_view_window_ui.get_label_name().text().split(" ")[1]
-            color = cross_pinning_view_window_ui.get_label_name().text().split(" ")[2]
+            wire_name = cross_pinning_view_window_ui.get_label_name().text().split("  ")[0]
+            cross_section = cross_pinning_view_window_ui.get_label_name().text().split("  ")[1]
+            color = cross_pinning_view_window_ui.get_label_name().text().split("  ")[2]
             from_pins_info = html_content_to_simple_text(
                 self.get_cross_pinning_view().get_selected_from_item_label().text()
             )
