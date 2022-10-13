@@ -834,7 +834,7 @@ class CRUDFileController:
                     QApplication.processEvents()
                 if not loading_window.isVisible():
                     # It means that the User has personally ordered the end of the Application's execution regardless
-                    # of the fact if this latter have found an HTML file or not
+                    # of the fact of "if this latter have found an HTML file or not"
                     sys.exit()
                 # Once the files are there:
                 # 1 - Let's wait for about 5 s in to make sure that the recently added file(s) are(is) ready
