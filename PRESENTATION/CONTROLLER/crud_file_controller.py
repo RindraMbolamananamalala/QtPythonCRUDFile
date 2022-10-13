@@ -43,6 +43,15 @@ from BUSINESS.SERVICE.APPLICATION_SERVICE.IMPL.crud_file_as_impl import CRUDFile
 
 class CRUDFileController:
 
+    """
+    The following variables play a key role when it comes to knowing the content of the current HTML being read,
+    especially for the steps of Windows' Transitions
+    """
+    doesCurrentHTMLFileHaveCrossPinningLines = False
+    doesCurrentHTMLFileHaveOpenWiresLines = False
+    doesCurrentHTMLFileHaveShortsLines = False
+
+
     def set_current_view(self, current_view):
         """
 
@@ -439,11 +448,25 @@ class CRUDFileController:
             # 2 - Pass to the the Next Step: OPEN WIRES
             if len(self.get_list_lines_cross_pinning()) > 0:
                 # There is still any...
+                self.doesCurrentHTMLFileHaveCrossPinningLines = True
                 self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
             else:
                 # No more line, let's pass to the Next Step: OPEN WIRES
                 self.get_current_view().get_window_ui().get_main_window().close()
-                self.set_current_view(self.get_open_wires_view())
+                """ 
+                A Deja Vu?... it's the same logic as seen in the "load_html()"... 
+                """
+                if self.doesCurrentHTMLFileHaveOpenWiresLines:
+                    # Once again, only if the Open Wires lines allow it...
+                    self.set_current_view(self.get_open_wires_view())
+                else:
+                    # The same logic for the Shorts View...
+                    if self.doesCurrentHTMLFileHaveShortsLines:
+                        self.set_current_view(self.get_shorts_view())
+                    else:
+                        # The only remaining option is... the Additional Information Window
+                        self.set_current_view(self.get_additional_information_view())
+                # Time to display the chosen one...
                 self.get_current_view().get_window_ui().get_main_window().showMaximized()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
@@ -510,13 +533,19 @@ class CRUDFileController:
             # OR
             # 2 - Pass to the the Next Step: SHORTS
             if len(self.get_list_lines_open_wires()) > 0:
-                # There is still any...
-                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
-            else:
+                self.doesCurrentHTMLFileHaveOpenWiresLines = True
                 # No more line, let's pass to the Next Step: SHORTS
                 self.get_open_wires_view().clear_data()
                 self.get_current_view().get_window_ui().get_main_window().close()
-                self.set_current_view(self.get_shorts_view())
+                """
+                Another Deja Vu... see "load_html()" and "write_cross_pinning_after_done()
+                """
+                # The same logic for the Shorts View...
+                if self.doesCurrentHTMLFileHaveShortsLines:
+                    self.set_current_view(self.get_shorts_view())
+                else:
+                    # The only remaining option is... the Additional Information Window
+                    self.set_current_view(self.get_additional_information_view())
                 self.get_current_view().get_window_ui().get_main_window().showMaximized()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
@@ -580,6 +609,8 @@ class CRUDFileController:
             # OR
             # 2 - Pass to the the Next Step: ADDITIONAL INFORMATION
             if len(self.get_list_lines_shorts()) > 0:
+                # There is still any...
+                self.doesCurrentHTMLFileHaveShortsLines = True
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
             else:
                 self.get_shorts_view().clear_data()
@@ -685,6 +716,12 @@ class CRUDFileController:
         # The html file to be loaded is the the First one in the File queue
         file_queue = self.get_file_queue()
         if len(file_queue) > 0:
+            # First of all, we need to initialize the variables that are supposed to "know" the content of the (future)
+            # current HTML File to read
+            self.doesCurrentHTMLFileHaveCrossPinningLines = False
+            self.doesCurrentHTMLFileHaveOpenWiresLines = False
+            self.doesCurrentHTMLFileHaveShortsLines = False
+
             # Loading a new HTML file is only possible when the File Queue still contains File
             html_file = file_queue.pop(0)
             file_retrieved = self.get_crud_file_as().read_test_report_file(html_file)
@@ -731,6 +768,8 @@ class CRUDFileController:
             )
             self.get_cross_pinning_view().get_window_ui().get_label_uut().setText(uut)
             if self.get_list_lines_cross_pinning():
+                # The current HTML file has CROSS PINNING's line(s)
+                self.doesCurrentHTMLFileHaveCrossPinningLines = True
                 self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
             self.get_cross_pinning_view().get_window_ui().get_main_window().showMaximized()
             # OPEN WIRES
@@ -739,6 +778,8 @@ class CRUDFileController:
             )
             self.get_open_wires_view().get_window_ui().get_label_uut().setText(uut)
             if self.get_list_lines_open_wires():
+                # The current HTML file has OPEN WIRES line(s)
+                self.doesCurrentHTMLFileHaveOpenWiresLines = True
                 self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
             # SHORTS
             self.get_shorts_view().get_window_ui().get_label_fixed_strings().setText(
@@ -746,19 +787,39 @@ class CRUDFileController:
             )
             self.get_shorts_view().get_window_ui().get_label_uut().setText(uut)
             if self.get_list_lines_shorts():
+                # The current HTML File has SHORTS line(s)
+                self.doesCurrentHTMLFileHaveShortsLines = True
                 self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
             # ADDITIONAL INFORMATION
             self.get_additional_information_view().get_window_ui().get_label_uut().setText(uut)
             self.get_additional_information_view().get_window_ui().get_label_fixed_strings().setText(
                 fixed_string_part_1 + " - " + equipment_name
             )
-            QApplication.processEvents()
 
-            # And, The Cross Pinning window is the first of the Treatment Windows to be displayed
-            # and the others will follow once the treatments on this Window will be achieved
+            # And, The Cross Pinning window is the first of the Treatment Windows to be displayed (if the corresponding
+            # List of lines previously fed allows this), and the others will follow once the treatments on this Window
+            # will be achieved
             if self.get_current_view().get_window_ui().get_main_window().isVisible():
                 self.get_current_view().get_window_ui().get_main_window().close()
-            self.set_current_view(self.get_cross_pinning_view())
+            if self.doesCurrentHTMLFileHaveCrossPinningLines:
+                # The current view will be the Cross Pinning one, unless there are no lines for it....
+                self.set_current_view(self.get_cross_pinning_view())
+            else:
+                # If there are no lines for the Cross Pinning, skip it and let's directly attack the
+                # case of the Open wires view... something else is yet to be discussed lower...
+                if self.doesCurrentHTMLFileHaveOpenWiresLines:
+                    # Once again, only if the Open Wires lines allow it...
+                    self.set_current_view(self.get_open_wires_view())
+                else:
+                    # The same logic for the Shorts View...
+                    if self.doesCurrentHTMLFileHaveShortsLines:
+                        self.set_current_view(self.get_shorts_view())
+                    else:
+                        # The only remaining option is... the Additional Information Window
+                        self.set_current_view(self.get_additional_information_view())
+            # Now, Let's display the next (the new current) window, it could be that of the CROSS PINNING, that of
+            # the OPEN WIRES, that of the SHORTS or event that of the ADDITIONAL INFORMATION, depending on the lines
+            # of reports retrieved within the Current file
             self.get_current_view().get_window_ui().get_main_window().showMaximized()
         else:
             # We have to load all the HTML files present within dedicated folder to our File Queue
