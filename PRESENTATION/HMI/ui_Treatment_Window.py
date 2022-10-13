@@ -142,10 +142,10 @@ class Ui_TreatmentWindow(object):
         # The Logo box area
         self.widget_logo_box = QWidget(self.column_treatment)
         self.widget_logo_box.setObjectName(u"widget_logo_box")
-        self.widget_logo_box.setGeometry(QRect(1450, 50, 350, 45))
+        self.widget_logo_box.setGeometry(QRect(1540, 25, 265, 45))
         self.label_logo_box = QLabel(self.widget_logo_box)
         self.label_logo_box.setGeometry(QRect(0, 0, 350, 45))
-        self.label_logo_box.setPixmap(QPixmap("RESOURCES\\IMAGES\\logo_350x45.png"))
+        self.label_logo_box.setPixmap(QPixmap("RESOURCES\\IMAGES\\logo_350x45_m75percent.png"))
         self.label_logo_box.setObjectName(u"label_logo_box")
 
         # The settings related to the Combo-Box fed by a specific Excel Sheet to be provided
@@ -211,7 +211,6 @@ class Ui_TreatmentWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.label_fixed_strings.setText(QCoreApplication.translate("MainWindow", u"Post Process - ROB 8", None))
         self.text_comments.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Comments", None))
         self.button_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
     # retranslateUi
