@@ -8,6 +8,7 @@ the "PRESENTATION" layer of the Project.
 __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
+import sys
 import time
 import os
 
@@ -734,13 +735,11 @@ class CRUDFileController:
             self.set_list_lines_cross_pinning([])
             self.set_list_lines_open_wires([])
             self.set_list_lines_shorts([])
-            QApplication.processEvents()
 
             # Retrieving all the general information about the file that is read and display them on the Windows
             fixed_string_part_1 = get_application_property("specific_fixed_string_part_1")
             equipment_name = get_application_property("equipment_name")
             uut = self.get_current_file().get_uut()
-            QApplication.processEvents()
 
             # Retrieving all the lines from the current HTML file and then dispatch them to the adequate list
             for line in self.get_current_file().get_lines_to_read():
@@ -828,10 +827,15 @@ class CRUDFileController:
             if not os.listdir(file_path):
                 # If no file is available within the HTML folder, we have to wait...
                 # ...so, let's display the Loading Window.
-                self.get_current_view().get_window_ui().get_main_window().showMaximized()
-                while not os.listdir(file_path):
+                loading_window = self.get_current_view().get_window_ui().get_main_window()
+                loading_window.showMaximized()
+                while (not os.listdir(file_path)) and loading_window.isVisible():
                     # In order to keep the Loading Window open
                     QApplication.processEvents()
+                if not loading_window.isVisible():
+                    # It means that the User has personally ordered the end of the Application's execution regardless
+                    # of the fact if this latter have found an HTML file or not
+                    sys.exit()
                 # Once the files are there:
                 # 1 - Let's wait for about 5 s in to make sure that the recently added file(s) are(is) ready
                 time.sleep(5)
