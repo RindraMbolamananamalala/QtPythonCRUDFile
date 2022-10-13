@@ -96,12 +96,4 @@ class UI_OpenWires(Ui_TreatmentWindow):
         """
         # Temporary data are used to feed the UI, will be seriously managed latter
         self.label_open_wires.setText(QCoreApplication.translate("MainWindow", u"Open Wires", None))
-        self.label_left_part.setText(QCoreApplication.translate("MainWindow",
-                                                                u"<html><head/><body><p>E17/48*1-S_V1.1<BR>[49B]</BR><BR></BR></p><p><span>W85/2*1-K_V1.1 </span><BR>[55E]</BR></p></body></html>",
-                                                                None))
-        self.label_middle_part.setText(QCoreApplication.translate("MainWindow",
-                                                                  u"BN",
-                                                                  None))
-        self.label_right_part.setText(QCoreApplication.translate("MainWindow",
-                                                                 u"2386/0.35",
-                                                                 None))
+

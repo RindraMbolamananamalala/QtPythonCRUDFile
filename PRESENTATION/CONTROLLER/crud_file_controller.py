@@ -534,7 +534,10 @@ class CRUDFileController:
             # OR
             # 2 - Pass to the the Next Step: SHORTS
             if len(self.get_list_lines_open_wires()) > 0:
+                # There is still any...
                 self.doesCurrentHTMLFileHaveOpenWiresLines = True
+                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+            else:
                 # No more line, let's pass to the Next Step: SHORTS
                 self.get_open_wires_view().clear_data()
                 self.get_current_view().get_window_ui().get_main_window().close()
