@@ -74,7 +74,7 @@ class Ui_TreatmentWindow(object):
         """
         return self.label_fixed_strings
 
-    def __init__(self, main_window):
+    def __init__(self, main_window:QMainWindow):
         """
         Setting up the UI.
 
@@ -84,12 +84,11 @@ class Ui_TreatmentWindow(object):
         if not main_window.objectName():
             main_window.setObjectName(u"MainWindow")
             self.set_main_window(main_window)
-        main_window.setFixedSize(1920, 1080)
+        main_window.setMaximumSize(1920, 1080)
 
         main_window.setAutoFillBackground(False)
         self.centralwidget = QWidget(main_window)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.centralwidget.setGeometry(0, 0, 1920, 1080)
 
         # The column for the Navigation
         self.column_navigation = QWidget(self.centralwidget)
@@ -121,7 +120,7 @@ class Ui_TreatmentWindow(object):
         # The Vertical label dedicated to the combination of the two fixed Strings
         self.label_fixed_strings = CRUDFileVerticalLabel(self.column_navigation)
         self.label_fixed_strings.setObjectName(u"label_fixed_strings")
-        self.label_fixed_strings.setGeometry(QRect(0, 500, 72, 450))
+        self.label_fixed_strings.setGeometry(QRect(20, 500, 72, 450))
         font = QFont()
         font.setFamily(u"Consolas")
         font.setPointSize(20)
