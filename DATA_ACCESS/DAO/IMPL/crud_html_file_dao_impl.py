@@ -112,7 +112,9 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                 content_split = content.split("\n")
 
                 # Now, let's get all the information (Data) that we need inside those Tables
-                if re.search("^Open\n", content) and not re.search("\nMiswire\n", content):
+                if re.search("^Open\n", content) and not re.search("\nMiswire\n", content) \
+                        and not content_split[1] == "Bus conn group":  # "Open Bus conn group" lines are not related to
+                    # Open Wires
                     """
                     The current Table's Data are related to Open Wires
                     """
