@@ -120,18 +120,26 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                     """
                     name = content_split[1]
                     from_pins = content_split[2]
-                    if not (">" in content_split[3] or "<" in content_split[3]):
+                    # A counter that will be in charge of the counting process related to any expected Open Wires
+                    # lines missing
+                    number_of_open_wires_line_jumped = 0
+                    if not (">" in content_split[3] or "<" in content_split[3]
+                            or "*" in content_split[3] or "." in content_split[3]):
                         # A full comment is present
                         from_pins_comment = content_split[3]
                     else:
-                        # The part dedicated to the "Measurement" is already reached, no comment then
+                        # The next part is already reached, no comment then
                         from_pins_comment = ""
-                    to_pins = content_split[4]
-                    if not (">" in content_split[5] or "<" in content_split[5]):
+                        number_of_open_wires_line_jumped += 1
+                    to_pins = content_split[4 - number_of_open_wires_line_jumped]
+                    if not (">" in content_split[5 - number_of_open_wires_line_jumped]
+                            or "<" in content_split[5 - number_of_open_wires_line_jumped]
+                            or "*" in content_split[5 - number_of_open_wires_line_jumped]
+                            or "." in content_split[5 - number_of_open_wires_line_jumped]):
                         # A full comment is present
-                        to_pins_comment = content_split[5]
+                        to_pins_comment = content_split[5 - number_of_open_wires_line_jumped]
                     else:
-                        # The part dedicated to the "Measurement" is already reached, no comment then
+                        # The next part is already reached, no comment then
                         to_pins_comment = ""
                     line_to_add = LineToRead()
                     line_to_add.set_name(name)

@@ -54,12 +54,12 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the label_open_wires' Left Part's label
         self.label_left_part = QLabel(self.column_treatment)
         self.label_left_part.setObjectName(u"label_left_part")
-        self.label_left_part.setGeometry(QRect(40, 120, 400, 400))
+        self.label_left_part.setGeometry(QRect(40, 120, 615, 400))
         font5 = QFont()
         font5.setFamily(u"Consolas")
         font5.setPointSize(16)
         self.label_left_part.setFont(font5)
-        self.label_left_part.setStyleSheet(u"QLabel{color: white;}QLabel QWidget{color: black;}")
+        self.label_left_part.setStyleSheet(u"QLabel{color: white;}QLabel QWidget{color: black;};")
         self.label_left_part.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
 
         # Configuring the Open Wires' Middle part's label
@@ -70,13 +70,13 @@ class UI_OpenWires(Ui_TreatmentWindow):
         font7.setFamily(u"Consolas")
         font7.setPointSize(16)
         self.label_middle_part.setFont(font7)
-        self.label_middle_part.setStyleSheet(u"color: white")
+        self.label_middle_part.setStyleSheet(u"color: white;")
         self.label_middle_part.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
 
         # Configuring the Open Wires' Right part's label
         self.label_right_part = QLabel(self.column_treatment)
         self.label_right_part.setObjectName(u"label_right_part")
-        self.label_right_part.setGeometry(QRect(1270, 120, 400, 400))
+        self.label_right_part.setGeometry(QRect(1055, 120, 615, 400))
         font8 = QFont()
         font8.setFamily(u"Consolas")
         font8.setPointSize(14)
