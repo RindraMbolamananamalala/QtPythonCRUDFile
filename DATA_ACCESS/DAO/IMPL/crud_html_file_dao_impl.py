@@ -120,10 +120,19 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                     """
                     name = content_split[1]
                     from_pins = content_split[2]
-                    from_pins_comment = content_split[3]
+                    if not (">" in content_split[3] or "<" in content_split[3]):
+                        # A full comment is present
+                        from_pins_comment = content_split[3]
+                    else:
+                        # The part dedicated to the "Measurement" is already reached, no comment then
+                        from_pins_comment = ""
                     to_pins = content_split[4]
-                    to_pins_comment = content_split[5]
-
+                    if not (">" in content_split[5] or "<" in content_split[5]):
+                        # A full comment is present
+                        to_pins_comment = content_split[5]
+                    else:
+                        # The part dedicated to the "Measurement" is already reached, no comment then
+                        to_pins_comment = ""
                     line_to_add = LineToRead()
                     line_to_add.set_name(name)
                     # Let's remind it, it's an Open Wires' line
