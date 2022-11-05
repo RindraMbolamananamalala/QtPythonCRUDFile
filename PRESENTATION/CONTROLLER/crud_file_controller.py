@@ -773,7 +773,7 @@ class CRUDFileController:
                 # The current HTML file has CROSS PINNING's line(s)
                 self.doesCurrentHTMLFileHaveCrossPinningLines = True
                 self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
-            self.get_cross_pinning_view().get_window_ui().get_main_window().showMaximized()
+                self.get_cross_pinning_view().get_window_ui().get_main_window().showMaximized()
             # OPEN WIRES
             self.get_open_wires_view().get_window_ui().get_label_fixed_strings().setText(
                 fixed_string_part_1 + " - " + equipment_name
