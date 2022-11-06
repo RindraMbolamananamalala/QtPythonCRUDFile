@@ -228,7 +228,7 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                                 else:
                                     # The next part is already reached, no comment then
                                     to_pins_comment_i = ""
-                            except IndexError :
+                            except IndexError:
                                 to_pins_comment_i = ""
 
                             cross_pinning_line_to_add.get_from_pins().append(from_pins_i)
@@ -243,9 +243,27 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                     The current Table's Data are related to Extra Wires - Shorts
                     """
                     from_pins = content_split[2]
-                    from_pins_comment = content_split[3]
-                    to_pins = content_split[4]
-                    to_pins_comment = content_split[5]
+                    # A counter that will be in charge of the counting process related to any expected
+                    # Extra Wires - Shorts line/sub-line missing
+                    number_of_shorts_line_jumped = 0
+                    if not (">" in content_split[3] or "<" in content_split[3]
+                            or "*" in content_split[3] or "." in content_split[3]):
+                        # A full comment is present
+                        from_pins_comment = content_split[3]
+                    else:
+                        # The next part is already reached, no comment then
+                        from_pins_comment = ""
+                        number_of_shorts_line_jumped += 1
+                    to_pins = content_split[4 - number_of_shorts_line_jumped]
+                    if not (">" in content_split[5 - number_of_shorts_line_jumped]
+                            or "<" in content_split[5 - number_of_shorts_line_jumped]
+                            or "*" in content_split[5 - number_of_shorts_line_jumped]
+                            or "." in content_split[5 - number_of_shorts_line_jumped]):
+                        # A full comment is present
+                        to_pins_comment = content_split[5 - number_of_shorts_line_jumped]
+                    else:
+                        # The next part is already reached, no comment then
+                        to_pins_comment = ""
 
                     line_to_add = LineToRead()
                     line_to_add.set_name(name)
