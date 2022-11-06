@@ -41,7 +41,6 @@ class UI_Shorts(Ui_TreatmentWindow):
         self.label_icon_2.setDisabled(True)
         self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon2_inactive.png"))
 
-
         # Configuring the Shorts' label
         self.label_shorts = QLabel(self.column_treatment)
         self.label_shorts.setObjectName(u"label_shorts")
@@ -77,6 +76,3 @@ class UI_Shorts(Ui_TreatmentWindow):
         """
         # Temporary data are used to feed the UI, will be seriously managed latter
         self.label_shorts.setText(QCoreApplication.translate("MainWindow", u"Extra Wires - Shorts", None))
-        self.label_left_part.setText(QCoreApplication.translate("MainWindow",
-                                                                u"<html><head/><body><p>X35/1*1-B_V1.6<BR><span style=\" font-size: 18px;\">[64K/J]</span><BR></BR></p><p><span>N10/6*RB2-B_V1.20</span><BR><span style=\" font-size: 18px;\">[59M]</span></p></body></html>",
-                                                                None))
