@@ -185,3 +185,7 @@ class CRUDFileDAOImpl(CRUDFileDAOIntf):
                                                                 , "Pos2", "Cav2", "Defect code"
                                                                 , "Comment"])
             writer.save()
+
+    def save_line(self, line_to_save: LineToWriteDTO):
+        # Just pass for this type of DAO...
+        pass

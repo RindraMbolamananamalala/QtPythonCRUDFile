@@ -418,11 +418,8 @@ class CRUDFileController:
             line_to_write.set_w(defect_code)
             line_to_write.set_comments(cross_pinning_view_window_ui.get_text_comments().toPlainText())
 
-            # Actual writing
-            self.get_crud_file_as().write_modified_line(
-                get_application_property("folder_modified_lines_path")
-                , line_to_write
-            )
+            # Actual writing (switched to SAVING for the new version of the Application)
+            self.get_crud_file_as().save_modified_line(line_to_write)
             self.get_cross_pinning_view().clear_data()
         except Exception as exception:
             # At least one error has occurred, therefore, stop the writing process
@@ -523,11 +520,8 @@ class CRUDFileController:
             line_to_write.set_w(defect_code)
             line_to_write.set_comments(open_wires_view_window_ui.get_text_comments().toPlainText())
 
-            # Actual writing
-            self.get_crud_file_as().write_modified_line(
-                get_application_property("folder_modified_lines_path")
-                , line_to_write
-            )
+            # Actual writing (switched to SAVING for the new version of the Application)
+            self.get_crud_file_as().save_modified_line(line_to_write)
 
             # Now, it's time to :
             # 1- Load another line (If there is still any)
@@ -602,11 +596,8 @@ class CRUDFileController:
             line_to_write.set_w(defect_code)
             line_to_write.set_comments(shorts_view_window_ui.get_text_comments().toPlainText())
 
-            # Actual writing
-            self.get_crud_file_as().write_modified_line(
-                get_application_property("folder_modified_lines_path")
-                , line_to_write
-            )
+            # Actual writing (switched to SAVING for the new version of the Application)
+            self.get_crud_file_as().save_modified_line(line_to_write)
 
             # Now, it's time to :
             # 1- Load another line (If there is still any)
@@ -662,11 +653,8 @@ class CRUDFileController:
             line_to_write.set_w(defect_code)
             line_to_write.set_comments(additional_information_view_window_ui.get_text_comments().toPlainText())
 
-            # Actual writing
-            self.get_crud_file_as().write_modified_line(
-                get_application_property("folder_modified_lines_path")
-                , line_to_write
-            )
+            # Actual writing (switched to SAVING for the new version of the Application)
+            self.get_crud_file_as().save_modified_line(line_to_write)
 
             # Clearing the data
             self.get_additional_information_view().clear_data()

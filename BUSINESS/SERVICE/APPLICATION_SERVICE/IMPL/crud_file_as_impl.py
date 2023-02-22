@@ -94,8 +94,6 @@ class CRUDFileASImpl(CRUDFileASIntf):
             )
             raise
 
-
-
     def read_test_report_file(self, test_report_file_path: str) -> FileToReadDTO:
         """
 
@@ -124,6 +122,22 @@ class CRUDFileASImpl(CRUDFileASIntf):
         :return: None
         """
         self.get_crud_file_dao().write_line(test_modified_report_file_path, line_to_write)
+
+    def save_modified_line(self, line_to_save: LineToWriteDTO):
+        """
+        Saving a modififed line into the DB.
+        :param line_to_save: The modified line to be saved
+        :return:
+        """
+        try:
+            self.get_crud_file_dao().save_line(line_to_save)
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
 
     def __init__(self):
         # Initializing the DAOs

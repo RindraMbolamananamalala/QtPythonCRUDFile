@@ -71,3 +71,11 @@ class CRUDFileASIntf(ABC):
         :return: None
         """
         return
+
+    @abstractmethod
+    def save_modified_line(self, line_to_save: LineToWriteDTO):
+        """
+        Saving a modififed line into the DB.
+        :param line_to_save: The modified line to be saved
+        :return:
+        """
