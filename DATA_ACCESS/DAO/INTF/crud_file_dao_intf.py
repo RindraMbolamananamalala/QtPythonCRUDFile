@@ -71,3 +71,12 @@ class CRUDFileDAOIntf(ABC):
         """
         pass
 
+    @abstractmethod
+    def save_line(self, line_to_save: LineToWriteDTO):
+        """
+        Saving a Line into DB
+        :param line_to_save: The Line object to be saved
+        :return:
+        """
+        pass
+

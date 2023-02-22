@@ -13,6 +13,8 @@ import re
 # Throughout the entire class, we are using BeautifulSoup for any need of Scraping
 from bs4 import BeautifulSoup
 
+from datetime import datetime
+
 from CONFIGURATIONS.logger import LOGGER
 
 from UTILS.ENUMS.line_types_enum import LineTypesEnum
@@ -23,8 +25,11 @@ from BUSINESS.MODEL.DTO.file_w_dto import FileWDTO
 from BUSINESS.MODEL.DTO.line_to_write_dto import LineToWriteDTO
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read_cross_pinning import LineToReadCrossPinning
+from BUSINESS.MODEL.ENTITY.line_to_save import LineToSave
 from DATA_ACCESS.DAO.INTF.crud_file_dao_intf import CRUDFileDAOIntf
 from DATA_ACCESS.DAO.IMPL.crud_file_dao_impl import CRUDFileDAOImpl
+
+from DATA_ACCESS.data_access_base import Session
 
 
 class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
@@ -306,3 +311,36 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
                 + ". Can't go further with the Writing Process. "
             )
             raise
+
+    def save_line(self, line_to_save: LineToWriteDTO):
+        """
+        Saving a Line into DB
+        :param line_to_save: The Line object to be saved
+        :return:
+        """
+        try:
+            line_to_be_saved = LineToSave()
+            line_to_be_saved.order_number = line_to_save.get_uut()
+            line_to_be_saved.fixed_string_part_1 = line_to_save.get_fixed_string_part_1()
+            line_to_be_saved.equipment_name = line_to_save.get_equipment_name()
+            line_to_be_saved.date_time = datetime.today()
+            line_to_be_saved.wire_name = line_to_save.get_wire_name()
+            line_to_be_saved.cross_section = line_to_save.get_cross_section()
+            line_to_be_saved.color = line_to_save.get_color()
+            line_to_be_saved.pos_1 = line_to_save.get_position_1()
+            line_to_be_saved.cav_1 = line_to_save.get_cavity_1()
+            line_to_be_saved.pos_2 = line_to_save.get_position_2()
+            line_to_be_saved.cav_2 = line_to_save.get_cavity_2()
+            line_to_be_saved.defect_code = line_to_save.get_w()
+            line_to_be_saved.comment = line_to_save.get_comments()
+            with Session() as session:
+                session.add(line_to_be_saved)
+                session.commit()
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                + ". Can't go further with the Writing Process. "
+            )
+            raise
+
