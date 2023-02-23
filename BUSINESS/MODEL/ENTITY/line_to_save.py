@@ -21,7 +21,7 @@ class LineToSave(Data_Access_Base, QTPythonCRUDFileEntity):
     __tablename__ = get_application_property("db_line_to_save_table_name")
     id = Column(Integer, primary_key=True, autoincrement=True)
     order_number = Column(String)
-    fixed_string_part_1 = Column(String)
+    zone = Column(String)
     equipment_name = Column(String)
     date_time = Column(DateTime)
     wire_name = Column(String)

@@ -321,7 +321,7 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
         try:
             line_to_be_saved = LineToSave()
             line_to_be_saved.order_number = line_to_save.get_uut()
-            line_to_be_saved.fixed_string_part_1 = line_to_save.get_fixed_string_part_1()
+            line_to_be_saved.zone = line_to_save.get_fixed_string_part_1()
             line_to_be_saved.equipment_name = line_to_save.get_equipment_name()
             line_to_be_saved.date_time = datetime.today()
             line_to_be_saved.wire_name = line_to_save.get_wire_name()
