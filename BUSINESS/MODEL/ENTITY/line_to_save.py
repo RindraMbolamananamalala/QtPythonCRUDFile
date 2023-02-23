@@ -25,7 +25,7 @@ class LineToSave(Data_Access_Base, QTPythonCRUDFileEntity):
     equipment_name = Column(String)
     date_time = Column(DateTime)
     wire_name = Column(String)
-    cross_section = Column(String)
+    cross_section = Column(DECIMAL(10, 2))
     color = Column(String)
     pos_1 = Column(String)
     cav_1 = Column(String)
