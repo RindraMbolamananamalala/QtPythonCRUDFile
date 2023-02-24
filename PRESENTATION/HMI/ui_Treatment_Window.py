@@ -94,7 +94,14 @@ class Ui_TreatmentWindow(object):
         self.column_navigation = QWidget(self.centralwidget)
         self.column_navigation.setObjectName(u"column_navigation")
         self.column_navigation.setGeometry(QRect(0, 0, 100, 1080))
-        self.column_navigation.setStyleSheet(u"background-color: blue;")
+        self.column_navigation.setStyleSheet(u"background: "
+                                             u" qlineargradient( "
+                                             u"     x1:1 y1:1"
+                                             u"         , x2:1 y2:0"
+                                             u"         , stop:0 #656565"
+                                             u"         , stop:1 #020202"
+                                             u");"
+                                             u"border: 2.5px solid #909090;")
 
         # The list of Label Icons
         self.label_icon_1 = QLabel(self.column_navigation)
@@ -129,7 +136,9 @@ class Ui_TreatmentWindow(object):
         self.label_fixed_strings.setFont(font)
         self.label_fixed_strings.setLayoutDirection(Qt.LeftToRight)
         self.label_fixed_strings.setAlignment(Qt.AlignBottom | Qt.AlignLeading | Qt.AlignLeft)
-        self.label_fixed_strings.setStyleSheet(u"color: white;")
+        self.label_fixed_strings.setStyleSheet(u"color: white; "
+                                               u"background-color: None;"
+                                               u"border: None;")
         self.label_fixed_strings.setTextFormat(Qt.AutoText)
         self.label_fixed_strings.setWordWrap(False)
 
@@ -137,7 +146,13 @@ class Ui_TreatmentWindow(object):
         self.column_treatment = QWidget(self.centralwidget)
         self.column_treatment.setObjectName(u"column_treatment")
         self.column_treatment.setGeometry(QRect(100, 0, 1860, 1080))
-        self.column_treatment.setStyleSheet(u"background-color: lightblue; color: white;")
+        self.column_treatment.setStyleSheet(u"background: "
+                                             u" qlineargradient( "
+                                             u"     x1:1 y1:1"
+                                             u"         , x2:1 y2:0"
+                                             u"         , stop:0 #656565"
+                                             u"         , stop:1 #020202"
+                                             u");")
 
         # The Logo box area
         self.widget_logo_box = QWidget(self.column_treatment)
@@ -151,7 +166,7 @@ class Ui_TreatmentWindow(object):
         # The settings related to the Combo-Box fed by a specific Excel Sheet to be provided
         self.combobox_fed_by_excel_sheet = QComboBox(self.column_treatment)
         self.combobox_fed_by_excel_sheet.setObjectName(u"combobox_fed_by_excel_sheet")
-        self.combobox_fed_by_excel_sheet.setGeometry(QRect(10, 580, 1641, 51))
+        self.combobox_fed_by_excel_sheet.setGeometry(QRect(17, 580, 1391, 151))
         font_combo_box = QFont()
         font_combo_box.setFamily(u"Consolas")
         font_combo_box.setPointSize(15)
@@ -161,7 +176,7 @@ class Ui_TreatmentWindow(object):
         # Comments Text area's settings
         self.text_comments = QPlainTextEdit(self.column_treatment)
         self.text_comments.setObjectName(u"text_comments")
-        self.text_comments.setGeometry(QRect(10, 640, 1641, 241))
+        self.text_comments.setGeometry(QRect(17, 740, 1391, 241))
         font1 = QFont()
         font1.setFamily(u"Calibri")
         font1.setPointSize(10)
@@ -171,7 +186,7 @@ class Ui_TreatmentWindow(object):
         # Configuring the Button Confirm
         self.button_confirm = QPushButton(self.column_treatment)
         self.button_confirm.setObjectName(u"button_confirm")
-        self.button_confirm.setGeometry(QRect(10, 890, 1641, 51))
+        self.button_confirm.setGeometry(QRect(1425, 580, 245, 400))
         font2 = QFont()
         font2.setFamily(u"Open Sans Semibold")
         font2.setPointSize(14)
@@ -191,7 +206,7 @@ class Ui_TreatmentWindow(object):
         font3.setBold(False)
         font3.setWeight(75)
         self.label_uut.setFont(font3)
-        self.label_uut.setStyleSheet(u"color: white;")
+        self.label_uut.setStyleSheet(u"color: white; background-color: None")
 
         # General Settings Part II
         main_window.setCentralWidget(self.centralwidget)

@@ -52,17 +52,32 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         # all of the behaviors and data defined in it
         super(UI_CrossPinning, self).__init__(main_window)
 
-        # Configuring the Cross Pinning's label
-        self.label_cross_pinning = QLabel(self.column_treatment)
-        self.label_cross_pinning.setObjectName(u"label_cross_pinning")
-        self.label_cross_pinning.setGeometry(QRect(40, 50, 300, 50))
+        """
+        FOR THE NEW VERSION OF GUIs, Confirm Button for the Cross Pinning window will be exluded
+        """
+        self.get_button_confirm().close()
+
+        # Configuring the Cross Pinning's label(s)
+        self.label_cross_pinning_part_1 = QLabel(self.column_treatment)
+        self.label_cross_pinning_part_1.setObjectName(u"label_cross_pinning_part_1")
+        self.label_cross_pinning_part_1.setGeometry(QRect(40, 20, 300, 90))
         font4 = QFont()
-        font4.setFamily(u"Consolas")
-        font4.setPointSize(25)
+        font4.setFamily(u"Yu Gothic UI Light")
+        font4.setPointSize(35)
         font4.setBold(True)
         font4.setWeight(75)
-        self.label_cross_pinning.setFont(font4)
-        self.label_cross_pinning.setStyleSheet(u"color: white;")
+        self.label_cross_pinning_part_1.setFont(font4)
+        self.label_cross_pinning_part_1.setStyleSheet(u"color: white; background-color: None;")
+        self.label_cross_pinning_part_2 = QLabel(self.column_treatment)
+        self.label_cross_pinning_part_2.setObjectName(u"label_cross_pinning_part_2")
+        self.label_cross_pinning_part_2.setGeometry(QRect(290, 20, 300, 90))
+        font4_part_2 = QFont()
+        font4_part_2.setFamily(u"Yu Gothic UI Light")
+        font4_part_2.setPointSize(35)
+        font4_part_2.setBold(True)
+        font4_part_2.setWeight(75)
+        self.label_cross_pinning_part_2.setFont(font4_part_2)
+        self.label_cross_pinning_part_2.setStyleSheet(u"color: #f00000; background-color: None;")
 
         """
         Configurations of the Parts dedicated to the Lines' treatment
@@ -73,39 +88,45 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         # Configuring the Cross Pinning's Left Part
         self.widget_left_part = QWidget(self.column_treatment)
         self.widget_left_part.setObjectName(u"widget_left_part")
-        self.widget_left_part.setGeometry(QRect(40, 120, 400, 400))
+        self.widget_left_part.setGeometry(QRect(40, 150, 400, 400))
+        self.widget_left_part.setStyleSheet(u"color: white; background-color: None;")
 
         # Configuring the Cross Pinning's name's label
         self.label_name = QLabel(self.column_treatment)
         self.label_name.setObjectName(u"label_name")
-        self.label_name.setGeometry(QRect(660, 50, 850, 50))
+        self.label_name.setGeometry(QRect(900, 50, 625, 50))
         font6 = QFont()
-        font6.setFamily(u"Consolas")
+        font6.setFamily(u"Yu Gothic UI Light")
         font6.setPointSize(22)
         font6.setBold(True)
         font6.setWeight(75)
         self.label_name.setFont(font6)
-        self.label_name.setStyleSheet(u"color: white")
+        self.label_name.setStyleSheet(u"color: white; background-color: None;")
         self.label_name.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
 
         # Configuring the Cross Pinning's Middle part
         self.widget_middle_part = QWidget(self.column_treatment)
         self.widget_middle_part.setObjectName(u"widget_middle_part")
-        self.widget_middle_part.setGeometry(QRect(660, 120, 400, 425))
+        self.widget_middle_part.setGeometry(QRect(660, 150, 400, 425))
+        self.widget_middle_part.setStyleSheet(u"color: white; background-color: None;")
 
         # Configuring the Cross Pinning's Right part's label
         self.widget_right_part = QWidget(self.column_treatment)
         self.widget_right_part.setObjectName(u"widget_right_part")
-        self.widget_right_part.setGeometry(QRect(1270, 120, 400, 400))
+        self.widget_right_part.setGeometry(QRect(1270, 150, 400, 400))
+        self.widget_right_part.setStyleSheet(u"color: white; background-color: None;")
 
         # Configuring the Cross Pinning's "Done" Button
+        """
+        FOR THE NEW VERSION OF GUIs, The "Done" button will be placed at the former position of the "Confirm" one
+        """
         self.button_done = QPushButton(self.column_treatment)
         self.button_done.setObjectName(u"button_done")
-        self.button_done.setGeometry(QRect(1700, 160, 111, 221))
+        self.button_done.setGeometry(self.get_button_confirm().geometry())
         font9 = QFont()
-        font9.setFamily(u"Open Sans Semibold")
-        font9.setPointSize(14)
-        font9.setBold(True)
+        font9.setFamily(u"Yu Gothic UI Light")
+        font9.setPointSize(25)
+        font9.setBold(False)
         font9.setWeight(75)
         self.button_done.setFont(font9)
         self.button_done.setStyleSheet(u"background-color: grey;")
@@ -285,5 +306,6 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         :param main_window: The main window of the current UI
         :return:
         """
-        self.label_cross_pinning.setText(QCoreApplication.translate("MainWindow", u"Cross Pinning", None))
-        self.button_done.setText(QCoreApplication.translate("MainWindow", u"Done", None))
+        self.label_cross_pinning_part_1.setText(QCoreApplication.translate("MainWindow", u"Pogresno", None))
+        self.label_cross_pinning_part_2.setText(QCoreApplication.translate("MainWindow", u"Pinovanje", None))
+        self.button_done.setText(QCoreApplication.translate("MainWindow", u"Potvrdi", None))
