@@ -39,22 +39,46 @@ class UI_OpenWires(Ui_TreatmentWindow):
         self.label_icon_1.setDisabled(True)
         self.label_icon_1.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon1_crosspinning_inactive.png"))
 
-        # Configuring the Open Wires' label
-        self.label_open_wires = QLabel(self.column_treatment)
-        self.label_open_wires.setObjectName(u"label_open_wires")
-        self.label_open_wires.setGeometry(QRect(40, 50, 300, 50))
+        # Configuring the Open Wires' labels
+        """Part 1"""
+        self.label_open_wires_part_1 = QLabel(self.column_treatment)
+        self.label_open_wires_part_1.setObjectName(u"label_open_wires_part_1")
+        self.label_open_wires_part_1.setGeometry(QRect(40, 20, 275, 90))
         font4 = QFont()
         font4.setFamily(u"Consolas")
-        font4.setPointSize(25)
+        font4.setPointSize(35)
         font4.setBold(True)
         font4.setWeight(75)
-        self.label_open_wires.setFont(font4)
-        self.label_open_wires.setStyleSheet(u"color: white;")
+        self.label_open_wires_part_1.setFont(font4)
+        self.label_open_wires_part_1.setStyleSheet(u"color: white; background-color: None;")
+        """Part 2"""
+        self.label_open_wires_part_2 = QLabel(self.column_treatment)
+        self.label_open_wires_part_2.setObjectName(u"label_open_wires_part_2")
+        self.label_open_wires_part_2.setGeometry(QRect(310, 20, 290, 90))
+        font4_part_2 = QFont()
+        font4_part_2.setFamily(u"Consolas")
+        font4_part_2.setPointSize(35)
+        font4_part_2.setBold(True)
+        font4_part_2.setWeight(75)
+        self.label_open_wires_part_2.setFont(font4_part_2)
+        self.label_open_wires_part_2.setStyleSheet(u"color: #f00000; background-color: None;")
+
+        # Configuring the Open Wires' label dedicated to the counting of lines treated
+        self.label_lines_treated_counter = QLabel(self.column_treatment)
+        self.label_lines_treated_counter.setObjectName(u"label_lines_treated_counter")
+        self.label_lines_treated_counter.setGeometry(QRect(620, 20, 325, 90))
+        font_lltc = QFont()  # LLTC = Label Lines Treated Counter
+        font_lltc.setFamily(u"Yu Gothic UI Light")
+        font_lltc.setPointSize(35)
+        font_lltc.setBold(True)
+        font_lltc.setWeight(75)
+        self.label_lines_treated_counter.setFont(font_lltc)
+        self.label_lines_treated_counter.setStyleSheet(u"color: white; background-color: None;")
 
         # Configuring the label_open_wires' Left Part's label
         self.label_left_part = QLabel(self.column_treatment)
         self.label_left_part.setObjectName(u"label_left_part")
-        self.label_left_part.setGeometry(QRect(40, 120, 615, 400))
+        self.label_left_part.setGeometry(QRect(40, 150, 615, 400))
         font5 = QFont()
         font5.setFamily(u"Consolas")
         font5.setPointSize(16)
@@ -65,7 +89,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the Open Wires' Middle part's label
         self.label_middle_part = QLabel(self.column_treatment)
         self.label_middle_part.setObjectName(u"label_middle_part")
-        self.label_middle_part.setGeometry(QRect(660, 120, 400, 425))
+        self.label_middle_part.setGeometry(QRect(660, 150, 400, 425))
         font7 = QFont()
         font7.setFamily(u"Consolas")
         font7.setPointSize(16)
@@ -76,7 +100,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the Open Wires' Right part's label
         self.label_right_part = QLabel(self.column_treatment)
         self.label_right_part.setObjectName(u"label_right_part")
-        self.label_right_part.setGeometry(QRect(1055, 120, 615, 400))
+        self.label_right_part.setGeometry(QRect(1055, 150, 615, 400))
         font8 = QFont()
         font8.setFamily(u"Consolas")
         font8.setPointSize(14)
@@ -94,6 +118,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         :param main_window: The main window of the current UI
         :return:
         """
-        # Temporary data are used to feed the UI, will be seriously managed latter
-        self.label_open_wires.setText(QCoreApplication.translate("MainWindow", u"Open Wires", None))
-
+        self.label_open_wires_part_1.setText(QCoreApplication.translate("MainWindow", u"Otvorene", None))
+        self.label_open_wires_part_2.setText(QCoreApplication.translate("MainWindow", u"Konekcije", None))
+        # a default value for the Label dedicated to the Open Wires' lines treated
+        self.label_lines_treated_counter.setText(QCoreApplication.translate("MainWindow", u"X/M", None))

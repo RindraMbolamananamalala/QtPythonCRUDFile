@@ -190,12 +190,12 @@ class Ui_TreatmentWindow(object):
         self.button_confirm.setObjectName(u"button_confirm")
         self.button_confirm.setGeometry(QRect(1425, 580, 245, 400))
         font2 = QFont()
-        font2.setFamily(u"Open Sans Semibold")
-        font2.setPointSize(14)
+        font2.setFamily(u"Yu Gothic UI Light")
+        font2.setPointSize(25)
         font2.setBold(False)
         font2.setWeight(50)
         self.button_confirm.setFont(font2)
-        self.button_confirm.setStyleSheet(u"background-color: #d9d9d9;")
+        self.button_confirm.setStyleSheet(u"background-color: #d9d9d9; color: #4b4b4b;")
         self.button_confirm.setCursor(QCursor(Qt.PointingHandCursor))
 
         # Configuring the Vertical Label dedicated to the UUT of the current file read by the Application
@@ -229,5 +229,5 @@ class Ui_TreatmentWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.text_comments.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Comments", None))
-        self.button_confirm.setText(QCoreApplication.translate("MainWindow", u"Confirm", None))
+        self.button_confirm.setText(QCoreApplication.translate("MainWindow", u"Potvrdi", None))
     # retranslateUi
