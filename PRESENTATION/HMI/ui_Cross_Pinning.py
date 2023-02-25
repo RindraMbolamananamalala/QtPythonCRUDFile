@@ -79,6 +79,18 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         self.label_cross_pinning_part_2.setFont(font4_part_2)
         self.label_cross_pinning_part_2.setStyleSheet(u"color: #f00000; background-color: None;")
 
+        # Configuring the Cross Pinning's label dedicated to the counting of lines treated
+        self.label_lines_treated_counter = QLabel(self.column_treatment)
+        self.label_lines_treated_counter.setObjectName(u"label_lines_treated_counter")
+        self.label_lines_treated_counter.setGeometry(QRect(550, 20, 325, 90))
+        font_lltc = QFont()  # LLTC = Label Lines Treated Counter
+        font_lltc.setFamily(u"Yu Gothic UI Light")
+        font_lltc.setPointSize(35)
+        font_lltc.setBold(True)
+        font_lltc.setWeight(75)
+        self.label_lines_treated_counter.setFont(font_lltc)
+        self.label_lines_treated_counter.setStyleSheet(u"color: white; background-color: None;")
+
         """
         Configurations of the Parts dedicated to the Lines' treatment
         """
@@ -308,4 +320,6 @@ class UI_CrossPinning(Ui_TreatmentWindow):
         """
         self.label_cross_pinning_part_1.setText(QCoreApplication.translate("MainWindow", u"Pogresno", None))
         self.label_cross_pinning_part_2.setText(QCoreApplication.translate("MainWindow", u"Pinovanje", None))
+        # a default value for the Label dedicated to the Cross Pinning's lines treated
+        self.label_lines_treated_counter.setText(QCoreApplication.translate("MainWindow", u"X/M", None))
         self.button_done.setText(QCoreApplication.translate("MainWindow", u"Potvrdi", None))
