@@ -107,22 +107,22 @@ class Ui_TreatmentWindow(object):
         self.label_icon_1 = QLabel(self.column_navigation)
         self.label_icon_1.setObjectName(u"label_icon_1")
         self.label_icon_1.setGeometry(QRect(12.75, 7, 75, 75))
-        self.label_icon_1.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon1_active.png"))
+        self.label_icon_1.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon1_crosspinning_active.png"))
 
         self.label_icon_2 = QLabel(self.column_navigation)
         self.label_icon_2.setObjectName(u"label_icon_2")
         self.label_icon_2.setGeometry(QRect(12.75, 87, 75, 75))
-        self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon2_active.png"))
+        self.label_icon_2.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon2_open_active.png"))
 
         self.label_icon_3 = QLabel(self.column_navigation)
         self.label_icon_3.setObjectName(u"label_icon_3")
         self.label_icon_3.setGeometry(QRect(12.75, 167, 75, 75))
-        self.label_icon_3.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon3_active.png"))
+        self.label_icon_3.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon3_short_active.png"))
 
         self.label_icon_4 = QLabel(self.column_navigation)
         self.label_icon_4.setObjectName(u"label_icon_4")
         self.label_icon_4.setGeometry(QRect(12.75, 247, 75, 75))
-        self.label_icon_4.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon4_active.png"))
+        self.label_icon_4.setPixmap(QPixmap("RESOURCES\\IMAGES\\icon4_info_active.png"))
 
         # The Vertical label dedicated to the combination of the two fixed Strings
         self.label_fixed_strings = CRUDFileVerticalLabel(self.column_navigation)
