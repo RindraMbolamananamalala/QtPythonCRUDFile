@@ -158,10 +158,12 @@ class Ui_TreatmentWindow(object):
         self.widget_logo_box = QWidget(self.column_treatment)
         self.widget_logo_box.setObjectName(u"widget_logo_box")
         self.widget_logo_box.setGeometry(QRect(1540, 25, 265, 45))
+        self.widget_logo_box.setStyleSheet(u"background-color: None;")
         self.label_logo_box = QLabel(self.widget_logo_box)
         self.label_logo_box.setGeometry(QRect(0, 0, 350, 45))
-        self.label_logo_box.setPixmap(QPixmap("RESOURCES\\IMAGES\\logo_350x45_m75percent.png"))
+        self.label_logo_box.setPixmap(QPixmap("RESOURCES\\IMAGES\\aptiv-logo_white.png"))
         self.label_logo_box.setObjectName(u"label_logo_box")
+        self.label_logo_box.setStyleSheet(u"background-color: None;")
 
         # The settings related to the Combo-Box fed by a specific Excel Sheet to be provided
         self.combobox_fed_by_excel_sheet = QComboBox(self.column_treatment)
