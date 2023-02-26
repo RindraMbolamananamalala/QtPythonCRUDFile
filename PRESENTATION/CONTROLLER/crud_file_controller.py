@@ -43,7 +43,6 @@ from BUSINESS.SERVICE.APPLICATION_SERVICE.IMPL.crud_file_as_impl import CRUDFile
 
 
 class CRUDFileController:
-
     """
     The following variables play a key role when it comes to knowing the content of the current HTML being read,
     especially for the steps of Windows' Transitions
@@ -51,7 +50,6 @@ class CRUDFileController:
     doesCurrentHTMLFileHaveCrossPinningLines = False
     doesCurrentHTMLFileHaveOpenWiresLines = False
     doesCurrentHTMLFileHaveShortsLines = False
-
 
     def set_current_view(self, current_view):
         """
@@ -347,7 +345,7 @@ class CRUDFileController:
         """
         # CROSS PINNING
         for value in defects_codes[0].get_lines():
-            cross_pinning_window.get_combobox_fed_by_excel_sheet().addItem\
+            cross_pinning_window.get_combobox_fed_by_excel_sheet().addItem \
                 (value)
 
         # OPEN WIRES
@@ -488,25 +486,37 @@ class CRUDFileController:
             # Preparing the data that still need pre-processing
             fixed_string_part_1 = open_wires_view_window_ui.get_label_fixed_strings().text().split(" - ")[0]
             equipment_name = open_wires_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
-            wire_name = open_wires_view_window_ui.get_label_right_part().text().split("/")[0]
-            cross_section = open_wires_view_window_ui.get_label_right_part().text().split("/")[1]
-            color = open_wires_view_window_ui.get_label_middle_part().text()
-            from_pins_info = open_wires_view_window_ui.get_label_left_part().toolTip().split("->")[0]
-            from_pins = from_pins_info.split("[")[0]
-            pos_1 = from_pins.split(".")[0]
-            cav_1 = from_pins.split(".")[1]
-            from_pins_comment = from_pins_info.split("[")[1].replace("]", "")
-            to_pins_info = open_wires_view_window_ui.get_label_left_part().toolTip().split("->")[1]
-            to_pins = to_pins_info.split("[")[0]
-            pos_2 = to_pins.split(".")[0]
-            cav_2 = to_pins.split(".")[1]
-            to_pins_comment = to_pins_info.split("[")[1].replace("]", "")
+            try:
+                wire_name = open_wires_view_window_ui.get_label_left_part().text().split("   ")[0]
+            except:
+                wire_name = None
+            try:
+                cross_section = open_wires_view_window_ui.get_label_left_part().text().split("   ")[1]
+            except:
+                cross_section = None
+            try:
+                color = open_wires_view_window_ui.get_label_left_part().text().split("   ")[2]
+            except:
+                color = None
+            from_pins = open_wires_view_window_ui.get_label_middle_part().text()
+            try:
+                pos_1 = from_pins.split(".")[0]
+            except:
+                pos_1 = None
+            try:
+                cav_1 = from_pins.split(".")[1]
+            except:
+                cav_1 = None
+            to_pins = open_wires_view_window_ui.get_label_right_part().text()
+            try:
+                pos_2 = to_pins.split(".")[0]
+            except:
+                pos_2 = None
+            try:
+                cav_2 = to_pins.split(".")[1]
+            except:
+                cav_2 = None
             defect_code = open_wires_view_window_ui.get_combobox_fed_by_excel_sheet().currentText()
-            print("WN == " + wire_name)
-            print("CS == " + cross_section)
-            print("COLOR == " + color)
-            print("FP == " + from_pins)
-            print("TP == " + to_pins)
 
             # Now, let's prepare the line to write
             line_to_write = LineToWriteDTO()
@@ -840,4 +850,3 @@ class CRUDFileController:
                 self.get_file_queue().append(file_path + "\\" + file_name)
             # 3 - Now, let's launch a new Load of HTML file, but this time, with the File(s)
             self.load_html_file()
-
