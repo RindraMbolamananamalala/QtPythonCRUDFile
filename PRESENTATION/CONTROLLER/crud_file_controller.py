@@ -488,6 +488,9 @@ class CRUDFileController:
             equipment_name = open_wires_view_window_ui.get_label_fixed_strings().text().split(" - ")[1]
             try:
                 wire_name = open_wires_view_window_ui.get_label_left_part().text().split("   ")[0]
+                if len(wire_name) < 1:
+                    # No string for the Wire Name
+                    wire_name = None
             except:
                 wire_name = None
             try:
