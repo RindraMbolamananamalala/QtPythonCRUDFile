@@ -502,6 +502,11 @@ class CRUDFileController:
             cav_2 = to_pins.split(".")[1]
             to_pins_comment = to_pins_info.split("[")[1].replace("]", "")
             defect_code = open_wires_view_window_ui.get_combobox_fed_by_excel_sheet().currentText()
+            print("WN == " + wire_name)
+            print("CS == " + cross_section)
+            print("COLOR == " + color)
+            print("FP == " + from_pins)
+            print("TP == " + to_pins)
 
             # Now, let's prepare the line to write
             line_to_write = LineToWriteDTO()

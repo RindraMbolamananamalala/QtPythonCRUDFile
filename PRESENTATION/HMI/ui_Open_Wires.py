@@ -78,34 +78,37 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the label_open_wires' Left Part's label
         self.label_left_part = QLabel(self.column_treatment)
         self.label_left_part.setObjectName(u"label_left_part")
-        self.label_left_part.setGeometry(QRect(40, 150, 615, 400))
+        self.label_left_part.setGeometry(QRect(60, 150, 495, 400))
         font5 = QFont()
-        font5.setFamily(u"Consolas")
-        font5.setPointSize(16)
+        font5.setFamily(u"Yu Gothic UI Light")
+        font5.setPointSize(24)
         self.label_left_part.setFont(font5)
-        self.label_left_part.setStyleSheet(u"QLabel{color: white;}QLabel QWidget{color: black;};")
+        self.label_left_part.setStyleSheet(u"QLabel{color: white; background-color: None;}"
+                                           u"QLabel QWidget{color: black; background-color: None;};")
         self.label_left_part.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
 
         # Configuring the Open Wires' Middle part's label
         self.label_middle_part = QLabel(self.column_treatment)
         self.label_middle_part.setObjectName(u"label_middle_part")
-        self.label_middle_part.setGeometry(QRect(660, 150, 400, 425))
+        self.label_middle_part.setGeometry(QRect(560, 160, 500, 390))
         font7 = QFont()
         font7.setFamily(u"Consolas")
-        font7.setPointSize(16)
+        font7.setPointSize(22)
+        font7.setBold(False)
         self.label_middle_part.setFont(font7)
-        self.label_middle_part.setStyleSheet(u"color: white;")
+        self.label_middle_part.setStyleSheet(u"color: white; background-color: None;")
         self.label_middle_part.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
 
         # Configuring the Open Wires' Right part's label
         self.label_right_part = QLabel(self.column_treatment)
         self.label_right_part.setObjectName(u"label_right_part")
-        self.label_right_part.setGeometry(QRect(1055, 150, 615, 400))
+        self.label_right_part.setGeometry(QRect(1065, 160, 500, 390))
         font8 = QFont()
+        font8.setBold(False)
         font8.setFamily(u"Consolas")
-        font8.setPointSize(14)
+        font8.setPointSize(22)
         self.label_right_part.setFont(font8)
-        self.label_right_part.setStyleSheet(u"color: white;")
+        self.label_right_part.setStyleSheet(u"color: white; background-color: None;")
         self.label_right_part.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
 
         # Finally, we have to Retranslate the current UI, independently of the Superclass

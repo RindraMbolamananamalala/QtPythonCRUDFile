@@ -23,33 +23,11 @@ def deduce_label_left_part_content(line_to_display: LineToRead) -> str:
     :return: A formatted text for the Label at the Left Part of the Window's content.
     """
     try:
-        line_from_pins = line_to_display.get_from_pins()
-        line_from_pins_comment = line_to_display.get_from_pins_comment()
-        line_to_pins = line_to_display.get_to_pins()
-        line_to_pins_comment = line_to_display.get_to_pins_comment()
-        content_to_return = "<html>" \
-                                "<body>" \
-                                    "<p>" \
-                                        + line_from_pins + \
-                                        "<BR>" + \
-                                        "<span style=\" font-size: 18px;\">" \
-                                            + "[" + line_from_pins_comment + "]" + \
-                                        "</span>" \
-                                        "</BR>" \
-                                        "<BR>" \
-                                        "</BR>" \
-                                    "</p>" \
-                                    "<p>" \
-                                        "<span>" \
-                                            + line_to_pins +\
-                                        "</span>" \
-                                        + "<BR>" + \
-                                        "<span style=\" font-size: 18px;\">" \
-                                            + "[" + line_to_pins_comment + "]" + \
-                                        "</span>" \
-                                    "</p>" \
-                                "</body>" \
-                            "</html>"
+        wire_name_plus_cross_section = line_to_display.get_name().split("`")[0]
+        wire_name = wire_name_plus_cross_section.split("/")[0]
+        cross_section = wire_name_plus_cross_section.split("/")[1]
+        color = line_to_display.get_name().split("`")[1]
+        content_to_return = wire_name + "   " + cross_section + "   " + color
         return content_to_return
     except:
         return ""
@@ -62,8 +40,8 @@ def deduce_label_middle_part_content(line_to_display: LineToRead) -> str:
     :return: A formatted text for the Label at the Middle Part of the Window's content.
     """
     try:
-        color = line_to_display.get_name().split("`")[1]
-        return color
+        line_from_pins = line_to_display.get_from_pins()
+        return line_from_pins
     except:
         return ""
 
@@ -75,8 +53,8 @@ def deduce_label_right_part_content(line_to_display: LineToRead) -> str:
     :return: A formatted text for the Label at the Right Part of the Window's content.
     """
     try:
-        wire_name_plus_cross_section = line_to_display.get_name().split("`")[0]
-        return wire_name_plus_cross_section
+        line_to_pins = line_to_display.get_to_pins()
+        return line_to_pins
     except:
         return ""
 
@@ -113,7 +91,7 @@ class OpenWiresView(CRUDFileView):
             # First, let's clear the data
             self.clear_data()
 
-            # Left Part for the Pins
+            # Left Part for the <WIRE_NAME   CROSS_SECTION   COLOR>
             self.get_window_ui().get_label_left_part().setText(deduce_label_left_part_content(line_to_display))
             # However, we need to store the original main information on the Pins in order to use them later (for the
             # WRITE).
@@ -123,10 +101,10 @@ class OpenWiresView(CRUDFileView):
                                 + line_to_display.get_to_pins() + "[" + line_to_display.get_to_pins_comment() + "]"
             self.get_window_ui().get_label_left_part().setToolTip(pins_info)
 
-            # Middle Part for the Color
+            # Middle Part for the FROM PINS
             self.get_window_ui().get_label_middle_part().setText(deduce_label_middle_part_content(line_to_display))
 
-            # Right part for Wire Name & Cross Section
+            # Right part for TO PINS
             self.get_window_ui().get_label_right_part().setText(deduce_label_right_part_content(line_to_display))
         except Exception as exception:
             # At least one error has occurred, therefore, stop the process
