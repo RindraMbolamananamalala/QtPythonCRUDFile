@@ -45,7 +45,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         self.label_open_wires_part_1.setObjectName(u"label_open_wires_part_1")
         self.label_open_wires_part_1.setGeometry(QRect(40, 20, 275, 90))
         font4 = QFont()
-        font4.setFamily(u"Consolas")
+        font4.setFamily(u"Yu Gothic UI Light")
         font4.setPointSize(35)
         font4.setBold(True)
         font4.setWeight(75)
@@ -54,9 +54,9 @@ class UI_OpenWires(Ui_TreatmentWindow):
         """Part 2"""
         self.label_open_wires_part_2 = QLabel(self.column_treatment)
         self.label_open_wires_part_2.setObjectName(u"label_open_wires_part_2")
-        self.label_open_wires_part_2.setGeometry(QRect(310, 20, 290, 90))
+        self.label_open_wires_part_2.setGeometry(QRect(290, 20, 290, 90))
         font4_part_2 = QFont()
-        font4_part_2.setFamily(u"Consolas")
+        font4_part_2.setFamily(u"Yu Gothic UI Light")
         font4_part_2.setPointSize(35)
         font4_part_2.setBold(True)
         font4_part_2.setWeight(75)
@@ -66,7 +66,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the Open Wires' label dedicated to the counting of lines treated
         self.label_lines_treated_counter = QLabel(self.column_treatment)
         self.label_lines_treated_counter.setObjectName(u"label_lines_treated_counter")
-        self.label_lines_treated_counter.setGeometry(QRect(620, 20, 325, 90))
+        self.label_lines_treated_counter.setGeometry(QRect(550, 20, 325, 90))
         font_lltc = QFont()  # LLTC = Label Lines Treated Counter
         font_lltc.setFamily(u"Yu Gothic UI Light")
         font_lltc.setPointSize(35)
@@ -78,7 +78,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the label_open_wires' Left Part's label
         self.label_left_part = QLabel(self.column_treatment)
         self.label_left_part.setObjectName(u"label_left_part")
-        self.label_left_part.setGeometry(QRect(60, 150, 520, 200))
+        self.label_left_part.setGeometry(QRect(60, 200, 520, 200))
         font5 = QFont()
         font5.setFamily(u"Yu Gothic UI Light")
         font5.setPointSize(22)
@@ -90,7 +90,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the Open Wires' Middle part's label
         self.label_middle_part = QLabel(self.column_treatment)
         self.label_middle_part.setObjectName(u"label_middle_part")
-        self.label_middle_part.setGeometry(QRect(585, 160, 615, 200))
+        self.label_middle_part.setGeometry(QRect(585, 210, 615, 200))
         font7 = QFont()
         font7.setFamily(u"Consolas")
         font7.setPointSize(17.5)
@@ -102,7 +102,7 @@ class UI_OpenWires(Ui_TreatmentWindow):
         # Configuring the Open Wires' Right part's label
         self.label_right_part = QLabel(self.column_treatment)
         self.label_right_part.setObjectName(u"label_right_part")
-        self.label_right_part.setGeometry(QRect(1210, 160, 605, 200))
+        self.label_right_part.setGeometry(QRect(1210, 210, 605, 200))
         font8 = QFont()
         font8.setBold(False)
         font8.setFamily(u"Consolas")
