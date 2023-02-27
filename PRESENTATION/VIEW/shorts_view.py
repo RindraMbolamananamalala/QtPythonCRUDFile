@@ -110,7 +110,7 @@ class ShortsView(CRUDFileView):
         if not button_availability:
             button_confirm.setStyleSheet("background-color: lightgrey;")
         else:
-            button_confirm.setStyleSheet("background-color: grey;")
+            button_confirm.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
 
     def clear_data(self):
         """
