@@ -30,22 +30,14 @@ def deduce_label_left_part_content(line_to_display: LineToRead) -> str:
                                     "<p>" \
                                         + line_from_pins + \
                                         "<BR>" \
-                                            + "<span style=\" font-size: 18px;\">" \
-                                                + "[" + line_from_pins_comment + "]" \
-                                            + "</span>" \
-                                        + "</BR>" \
+                                        "</BR>" \
                                         "<BR>" \
                                         "</BR>" \
-                                    "</p>" \
+                                        "</p>" \
                                     "<p>" \
                                         "<span>" \
                                             + line_to_pins\
                                         + "</span>" \
-                                        + "<BR>" \
-                                            + "<span style=\" font-size: 18px;\">" \
-                                                + "[" + line_to_pins_comment+ "]" \
-                                            + "</span>" \
-                                        + "</BR>" \
                                     "</p>" \
                                 "</body>" \
                             "</html>"
