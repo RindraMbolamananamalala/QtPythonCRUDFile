@@ -97,8 +97,8 @@ class AdditionalInformationView(CRUDFileView):
             button_confirm.setStyleSheet("background-color: lightgrey;")
             button_done.setStyleSheet("background-color: lightgrey;")
         else:
-            button_confirm.setStyleSheet("background-color: grey;")
-            button_done.setStyleSheet("background-color: grey;")
+            button_confirm.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
+            button_done.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
 
     def clear_data(self):
         """
