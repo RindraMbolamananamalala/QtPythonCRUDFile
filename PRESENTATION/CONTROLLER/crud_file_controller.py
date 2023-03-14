@@ -451,7 +451,10 @@ class CRUDFileController:
             if len(self.get_list_lines_cross_pinning()) > 0:
                 # There is still any...
                 self.doesCurrentHTMLFileHaveCrossPinningLines = True
-                self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
+                self.get_cross_pinning_view().update_content(
+                    self.get_list_lines_cross_pinning().pop()
+                    , len(self.get_list_lines_cross_pinning())
+                )
             else:
                 # No more line, let's pass to the Next Step: OPEN WIRES
                 self.get_current_view().get_window_ui().get_main_window().close()
@@ -554,7 +557,10 @@ class CRUDFileController:
             if len(self.get_list_lines_open_wires()) > 0:
                 # There is still any...
                 self.doesCurrentHTMLFileHaveOpenWiresLines = True
-                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+                self.get_open_wires_view().update_content(
+                    self.get_list_lines_open_wires().pop()
+                    , len(self.get_list_lines_open_wires())
+                )
             else:
                 # No more line, let's pass to the Next Step: SHORTS
                 self.get_open_wires_view().clear_data()
@@ -591,7 +597,10 @@ class CRUDFileController:
             if len(self.get_list_lines_open_wires()) > 0:
                 # There is still any...
                 self.doesCurrentHTMLFileHaveOpenWiresLines = True
-                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+                self.get_open_wires_view().update_content(
+                    self.get_list_lines_open_wires().pop(),
+                    len(self.get_list_lines_open_wires())
+                )
             else:
                 # No more line, let's pass to the Next Step: SHORTS
                 self.get_open_wires_view().clear_data()
@@ -668,7 +677,10 @@ class CRUDFileController:
             if len(self.get_list_lines_shorts()) > 0:
                 # There is still any...
                 self.doesCurrentHTMLFileHaveShortsLines = True
-                self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
+                self.get_shorts_view().update_content(
+                    self.get_list_lines_shorts().pop()
+                    , len(self.get_list_lines_shorts())
+                )
             else:
                 self.get_shorts_view().clear_data()
                 self.get_current_view().get_window_ui().get_main_window().close()
@@ -811,6 +823,11 @@ class CRUDFileController:
                     LOGGER.error(msg_error)
                     raise TypeError(msg_error)
 
+            # "Informing" each type of Window of the current total length of their respective list of lines
+            self.get_cross_pinning_view().set_current_lines_list_total_length(len(self.get_list_lines_cross_pinning()))
+            self.get_open_wires_view().set_current_lines_list_total_length(len(self.get_list_lines_open_wires()))
+            self.get_shorts_view().set_current_lines_list_total_length(len(self.get_list_lines_shorts()))
+
             """
             (Re-)Initializing the Views by feeding them with the first line of the adequate Lines list
             """
@@ -822,7 +839,10 @@ class CRUDFileController:
             if self.get_list_lines_cross_pinning():
                 # The current HTML file has CROSS PINNING's line(s)
                 self.doesCurrentHTMLFileHaveCrossPinningLines = True
-                self.get_cross_pinning_view().update_content(self.get_list_lines_cross_pinning().pop())
+                self.get_cross_pinning_view().update_content(
+                    self.get_list_lines_cross_pinning().pop()
+                    , len(self.get_list_lines_cross_pinning())
+                )
                 self.get_cross_pinning_view().get_window_ui().get_main_window().showMaximized()
             # OPEN WIRES
             self.get_open_wires_view().get_window_ui().get_label_fixed_strings().setText(
@@ -832,7 +852,10 @@ class CRUDFileController:
             if self.get_list_lines_open_wires():
                 # The current HTML file has OPEN WIRES line(s)
                 self.doesCurrentHTMLFileHaveOpenWiresLines = True
-                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+                self.get_open_wires_view().update_content(
+                    self.get_list_lines_open_wires().pop()
+                    , len(self.get_list_lines_open_wires())
+                )
             # SHORTS
             self.get_shorts_view().get_window_ui().get_label_fixed_strings().setText(
                 fixed_string_part_1 + " - " + equipment_name
@@ -841,7 +864,10 @@ class CRUDFileController:
             if self.get_list_lines_shorts():
                 # The current HTML File has SHORTS line(s)
                 self.doesCurrentHTMLFileHaveShortsLines = True
-                self.get_shorts_view().update_content(self.get_list_lines_shorts().pop())
+                self.get_shorts_view().update_content(
+                    self.get_list_lines_shorts().pop()
+                    , len(self.get_list_lines_shorts())
+                )
             # ADDITIONAL INFORMATION
             self.get_additional_information_view().get_window_ui().get_label_uut().setText(uut)
             self.get_additional_information_view().get_window_ui().get_label_fixed_strings().setText(

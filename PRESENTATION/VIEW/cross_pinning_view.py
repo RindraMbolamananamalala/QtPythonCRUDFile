@@ -135,6 +135,12 @@ class CrossPinningView(CRUDFileView):
         """
         return self.window_ui
 
+    def set_current_lines_list_total_length(self, current_lines_list_total_length: int):
+        self.current_lines_list_total_length = current_lines_list_total_length
+
+    def get_current_lines_list_total_length(self) -> int:
+        return self.current_lines_list_total_length
+
     def set_selected_from_item_label(self, selected_from_item_label: QLabel):
         """
 
@@ -241,11 +247,12 @@ class CrossPinningView(CRUDFileView):
         self.get_window_ui().get_text_comments().setPlainText("")
         self.reset_current_selections()
 
-    def update_content(self, line_to_display: LineToReadCrossPinning) -> None:
+    def update_content(self, line_to_display: LineToReadCrossPinning, current_lines_list_updated_length: int) -> None:
         """
         Updating the current content of the Open Wires Window from a given Line of information.
 
         :param line_to_display: The line the information of which are to be displayed on the Open Wires Window
+        :param current_lines_list_updated_length: The updated length of the current List of Lines to be displayed
         :return:  None
         """
         try:
@@ -260,6 +267,12 @@ class CrossPinningView(CRUDFileView):
             # Clearing the content of the Window
             self.get_window_ui().clear_window()
             self.clear_data()
+
+            # Updating the Lines Treated Counter's Label
+            current_line_order = self.get_current_lines_list_total_length() - current_lines_list_updated_length
+            self.get_window_ui().get_label_lines_treated_counter().setText(
+                str(current_line_order) + "/" + str(self.get_current_lines_list_total_length())
+            )
 
             # Left Part for the possible From Pins
             self.get_window_ui().feed_widget_left_part(deduce_left_part_content(line_to_display))

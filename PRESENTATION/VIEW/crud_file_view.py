@@ -33,12 +33,13 @@ class CRUDFileView:
         return self.window_ui
 
     @abstractmethod
-    def update_content(self, line_to_display: LineToRead) -> None:
+    def update_content(self, line_to_display: LineToRead, current_lines_list_updated_length: int) -> None:
         """
-        Updating the content of the current CRUD View from a line given as parameter.
+        Updating the current content of the Open Wires Window from a given Line of information.
 
-        :param line_to_display:  The Line from which he content of the current CRUD View will be updated
-        :return: None
+        :param line_to_display: The line the information of which are to be displayed on the Window
+        :param current_lines_list_updated_length: The updated length of the current List of Lines to be displayed (READ)
+        :return:  None
         """
         # We'll let the Child class manage the full implementation
         pass

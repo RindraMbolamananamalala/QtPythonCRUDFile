@@ -43,6 +43,9 @@ class UI_CrossPinning(Ui_TreatmentWindow):
     def get_button_done(self) -> QPushButton:
         return self.button_done
 
+    def get_label_lines_treated_counter(self) -> QLabel:
+        return self.label_lines_treated_counter
+
     def __init__(self, main_window: QMainWindow):
         """
 

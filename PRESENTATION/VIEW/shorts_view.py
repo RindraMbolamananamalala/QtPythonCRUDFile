@@ -67,6 +67,12 @@ class ShortsView(CRUDFileView):
         """
         return self.window_ui
 
+    def set_current_lines_list_total_length(self, current_lines_list_total_length: int):
+        self.current_lines_list_total_length = current_lines_list_total_length
+
+    def get_current_lines_list_total_length(self) -> int:
+        return self.current_lines_list_total_length
+
     def __init__(self, *args):
         # Calling the constructor of the Superclass in order to obtain the needed default behaviors
         super(ShortsView, self).__init__(*args)
@@ -120,16 +126,23 @@ class ShortsView(CRUDFileView):
         """
         self.get_window_ui().get_text_comments().setPlainText("")
 
-    def update_content(self, line_to_display: LineToRead) -> None:
+    def update_content(self, line_to_display: LineToRead, current_lines_list_updated_length: int) -> None:
         """
         Updating the current content of the Extra Wires - Shorts Window from a given Line of information.
 
         :param line_to_display: The line the information of which are to be displayed on the Open Wires Window
+        :param current_lines_list_updated_length: The updated length of the current List of Lines to be displayed (READ)
         :return:  None
         """
         try:
             # First, let's insure that no Data is left on the Window
             self.clear_data()
+
+            # Updating the Lines Treated Counter's Label
+            current_line_order = self.get_current_lines_list_total_length() - current_lines_list_updated_length
+            self.get_window_ui().get_label_lines_treated_counter().setText(
+                str(current_line_order) + "/" + str(self.get_current_lines_list_total_length())
+            )
 
             # Left Part for the Pins
             self.get_window_ui().get_label_left_part().setText(deduce_label_left_part_content(line_to_display))

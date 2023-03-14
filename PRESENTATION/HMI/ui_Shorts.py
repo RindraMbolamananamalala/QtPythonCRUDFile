@@ -26,6 +26,9 @@ class UI_Shorts(Ui_TreatmentWindow):
     def get_label_right_part(self) -> QLabel:
         return self.label_right_part
 
+    def get_label_lines_treated_counter(self) -> QLabel:
+        return self.label_lines_treated_counter
+
     def __init__(self, main_window: QMainWindow):
         """
 
