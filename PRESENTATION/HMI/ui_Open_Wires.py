@@ -26,6 +26,9 @@ class UI_OpenWires(Ui_TreatmentWindow):
     def get_label_right_part(self) -> QLabel:
         return self.label_right_part
 
+    def get_button_skip(self) -> QPushButton:
+        return self.button_skip
+
     def __init__(self, main_window: QMainWindow):
         """
 
@@ -110,6 +113,26 @@ class UI_OpenWires(Ui_TreatmentWindow):
         self.label_right_part.setFont(font8)
         self.label_right_part.setStyleSheet(u"color: white; background-color: None;")
         self.label_right_part.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignTop)
+
+        # Adding the specific button "Skip" to the Open Wires Window
+        """# Re-adjusting the dimensions & position of the Button Confirm first"""
+        self.get_button_confirm().setGeometry(QRect(1425, 740, 245, 241))
+        """ Actual part for the Skip Button """
+        self.button_skip = QPushButton(self.column_treatment)
+        self.button_skip.setGeometry(QRect(1425, 580, 245, 151))
+        self.button_skip.setText("Preskoci")
+        font_button_skip = QFont()
+        font_button_skip .setFamily(u"Yu Gothic UI Light")
+        font_button_skip .setPointSize(25)
+        font_button_skip .setBold(False)
+        font_button_skip .setWeight(50)
+        self.button_skip.setFont(font_button_skip)
+        self.button_skip.setStyleSheet(u"background-color: #d9d9d9; color: #4b4b4b;")
+        self.button_skip.setCursor(QCursor(Qt.PointingHandCursor))
+        """ At the beginning, "Skip" button disabled """
+        self.button_skip.setDisabled(True)
+
+
 
         # Finally, we have to Retranslate the current UI, independently of the Superclass
         self.retranslateCurrentUi(main_window)

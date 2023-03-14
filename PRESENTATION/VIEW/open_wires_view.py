@@ -29,8 +29,9 @@ def deduce_label_left_part_content(line_to_display: LineToRead) -> str:
         color = line_to_display.get_name().split("`")[1]
         content_to_return = wire_name + "   " + cross_section + "   " + color
         return content_to_return
-    except:
-        return ""
+    except Exception as ex:
+        print(ex)
+        return line_to_display.get_name()
 
 
 def deduce_label_middle_part_content(line_to_display: LineToRead) -> str:
@@ -143,21 +144,30 @@ class OpenWiresView(CRUDFileView):
 
     def update_buttons_availabilities(self):
         """
-        The availabilities of the "Confirm" and "Done" Buttons relies on the validity of the information provided
-        as the User's inputs.
+        The availabilities of the "Confirm", "Done" and "Skip" Buttons rely on the the information provided as the
+        User's inputs.
 
         :return: None
         """
         combobox_fed_by_excel_sheet = self.get_window_ui().get_combobox_fed_by_excel_sheet()
         text_comments = self.get_window_ui().get_text_comments()
+        # Availability of the button "Confirm"
         button_confirm = self.get_window_ui().get_button_confirm()
-        button_availability = (len(combobox_fed_by_excel_sheet.currentText()) > 0) \
+        button_confirm_availability = (len(combobox_fed_by_excel_sheet.currentText()) > 0) \
                                  & (len(text_comments.toPlainText()) > 0)
-        button_confirm.setEnabled(button_availability)
-        if not button_availability:
+        button_confirm.setEnabled(button_confirm_availability)
+        if not button_confirm_availability:
             button_confirm.setStyleSheet("background-color: lightgrey;")
         else:
             button_confirm.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
+        # Availability of the button "Skip"
+        button_skip = self.get_window_ui().get_button_skip()
+        """VERY TEMPORARY, WILL BE WORKED LATER..."""
+        button_skip_availability = False
+        if not button_skip_availability:
+            button_skip.setStyleSheet("background-color: lightgrey;")
+        else:
+            button_skip_availability.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
 
     def clear_data(self):
         """
