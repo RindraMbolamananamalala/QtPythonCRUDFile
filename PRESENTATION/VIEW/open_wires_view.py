@@ -9,6 +9,7 @@ __author__ = "Rindra Mbolamananamalala"
 __email__ = "rindraibi@gmail.com"
 
 from CONFIGURATIONS.logger import LOGGER
+from CONFIGURATIONS.application_properties import get_application_property
 
 from BUSINESS.MODEL.DOMAIN_OBJECT.line_to_read import LineToRead
 
@@ -29,8 +30,8 @@ def deduce_label_left_part_content(line_to_display: LineToRead) -> str:
         color = line_to_display.get_name().split("`")[1]
         content_to_return = wire_name + "   " + cross_section + "   " + color
         return content_to_return
-    except Exception as ex:
-        print(ex)
+    except:
+        # Impossible decomposition into different parts of the line's name, so let's use the latter in its raw format
         return line_to_display.get_name()
 
 
@@ -58,6 +59,16 @@ def deduce_label_right_part_content(line_to_display: LineToRead) -> str:
         return line_to_pins
     except:
         return ""
+
+
+def does_text_need_button_skip_activation(text: str) -> bool:
+    """
+    Deteremining if YES or NO given text does require the activation of the Open Wires'"Skip" button
+    :param text: The concerned text
+    :return: TRUE if the concerned text requires the activation of the Open Wires'"Skip" button, FALSE otherwise.
+    """
+    exclusion_list = get_application_property("open_wires_exclusion_list").split(",")
+    return text in exclusion_list
 
 
 class OpenWiresView(CRUDFileView):
@@ -94,6 +105,8 @@ class OpenWiresView(CRUDFileView):
 
             # Left Part for the <WIRE_NAME   CROSS_SECTION   COLOR>
             self.get_window_ui().get_label_left_part().setText(deduce_label_left_part_content(line_to_display))
+            # An update of the buttons' availabilities is required after the update of the Label of the Left Part
+            self.update_buttons_availabilities()
             # However, we need to store the original main information on the Pins in order to use them later (for the
             # WRITE).
             # We're gonna exploit the Left Label's Tooltip for that.
@@ -122,9 +135,11 @@ class OpenWiresView(CRUDFileView):
         if len(args) == 1:
             # All the configurations have been managed during the call of the Superclass' Constructor
 
-            # At the beginning, the Confirm button is disabled
+            # At the beginning, the "Confirm" and "Skip" buttons are disabled
             self.get_window_ui().get_button_confirm().setEnabled(False)
             self.get_window_ui().get_button_confirm().setStyleSheet("background-color: lightgrey;")
+            self.get_window_ui().get_button_skip().setEnabled(False)
+            self.get_window_ui().get_button_skip().setStyleSheet("background-color: lightgrey;")
 
             # Management of Events
             self.manage_events()
@@ -151,6 +166,7 @@ class OpenWiresView(CRUDFileView):
         """
         combobox_fed_by_excel_sheet = self.get_window_ui().get_combobox_fed_by_excel_sheet()
         text_comments = self.get_window_ui().get_text_comments()
+        text_label_left_part = self.get_window_ui().get_label_left_part().text()
         # Availability of the button "Confirm"
         button_confirm = self.get_window_ui().get_button_confirm()
         button_confirm_availability = (len(combobox_fed_by_excel_sheet.currentText()) > 0) \
@@ -162,12 +178,13 @@ class OpenWiresView(CRUDFileView):
             button_confirm.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
         # Availability of the button "Skip"
         button_skip = self.get_window_ui().get_button_skip()
-        """VERY TEMPORARY, WILL BE WORKED LATER..."""
-        button_skip_availability = False
+        button_skip_availability = (len(text_label_left_part) > 0)\
+                                   & does_text_need_button_skip_activation(text_label_left_part)
+        button_skip.setEnabled(button_skip_availability)
         if not button_skip_availability:
             button_skip.setStyleSheet("background-color: lightgrey;")
         else:
-            button_skip_availability.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
+            button_skip.setStyleSheet("background-color: #d9d9d9; color: #4b4b4b;")
 
     def clear_data(self):
         """
