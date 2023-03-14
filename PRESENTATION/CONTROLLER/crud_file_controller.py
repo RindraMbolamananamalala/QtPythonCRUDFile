@@ -305,6 +305,12 @@ class CRUDFileController:
             self.write_open_wires_information
         )
 
+        # There is no need to write the Content of the Open Wires UI when the "Skip" button is clicked, just pass to
+        # the next line...
+        self.get_open_wires_view().get_window_ui().get_button_skip().clicked.connect(
+            self.skip_open_wires_information
+        )
+
         # Writing in the Excel File the current content of the Extra Wires - Short UI when the "Confirm" button
         # is clicked.
         self.get_shorts_view().get_window_ui().get_button_confirm().clicked.connect(
@@ -570,6 +576,44 @@ class CRUDFileController:
                 + ". Can't go further with the Writing Process. "
             )
             raise
+
+    def skip_open_wires_information(self):
+        """
+        There is no need to write the information related to an Open Wires' line, so, all we need to do is (only)
+        to skip the latter...
+        :return: None
+        """
+        try:
+            # Skipping an Open Wires' line means :
+            # 1- Load another line (If there is still any)
+            # OR
+            # 2 - Pass to the the Next Step: SHORTS
+            if len(self.get_list_lines_open_wires()) > 0:
+                # There is still any...
+                self.doesCurrentHTMLFileHaveOpenWiresLines = True
+                self.get_open_wires_view().update_content(self.get_list_lines_open_wires().pop())
+            else:
+                # No more line, let's pass to the Next Step: SHORTS
+                self.get_open_wires_view().clear_data()
+                self.get_current_view().get_window_ui().get_main_window().close()
+                """
+                Another Deja Vu... see "load_html()" and "write_cross_pinning_after_done()
+                """
+                # The same logic for the Shorts View...
+                if self.doesCurrentHTMLFileHaveShortsLines:
+                    self.set_current_view(self.get_shorts_view())
+                else:
+                    # The only remaining option is... the Additional Information Window
+                    self.set_current_view(self.get_additional_information_view())
+            self.get_current_view().get_window_ui().get_main_window().showMaximized()
+        except Exception as exception:
+            # At least one error has occurred, therefore, stop the writing process
+            LOGGER.error(
+                exception.__class__.__name__ + ": " + str(exception)
+                    + ". Can't go further with the Open Wires' line Skipping Process. "
+            )
+            raise
+
 
     def write_shorts_information(self):
         try:
