@@ -46,23 +46,31 @@ class Ui_window_loading(object):
         if not main_window.objectName():
             main_window.setObjectName(u"window_loading")
             self.set_main_window(main_window)
-        main_window.resize(1920, 1080)
+        main_window.setFixedSize(1920, 1080)
         main_window.setAutoFillBackground(False)
-        main_window.setStyleSheet(u"background-color: white;")
         self.centralwidget = QWidget(main_window)
         self.centralwidget.setObjectName(u"centralwidget")
-
+        self.centralwidget.setGeometry(QRect(0, 0, 1920, 1080))
+        self.centralwidget.setStyleSheet(u"background: "
+                                             u" qlineargradient( "
+                                             u"     x1:1 y1:1"
+                                             u"         , x2:1 y2:0"
+                                             u"         , stop:0 #656565"
+                                             u"         , stop:1 #020202"
+                                             u");"
+                                             u"border: none;")
         """
         Customizing the Loading Animation
         """
         # Preparing the Label
         self.label_loading_animation = QLabel(self.centralwidget)
         self.label_loading_animation.setObjectName(u"label_loading_animation")
-        self.label_loading_animation.setGeometry(QRect(460, 200, 900, 600))
+        self.label_loading_animation.setGeometry(QRect(675, 200, 600, 600))
+        self.label_loading_animation.setStyleSheet(u"background-color: None;")
         # Preparing the Animation Movie to be associated with the Label.
         # To do so, we have to load the Image for the Animation from the RESOURCE and then associate it with
         # the Label.
-        movie_loading_animation = QMovie("RESOURCES\\IMAGES\\Quarter-Circle-Loading-Image-1.gif")
+        movie_loading_animation = QMovie("RESOURCES\\IMAGES\\loading-icon-transparent-background-25.jpg")
         self.label_loading_animation.setMovie(movie_loading_animation)
         # Starting the Animation
         self.label_loading_animation.movie().start()
