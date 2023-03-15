@@ -327,16 +327,16 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
             line_to_be_saved.equipment_name = line_to_save.get_equipment_name()
             line_to_be_saved.date_time = datetime.today()
             line_to_be_saved.wire_name = line_to_save.get_wire_name()
-            """VERY TEMPORARY, UNTIL READ LINES ARE CORRECTLY FILTERED"""
             cross_section_text = line_to_save.get_cross_section()
             if not cross_section_text :
                 cross_section = None
-            elif len(cross_section_text) > 4 :
-                cross_section = 0.00
             else:
-                cross_section = Decimal(cross_section_text)
+                try:
+                    cross_section = Decimal(cross_section_text)
+                except:
+                    # Normally, should never end up here...
+                    cross_section = None
             line_to_be_saved.cross_section = cross_section
-            """VERY TEMPORARY, UNTIL READ LINES ARE CORRECTLY FILTERED"""
             line_to_be_saved.color = line_to_save.get_color()
             line_to_be_saved.pos_1 = line_to_save.get_position_1()
             line_to_be_saved.cav_1 = line_to_save.get_cavity_1()
