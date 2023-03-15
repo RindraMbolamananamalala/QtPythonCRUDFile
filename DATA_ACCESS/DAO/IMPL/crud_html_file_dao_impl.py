@@ -343,7 +343,11 @@ class CRUDHTMLFileDAOImpl(CRUDFileDAOIntf):
             line_to_be_saved.pos_2 = line_to_save.get_position_2()
             line_to_be_saved.cav_2 = line_to_save.get_cavity_2()
             line_to_be_saved.defect_code = line_to_save.get_w()
-            line_to_be_saved.comment = line_to_save.get_comments()
+            comments_text = line_to_save.get_comments()
+            if comments_text and (len(comments_text) > 0):
+                line_to_be_saved.comment = comments_text
+            else:
+                line_to_be_saved.comment = None
             with Session() as session:
                 session.add(line_to_be_saved)
                 session.commit()
