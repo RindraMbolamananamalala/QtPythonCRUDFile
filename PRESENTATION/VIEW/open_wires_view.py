@@ -167,7 +167,6 @@ class OpenWiresView(CRUDFileView):
         self.get_window_ui().get_combobox_fed_by_excel_sheet().currentIndexChanged.connect(
             self.update_buttons_availabilities
         )
-        self.get_window_ui().get_text_comments().textChanged.connect(self.update_buttons_availabilities)
         self.get_window_ui().get_button_confirm().clicked.connect(self.update_buttons_availabilities)
 
     def update_buttons_availabilities(self):
@@ -178,12 +177,10 @@ class OpenWiresView(CRUDFileView):
         :return: None
         """
         combobox_fed_by_excel_sheet = self.get_window_ui().get_combobox_fed_by_excel_sheet()
-        text_comments = self.get_window_ui().get_text_comments()
         text_label_left_part = self.get_window_ui().get_label_left_part().text()
         # Availability of the button "Confirm"
         button_confirm = self.get_window_ui().get_button_confirm()
-        button_confirm_availability = (len(combobox_fed_by_excel_sheet.currentText()) > 0) \
-                                 & (len(text_comments.toPlainText()) > 0)
+        button_confirm_availability = (len(combobox_fed_by_excel_sheet.currentText()) > 0)
         button_confirm.setEnabled(button_confirm_availability)
         if not button_confirm_availability:
             button_confirm.setStyleSheet("background-color: lightgrey;")
