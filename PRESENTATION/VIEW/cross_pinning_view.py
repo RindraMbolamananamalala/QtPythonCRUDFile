@@ -38,11 +38,8 @@ def deduce_left_part_content(line_to_display: LineToReadCrossPinning) -> list:
                 "<html>" \
                 "<body>" \
                 "<p>" \
-                + line_from_pins \
-                + "<span style=\" vertical-align:sub;\">" \
-                + "[" + line_from_pins_comment + "]" \
-                + "</span>" \
-                  "</p>" \
+                +   line_from_pins \
+                +"</p>" \
                   "</body>" \
                   "</html>")
             # Next Line of From Pin
@@ -70,11 +67,8 @@ def deduce_middle_part_content(line_to_display: LineToReadCrossPinning) -> list:
                 "<html>" \
                 "<body>" \
                 "<p>" \
-                + line_to_pins \
-                + "<span style=\" vertical-align:sub;\">" \
-                + "[" + line_to_pins_comment + "]" \
-                + "</span>" \
-                  "</p>" \
+                +   line_to_pins \
+                +"</p>" \
                   "</body>" \
                   "</html>"
             )
