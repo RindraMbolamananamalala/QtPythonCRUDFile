@@ -146,13 +146,15 @@ class Ui_TreatmentWindow(object):
         self.column_treatment = QWidget(self.centralwidget)
         self.column_treatment.setObjectName(u"column_treatment")
         self.column_treatment.setGeometry(QRect(100, 0, 1860, 1080))
-        self.column_treatment.setStyleSheet(u"background: "
+        self.column_treatment.setStyleSheet(u"QWidget#column_treatment{"
+                                            u"background: "
                                              u" qlineargradient( "
                                              u"     x1:1 y1:1"
                                              u"         , x2:1 y2:0"
                                              u"         , stop:0 #656565"
                                              u"         , stop:1 #020202"
-                                             u");")
+                                             u");"
+                                            u"}")
 
         # The Logo box area
         self.widget_logo_box = QWidget(self.column_treatment)
