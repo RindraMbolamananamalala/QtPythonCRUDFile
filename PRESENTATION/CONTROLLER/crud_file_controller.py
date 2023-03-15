@@ -323,10 +323,9 @@ class CRUDFileController:
             self.write_additional_information
         )
 
-        # Writing in the Excel File the current content of the Additional Information and then go back to the loading
-        # Window when the "Done" button is clicked.
+        # Go back to the loading Window when the "Kraj" button of the Additional Information window is clicked.
         self.get_additional_information_view().get_window_ui().get_button_done().clicked.connect(
-            self.write_additional_information_after_done
+            self.finish_current_cycle
         )
 
     def feed_windows_combo_boxes(self):
@@ -740,17 +739,14 @@ class CRUDFileController:
             )
             raise
 
-    def write_additional_information_after_done(self):
+    def finish_current_cycle(self):
         """
-        After clicking the Additional Information Window's Done button, we write the selected information in
-        a new Excel File and leave the Window (redirection to the Loading Window).
+        After clicking on the Additional Information Window's "Kraj" button, we leave the Window (redirection to the
+        Loading Window).
 
         :return: None
         """
         try:
-            # First, just write
-            self.write_additional_information()
-
             # Then, we have to remove the recently treated file
             os.remove(self.get_file_to_delete_path())
 
